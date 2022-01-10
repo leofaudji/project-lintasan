@@ -1,9 +1,8 @@
 <?php
 class Login extends CI_Controller{
-	public function __construct(){  
+	public function __construct(){
 		parent::__construct() ;
-		$this->load->model('loginm') ; 
-		$this->load->helper("bhttp") ;
+		$this->load->model('loginm') ;
 	}
 
 	public function index(){
@@ -14,15 +13,6 @@ class Login extends CI_Controller{
 	}
 
 	public function checklogin(){
-		$data = array(
-			"token" => '12345',
-			"data" => array("username"=>"iniad","password"=>"bismillah"),
-			"log"=>  array("log"=>"faudji"));  
-	
-	  //$data = "hehe" ;
-		$api = api_login($data) ;         
-		echo(' console.log("'. $api.'") ; ') ; 
-
 		$va	= $this->input->post() ;
 		$data = $this->loginm->getdata_login($va['cusername'], $va['cpassword']) ;
 		if(!empty($data)){
@@ -56,7 +46,7 @@ class Login extends CI_Controller{
 			echo('window.location.href = "'.base_url().'" ;') ;
 		}else{
 			echo(' alert("User or Password not found") ; $("#cusername").focus(); ') ;
-		} 
+		}
 	}
 }
 ?>

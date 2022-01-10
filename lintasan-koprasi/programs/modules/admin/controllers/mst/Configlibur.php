@@ -12,7 +12,7 @@ class Configlibur extends Bismillah_Controller{
     $this->load->view("mst/configlibur",$data) ; 
   }  
 
-  public function init(){
+  public function init(){ 
     savesession($this, "ssconfiglibur_id", "") ; 
   }
 
