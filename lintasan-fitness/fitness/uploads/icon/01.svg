@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>01-scale</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-370.000000, -204.000000)" stroke-linecap="round" stroke-linejoin="round">
+        <g id="01-scale" transform="translate(369.000000, 203.000000)" fill="#FFFF02" stroke="#333333" stroke-width="1.5">
+            <rect id="Rectangle" transform="translate(12.000000, 12.000000) rotate(45.000000) translate(-12.000000, -12.000000) " x="5.25" y="5.25" width="13.5" height="13.5"></rect>
+        </g>
+    </g>
+</svg>
