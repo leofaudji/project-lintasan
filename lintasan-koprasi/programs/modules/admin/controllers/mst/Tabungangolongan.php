@@ -1,18 +1,18 @@
 <?php
-class Mstrekening extends Bismillah_Controller{
+class Tabungangolongan extends Bismillah_Controller{
 	protected $bdb ;  
 	public function __construct(){
 		parent::__construct() ;
 		$this->load->helper("bdate") ;
 		$this->load->helper("toko") ; 
-		$this->load->model("mst/mstrekening_m") ;
-		$this->bdb 	= $this->mstrekening_m ;
+		$this->load->model("mst/tabungangolongan_m") ;
+		$this->bdb 	= $this->tabungangolongan_m ;
 	}
 
 	public function index(){
-		$this->load->view("mst/mstrekening") ;
+		$this->load->view("mst/tabungangolongan") ;
 
-	}  
+	}   
  
 	public function loadgrid(){
 		$va     = json_decode($this->input->post('request'), true) ;
@@ -21,11 +21,11 @@ class Mstrekening extends Bismillah_Controller{
       $dbd    = $vdb['db'] ;
       while( $dbr = $this->bdb->getrow($dbd) ){
          $vs = $dbr;   
-         $vs['cmdedit']    = '<button type="button" onClick="bos.mstrekening.cmdedit(\''.$dbr['id'].'\')"
+         $vs['cmdedit']    = '<button type="button" onClick="bos.tabungangolongan.cmdedit(\''.$dbr['id'].'\')"
                            class="btn btn-default btn-grid">Koreksi</button>' ;
          $vs['cmdedit']	   = html_entity_decode($vs['cmdedit']) ;
 
-		 $vs['cmddelete']  = '<button type="button" onClick="bos.mstrekening.cmddelete(\''.$dbr['id'].'\')"
+		 $vs['cmddelete']  = '<button type="button" onClick="bos.tabungangolongan.cmddelete(\''.$dbr['id'].'\')"
                            class="btn btn-danger btn-grid">Hapus</button>' ;
          $vs['cmddelete']  = html_entity_decode($vs['cmddelete']) ;
 
@@ -35,35 +35,34 @@ class Mstrekening extends Bismillah_Controller{
       $vare 	= array("total"=>$vdb['rows'], "records"=>$vare ) ;
       echo(json_encode($vare)) ;
 	}
-
+ 
 	public function init(){
-		savesession($this, "ssmstrekening_id", "") ;
+		savesession($this, "sstabungangolongan_id", "") ;
 	}
 
 	public function saving(){
 		$va 	= $this->input->post() ;
-		$id 	= getsession($this, "ssmstrekening_id") ; 
+		$id 	= getsession($this, "sstabungangolongan_id") ; 
 
 		$this->bdb->saving($va, $id) ;
-		echo(' bos.mstrekening.settab(0) ;  ') ;
+		echo(' bos.tabungangolongan.settab(0) ;  ') ;
 	}
 
 	public function deleting(){
 		$va 	= $this->input->post() ; 
 		$id 	= $va['id'] ;
-		$this->bdb->delete("keuangan_rekening", "id = " . $this->bdb->escape($id)) ;
-		echo(' bos.mstrekening.grid1_reload() ; ') ;
+		$this->bdb->delete("tabungan_golongan", "id = " . $this->bdb->escape($id)) ;
+		echo(' bos.tabungangolongan.grid1_reload() ; ') ;
 	}
 
 	public function editing(){
 		$va 	= $this->input->post() ;
 		if($d = $this->bdb->editing($va['id'])){
-			savesession($this, "ssmstrekening_id", $d['id']) ;  
+			savesession($this, "sstabungangolongan_id", $d['id']) ;  
 			echo('  
-				bos.mstrekening.obj.find("#kode").val("'.$d['kode'].'") ;      
-				bos.mstrekening.obj.find("#keterangan").val("'.$d['keterangan'].'") ;
-				bos.mstrekening.obj.find("#jenis").val("'.$d['jenis'].'") ;
-				bos.mstrekening.settab(1) ;
+				bos.tabungangolongan.obj.find("#kode").val("'.$d['kode'].'") ;      
+				bos.tabungangolongan.obj.find("#keterangan").val("'.$d['keterangan'].'") ;
+				bos.tabungangolongan.settab(1) ;
 			') ;
 		}
 	}

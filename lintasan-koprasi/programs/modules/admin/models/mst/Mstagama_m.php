@@ -1,5 +1,5 @@
 <?php
-class Mstrekening_m extends Bismillah_Model{  
+class Mstagama_m extends Bismillah_Model{  
  
    public function loadgrid($va){
       $limit    = $va['offset'].",".$va['limit'] ;
@@ -8,26 +8,26 @@ class Mstrekening_m extends Bismillah_Model{
       $where 	 = array() ; 
       if($search !== "") $where[]	= "(keterangan LIKE '%{$search}%')" ;
       $where 	 = implode(" AND ", $where) ;
-      $f        = "id,kode,keterangan,jenis" ; 
-      $dbd      = $this->select("keuangan_rekening", $f, $where, "", "", "kode ASC", $limit) ;
+      $f        = "id,kode,keterangan" ; 
+      $dbd      = $this->select("mst_agama", $f, $where, "", "", "kode ASC", $limit) ;
 
       $row      = 0 ;
-      $dba      = $this->select("keuangan_rekening", "COUNT(id) id", $where) ;
+      $dba      = $this->select("mst_agama", "COUNT(id) id", $where) ;
       if($dbra  = $this->getrow($dba)){
          $row   = $dbra['id'] ;
-      }
+      }   
       return array("db"=>$dbd, "rows"=> $row ) ;
    }  
 
    public function saving($va, $id){ 
       $f    = $va ; 
       $w    = "id = " . $this->escape($id) ; 
-      $this->update("keuangan_rekening", $f, $w) ;
+      $this->update("mst_agama", $f, $w) ;
    }
 
    public function editing($id=''){
       $w    = "id = " . $this->escape($id) ;  
-      $d    = $this->getval("id,kode,keterangan,jenis", $w, "keuangan_rekening") ;
+      $d    = $this->getval("id,kode,keterangan", $w, "mst_agama") ;
       return !empty($d) ? $d : false ;
    }
 }

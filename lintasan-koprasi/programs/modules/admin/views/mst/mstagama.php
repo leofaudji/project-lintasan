@@ -5,8 +5,8 @@
 			<td class="title">
 				<div class="nav ">
 					<div class="btn-group" id="tpel">
-						<button class="btn btn-tab tpel active" href="#tpel_1" data-toggle="tab" >Daftar Rekening</button>
-						<button class="btn btn-tab tpel" href="#tpel_2" data-toggle="tab">Rekening</button>
+						<button class="btn btn-tab tpel active" href="#tpel_1" data-toggle="tab" >Daftar Agama</button>
+						<button class="btn btn-tab tpel" href="#tpel_2" data-toggle="tab">Agama</button>
 					</div>
 				</div>
 			</td>
@@ -14,10 +14,10 @@
 				<table class="header-button" align="right">
 					<tr> 
 						<td>
-							<div class="btn-circle btn-close transition" onclick="bos.mstrekening.close()">
+							<div class="btn-circle btn-close transition" onclick="bos.mstagama.close()">
 								<img src="./uploads/titlebar/close.png">
 							</div>
-						</td>
+						</td> 
 					</tr>
 				</table> 
 			</td> 
@@ -46,26 +46,7 @@
 						<td colspan="4">
 							<input type="text" id="keterangan" name="keterangan" class="form-control" placeholder="keterangan" required>
 						</td>
-					</tr>
-					<tr>
-						<td width="14%"><label for="jenis">Jenis</label> </td>
-						<td width="1%">:</td>
-						<td width="50%">
-							<div class="radio-inline">
-								<label>
-									<input type="radio" name="jenis" class="jenis" value="I" checked>
-									Induk
-								</label>
-								&nbsp;&nbsp;
-							</div>
-							<div class="radio-inline">
-								<label>
-									<input type="radio" name="jenis" class="jenis" value="D">
-									Detail
-								</label>
-							</div>
-						</td>
-					</tr>  
+					</tr> 
 				</table>
 			</div>
 		</div>
@@ -78,16 +59,16 @@
 <script type="text/javascript">
 	<?=cekbosjs();?>
 
-	bos.mstrekening.grid1_data 	 = null ;
-	bos.mstrekening.grid1_loaddata= function(){
+	bos.mstagama.grid1_data 	 = null ;
+	bos.mstagama.grid1_loaddata= function(){
 		this.grid1_data 		= {} ;
 	}
 
-	bos.mstrekening.grid1_load    = function(){ 
+	bos.mstagama.grid1_load    = function(){ 
       this.obj.find("#grid1").w2grid({
 			name		: this.id + '_grid1',
 			limit 	: 100 ,
-			url 		: bos.mstrekening.base_url + "/loadgrid",
+			url 		: bos.mstagama.base_url + "/loadgrid",
 			postData : this.grid1_data ,
 			show 		: {
 				footer 		: true,
@@ -98,61 +79,60 @@
 			columns: [
 				{ field: 'kode', caption: 'Kode', size: '100px', sortable: false},
 				{ field: 'keterangan', caption: 'Keterangan', size: '400px', sortable: false},
-				{ field: 'jenis', caption: 'Jenis', size: '60px', sortable: false},
 			   { field: 'cmdedit', caption: ' ', size: '80px', sortable: false },
 				{ field: 'cmddelete', caption: ' ', size: '80px', sortable: false }
 			]
 		});
    }
 
-   bos.mstrekening.grid1_setdata	= function(){
+   bos.mstagama.grid1_setdata	= function(){
 		w2ui[this.id + '_grid1'].postData 	= this.grid1_data ;
 	}
-	bos.mstrekening.grid1_reload		= function(){
+	bos.mstagama.grid1_reload		= function(){
 		w2ui[this.id + '_grid1'].reload() ;
 	}
-	bos.mstrekening.grid1_destroy 	= function(){
+	bos.mstagama.grid1_destroy 	= function(){
 		if(w2ui[this.id + '_grid1'] !== undefined){
 			w2ui[this.id + '_grid1'].destroy() ;
 		}
 	}
 
-	bos.mstrekening.grid1_render 	= function(){
+	bos.mstagama.grid1_render 	= function(){
 		this.obj.find("#grid1").w2render(this.id + '_grid1') ;
 	}
 
-	bos.mstrekening.grid1_reloaddata	= function(){
+	bos.mstagama.grid1_reloaddata	= function(){
 		this.grid1_loaddata() ;
 		this.grid1_setdata() ;
 		this.grid1_reload() ;
 	}
 
-	bos.mstrekening.cmdedit		= function(id){
+	bos.mstagama.cmdedit		= function(id){
 		bjs.ajax(this.url + '/editing', 'id=' + id);
 	}
 
-	bos.mstrekening.cmddelete		= function(id){
+	bos.mstagama.cmddelete		= function(id){
 		if(confirm("Hapus Data?")){
 			bjs.ajax(this.url + '/deleting', 'id=' + id);
 		}
 	}
 
-	bos.mstrekening.init				= function(){
+	bos.mstagama.init				= function(){
 		this.obj.find("#kode").html("") ;
 		this.obj.find("#keterangan").val("") ;
 		bjs.ajax(this.url + "/init") ;
 	}
 
-	bos.mstrekening.settab 		= function(n){
+	bos.mstagama.settab 		= function(n){
 		this.obj.find("#tpel button:eq("+n+")").tab("show") ;
 	}
 
-	bos.mstrekening.tabsaction	= function(n){
+	bos.mstagama.tabsaction	= function(n){
 		if(n == 0){
 			this.obj.find(".bodyfix").css("height","100%") ;
 			this.obj.find(".footer").addClass("hidden") ;
-			bos.mstrekening.grid1_render() ;
-			bos.mstrekening.init() ;
+			bos.mstagama.grid1_render() ;
+			bos.mstagama.init() ;
 		}else{
 			this.obj.find(".bodyfix").css("height","calc(100% - 32px)") ;
 			this.obj.find(".footer").removeClass("hidden") ;
@@ -160,7 +140,7 @@
 		}
 	}
 
-	bos.mstrekening.initcomp	= function(){
+	bos.mstagama.initcomp	= function(){
 		bjs.initselect({
 			class : "#" + this.id + " .select2",
 			clear : true
@@ -171,18 +151,18 @@
 		this.obj.find(".header").attr("id",this.id + "-title") ; //set to drag
 	}
 
-	bos.mstrekening.initcallback	= function(){
+	bos.mstagama.initcallback	= function(){
 		this.obj.on("bos:tab", function(e){
-			bos.mstrekening.tabsaction( e.i )  ;
+			bos.mstagama.tabsaction( e.i )  ;
 		});
 
 		this.obj.on("remove",function(){
-			bos.mstrekening.grid1_destroy() ;
+			bos.mstagama.grid1_destroy() ;
 		}) ;
 	}
 
-	bos.mstrekening.objs = bos.mstrekening.obj.find("#cmdsave") ;
-	bos.mstrekening.initfunc 		= function(){
+	bos.mstagama.objs = bos.mstagama.obj.find("#cmdsave") ;
+	bos.mstagama.initfunc 		= function(){
 		this.init() ;
 		this.grid1_loaddata() ;
 		this.grid1_load() ;
@@ -190,14 +170,14 @@
 		this.obj.find("form").on("submit", function(e){
          e.preventDefault() ;
          if(bjs.isvalidform(this)){
-            bjs.ajax( bos.mstrekening.url + '/saving', bjs.getdataform(this) , bos.mstrekening.objs) ;
+            bjs.ajax( bos.mstagama.url + '/saving', bjs.getdataform(this) , bos.mstagama.objs) ;
          }
       });
 	}
 
 	$(function(){
-		bos.mstrekening.initcomp() ;
-		bos.mstrekening.initcallback() ;
-		bos.mstrekening.initfunc() ;
+		bos.mstagama.initcomp() ;
+		bos.mstagama.initcallback() ;
+		bos.mstagama.initfunc() ;
 	}) ;
 </script>
