@@ -52,6 +52,17 @@ class Load extends Bismillah_Controller{
       echo(json_encode($vare)) ; 
    }
 
+   public function load_agama(){
+      $q    = $this->input->get('q') ;
+      $vare = array() ;  
+      $w    = "(kode LIKE '%". $this->bdb->escape_like_str($q) ."%' OR keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
+      $dbd  = $this->bdb->select("mst_agama", "id,kode,keterangan", $w, "", "", "kode ASC", "0,5") ;
+      while($dbr    = $this->bdb->getrow($dbd)){
+         $vare[]    = array("id"=>$dbr['kode'], "text"=>$dbr['kode'] . " - "  . $dbr['keterangan']) ; 
+      } 
+      echo(json_encode($vare)) ; 
+   }
+
    public function load_rate(){
       $q    = $this->input->get('q') ;
       $vare = array() ;  
@@ -59,6 +70,39 @@ class Load extends Bismillah_Controller{
       $dbd  = $this->bdb->select("tabungan_rate", "id,golongan_tabungan,sukubunga", $w, "", "", "golongan_tabungan DESC", "0,5") ;
       while($dbr    = $this->bdb->getrow($dbd)){
          $vare[]    = array("id"=>$dbr['golongan_tabungan'], "text"=>$dbr['golongan_tabungan'] . " - "  . $dbr['sukubunga'] . " % ") ; 
+      }
+      echo(json_encode($vare)) ; 
+   }
+
+   public function load_provinsi(){
+      $q    = $this->input->get('q') ;
+      $vare = array() ;   
+      $w    = "(kota = '' and kecamatan = '' and keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
+      $dbd  = $this->bdb->select("mst_dati2", "id,provinsi,keterangan", $w, "", "", "provinsi ASC", "0,10") ; 
+      while($dbr    = $this->bdb->getrow($dbd)){
+         $vare[]    = array("id"=>$dbr['provinsi'], "text"=>$dbr['keterangan']) ; 
+      }
+      echo(json_encode($vare)) ; 
+   }
+
+   public function load_kota(){
+      $q    = $this->input->get('q') ;
+      $vare = array() ;   
+      $w    = "(kecamatan = '' and keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
+      $dbd  = $this->bdb->select("mst_dati2", "id,provinsi,keterangan", $w, "", "", "provinsi ASC", "0,10") ; 
+      while($dbr    = $this->bdb->getrow($dbd)){
+         $vare[]    = array("id"=>$dbr['provinsi'], "text"=>$dbr['keterangan']) ; 
+      }
+      echo(json_encode($vare)) ; 
+   }
+
+   public function load_kecamatan(){
+      $q    = $this->input->get('q') ;
+      $vare = array() ;   
+      $w    = "(provinsi <> '' and kota <> '' and kecamatan <> '' and keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
+      $dbd  = $this->bdb->select("mst_dati2", "id,provinsi,keterangan", $w, "", "", "provinsi ASC", "0,10") ; 
+      while($dbr    = $this->bdb->getrow($dbd)){
+         $vare[]    = array("id"=>$dbr['provinsi'], "text"=>$dbr['keterangan']) ; 
       }
       echo(json_encode($vare)) ; 
    }

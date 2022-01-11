@@ -2,7 +2,7 @@
 #Nama, Obj, Lokasi, Icon, Lebar, Tinggi, title, resize, modal, frame, help, bodyclass, headerclass
 ["Dashboard Center", "d", "admin/dash/d", "ion-ios-speedometer", 0, 0, false]
 ["Customer", "mstcustomer", "admin/mst/customer", "ion-filing", 1000, 600, false]
-["Pendaftaran Anggota", "mstdftanggota", "admin/mst/anggota", "ion-filing", 1000, 600, false] 
+["Pendaftaran Anggota", "daftaranggota", "admin/mst/daftaranggota", "ion-filing", 1000, 600, false] 
 ["Master Data", "mst", "", "ion-ios-briefcase"] 
   ["Agama", "mstagama", "admin/mst/mstagama", "" ,800, 500, false]
   ["Dati 2", "mstdati2", "admin/mst/mstdati2", "" ,800, 500, false]
