@@ -11,7 +11,7 @@
 			<td>
 				<input style="width:80px" type="text" class="form-control date" id="tgl" name="tgl" required value=<?=date("d-m-Y")?> <?=date_set()?>>
 			</td>
-		</tr> 
+		</tr>  
   		<tr>  
 			<td><label for="rekening">Rekening</label> </td>
 			<td>:</td>

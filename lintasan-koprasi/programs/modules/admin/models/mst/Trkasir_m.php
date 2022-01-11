@@ -1,7 +1,7 @@
 <?php
 class Trkasir_m extends Bismillah_Model{
    var $pelanggan = "" ;
-   public function getfaktur($l=true){
+   public function getfaktur($l=true){ 
       $k       = "KS" . date("ymd") ;   
       return $k . $this->getincrement($k, $l, 4) ;  
    }   

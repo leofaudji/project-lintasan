@@ -12,7 +12,7 @@
         <input style="width:80px" type="text" class="form-control date" id="tgl" name="tgl" required value=<?=date("d-m-Y")?> <?=date_set()?>>
       </td>
       <td width="100px"><label for="faktur">Pelanggan</label> </td>
-      <td width="10px">:</td>
+      <td width="10px">:</td> 
       <td colspan="4">  
               <select name="pelanggan" id="pelanggan" class="form-control select" style="width:100%"
               data-sf="load_pelanggan" data-placeholder="Pelanggan" required></select>

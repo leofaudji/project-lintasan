@@ -4,7 +4,7 @@ class Trjurnal extends Bismillah_Controller{
 	public function __construct(){
 		parent::__construct() ;
 		$this->load->model("mst/trjurnal_m") ;
-		$this->bdb 	= $this->trjurnal_m ;
+		$this->bdb 	= $this->trjurnal_m ; 
 	}
 
 	public function index(){

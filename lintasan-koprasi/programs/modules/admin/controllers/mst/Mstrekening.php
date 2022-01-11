@@ -54,7 +54,7 @@ class Mstrekening extends Bismillah_Controller{
 		$this->bdb->delete("keuangan_rekening", "id = " . $this->bdb->escape($id)) ;
 		echo(' bos.mstrekening.grid1_reload() ; ') ;
 	}
-
+ 
 	public function editing(){
 		$va 	= $this->input->post() ;
 		if($d = $this->bdb->editing($va['id'])){
@@ -62,7 +62,7 @@ class Mstrekening extends Bismillah_Controller{
 			echo('  
 				bos.mstrekening.obj.find("#kode").val("'.$d['kode'].'") ;      
 				bos.mstrekening.obj.find("#keterangan").val("'.$d['keterangan'].'") ;
-				bos.mstrekening.obj.find("#jenis").val("'.$d['jenis'].'") ;
+				bjs.setopt(bos.mstrekening.obj, "jenis", "'.$d['jenis'].'") ;
 				bos.mstrekening.settab(1) ;
 			') ;
 		}

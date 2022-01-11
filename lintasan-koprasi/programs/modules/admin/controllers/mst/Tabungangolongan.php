@@ -7,7 +7,7 @@ class Tabungangolongan extends Bismillah_Controller{
 		$this->load->helper("toko") ; 
 		$this->load->model("mst/tabungangolongan_m") ;
 		$this->bdb 	= $this->tabungangolongan_m ;
-	}
+	} 
 
 	public function index(){
 		$this->load->view("mst/tabungangolongan") ;
@@ -59,9 +59,17 @@ class Tabungangolongan extends Bismillah_Controller{
 		$va 	= $this->input->post() ;
 		if($d = $this->bdb->editing($va['id'])){
 			savesession($this, "sstabungangolongan_id", $d['id']) ;  
+			$rekening[]   = array("id"=>$d['rekening'],"text"=>$d['rekening']);
+			$rekening_bunga[]   = array("id"=>$d['rekening_bunga'],"text"=>$d['rekening_bunga']);
+			$rate[]   = array("id"=>$d['rate'],"text"=>$d['rate']);
 			echo('  
 				bos.tabungangolongan.obj.find("#kode").val("'.$d['kode'].'") ;      
 				bos.tabungangolongan.obj.find("#keterangan").val("'.$d['keterangan'].'") ;
+				bos.tabungangolongan.obj.find("#rekening").sval('.json_encode($rekening).') ;		 
+				bos.tabungangolongan.obj.find("#rekening_bunga").sval('.json_encode($rekening_bunga).') ;		 
+				bos.tabungangolongan.obj.find("#saldo_minimum").val("'.$d['saldo_minimum'].'") ; 
+				bos.tabungangolongan.obj.find("#saldo_minimum_bunga").val("'.$d['saldo_minimum_bunga'].'") ; 
+				bos.tabungangolongan.obj.find("#rate").sval('.json_encode($rate).') ;		 
 				bos.tabungangolongan.settab(1) ;
 			') ;
 		}

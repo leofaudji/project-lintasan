@@ -7,7 +7,7 @@ class Mstpelanggan extends Bismillah_Controller{
 		$this->load->helper("toko") ; 
 		$this->load->model("mst/mstpelanggan_m") ;
 		$this->bdb 	= $this->mstpelanggan_m ;
-	} 
+	}  
 
 	public function index(){
 		$this->load->view("mst/mstpelanggan") ;

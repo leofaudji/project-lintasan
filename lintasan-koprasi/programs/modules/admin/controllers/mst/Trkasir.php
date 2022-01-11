@@ -2,7 +2,7 @@
 class Trkasir extends Bismillah_Controller{
   protected $bdb ;
   public function __construct(){ 
-    parent::__construct() ;
+    parent::__construct() ; 
     $this->load->model("mst/trkasir_m") ;
     $this->bdb   = $this->trkasir_m ;
   }

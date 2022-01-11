@@ -15,7 +15,7 @@ class Trjurnal_m extends Bismillah_Model{
       $where    = implode(" AND ", $where) ;  
       $f        = "*" ; 
       $dbd      = $this->select("keuangan_jurnal_tmp", $f, $where, "", "", "id DESC", $limit) ;
-
+ 
       $row      = 0 ;
       $dba      = $this->select("keuangan_jurnal_tmp", "COUNT(id) id", $where) ;
       if($dbra  = $this->getrow($dba)){ 

@@ -7,81 +7,6 @@ class Load extends Bismillah_Controller{
       $this->bdb    = $this->load_m ;
    }
 
-   public function load_id_supplier(){
-      $q    = $this->input->get('q') ;
-      $vare = array() ;
-      $w    = "nama LIKE '%". $this->bdb->escape_like_str($q) ."%' OR kode LIKE '%". $this->bdb->escape_like_str($q) ."%'" ;
-		$dbd 	= $this->bdb->select("mst_supplier", "id, kode ,nama", $w, "", "", "", "0,5") ;
-		while($dbr    = $this->bdb->getrow($dbd)){
-			$vare[]    = array("id"=>$dbr['id'], "text"=>$dbr['kode'] . " - "  . $dbr['nama']) ;
-		}
-		echo(json_encode($vare)) ;
-   }
-
-   public function load_id_pelanggan(){
-      $q    = $this->input->get('q') ;
-      $vare = array() ;
-      $w    = "nama LIKE '%". $this->bdb->escape_like_str($q) ."%' OR kode LIKE '%". $this->bdb->escape_like_str($q) ."%'" ;
-		$dbd 	= $this->bdb->select("mst_pelanggan", "id, kode ,nama", $w, "", "", "", "0,5") ;
-		while($dbr    = $this->bdb->getrow($dbd)){
-			$vare[]    = array("id"=>$dbr['id'], "text"=>$dbr['kode'] . " - "  . $dbr['nama']) ;
-		}
-		echo(json_encode($vare)) ;
-   }
-
-   public function load_id_brg(){
-      $q    = $this->input->get('q') ;
-      $vare = array() ;
-      $w    = "(nama LIKE '%". $this->bdb->escape_like_str($q) ."%' OR sku LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
-		$dbd 	= $this->bdb->select("mst_brg", "id, sku ,nama", $w, "", "", "", "0,5") ;
-		while($dbr    = $this->bdb->getrow($dbd)){
-			$vare[]    = array("id"=>$dbr['id'], "text"=>$dbr['nama'] . " (".$dbr['sku'].")") ;
-		}
-		echo(json_encode($vare)) ;
-   }
-
-   public function load_id_brg_po(){
-      $q    = $this->input->get('q') ;
-      $vare = array() ;
-      $ss   = getsession($this, "ssbrg_jenis", "0") ;
-      $w    = "(nama LIKE '%". $this->bdb->escape_like_str($q) ."%' OR sku LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
-      $w   .= " AND jenis = " . $ss ;
-		$dbd 	= $this->bdb->select("mst_brg", "id, sku ,nama", $w, "", "", "", "0,5") ;
-		while($dbr    = $this->bdb->getrow($dbd)){
-			$vare[]    = array("id"=>$dbr['id'], "text"=>$dbr['nama'] . " (".$dbr['sku'].")") ;
-		}
-		echo(json_encode($vare)) ;
-   }
-
-   public function load_brg_kat(){
-      $q    = $this->input->get('q') ;
-		$vare = array() ;
-      $w    = "kategori LIKE '%". $this->bdb->escape_like_str($q) ."%'" ;
-		$dbd 	= $this->bdb->select("mst_brg_kat", "id, kategori", $w, "", "", "", "0,5") ;
-		while($dbr    = $this->bdb->getrow($dbd)){
-			$vare[]    = array("id"=>$dbr['id'], "text"=>$dbr['kategori']) ;
-		}
-		echo(json_encode($vare)) ;
-   }
-
-   public function load_brg_sat(){
-      $q    = strtolower($this->input->get('q')) ;
-		$vare = array() ;
-      $va   = $this->bdb->getconfig("brg_satuan") ;
-      if($va !== "") $va    = json_decode($va, true) ;
-      foreach ($va as $key => $value) {
-         $v       = TRUE ;
-         if(trim($q) !== ""){
-            $v    = (strpos(strtolower($value), $q) > -1) ? TRUE : FALSE ;
-         }
-         if($v){
-            $vare[]  = array("id"=>$value, "text"=>$value) ;
-         }
-      }
-
-		echo(json_encode($vare)) ;
-   }
-
    public function load_level(){
       $q      = $this->input->get('q') ;
       $vare   = array() ;
@@ -105,17 +30,6 @@ class Load extends Bismillah_Controller{
       echo(json_encode($vare)) ;
    }
 
-   public function load_tarif(){
-      $q    = $this->input->get('q') ;
-      $vare = array() ; 
-      $w    = "keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%' OR kode LIKE '%". $this->bdb->escape_like_str($q) ."%'" ;
-      $dbd  = $this->bdb->select("tarif", "id, kode ,keterangan", $w, "", "", "kode ASC", "0,10") ;
-      while($dbr    = $this->bdb->getrow($dbd)){
-         $vare[]    = array("id"=>$dbr['kode'], "text"=>$dbr['kode'] . " - "  . $dbr['keterangan']) ;
-      }
-      echo(json_encode($vare)) ;
-   }
-
    public function load_rekening(){
       $q    = $this->input->get('q') ;
       $vare = array() ;  
@@ -123,6 +37,17 @@ class Load extends Bismillah_Controller{
       $dbd  = $this->bdb->select("keuangan_rekening", "id, kode ,keterangan", $w, "", "", "kode ASC", "0,5") ;
       while($dbr    = $this->bdb->getrow($dbd)){
          $vare[]    = array("id"=>$dbr['kode'], "text"=>$dbr['kode'] . " - "  . $dbr['keterangan']) ;
+      }
+      echo(json_encode($vare)) ; 
+   }
+
+   public function load_rate(){
+      $q    = $this->input->get('q') ;
+      $vare = array() ;  
+      $w    = "(golongan_tabungan LIKE '%". $this->bdb->escape_like_str($q) ."%' OR sukubunga LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
+      $dbd  = $this->bdb->select("tabungan_rate", "id,golongan_tabungan,sukubunga", $w, "", "", "golongan_tabungan DESC", "0,5") ;
+      while($dbr    = $this->bdb->getrow($dbd)){
+         $vare[]    = array("id"=>$dbr['golongan_tabungan'], "text"=>$dbr['golongan_tabungan'] . " - "  . $dbr['sukubunga'] . " % ") ; 
       }
       echo(json_encode($vare)) ; 
    }

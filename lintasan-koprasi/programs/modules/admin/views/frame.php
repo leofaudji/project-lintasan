@@ -149,13 +149,13 @@
 		bjs_os.frame_init() ;
 
 		bjs.ajax("admin/frame/ping") ;
-		bjs.ajax("admin/frame/ceknotif") ;
+		//bjs.ajax("admin/frame/ceknotif") ;
 		setInterval(function(){
 			bjs.ajax("admin/frame/ping") ;
 
 			//notif setiap 10 menit
 			if(++menit == 10){
-				bjs.ajax("admin/frame/ceknotif") ;
+				//bjs.ajax("admin/frame/ceknotif") ;
 				menit 	= 0 ;
 			}
 		}, 60000) ;

@@ -1,5 +1,5 @@
 <?php
-class Tabungangolongan_m extends Bismillah_Model{  
+class Tabungankodetransaksi_m extends Bismillah_Model{  
  
    public function loadgrid($va){ 
       $limit    = $va['offset'].",".$va['limit'] ;
@@ -9,10 +9,10 @@ class Tabungangolongan_m extends Bismillah_Model{
       if($search !== "") $where[]	= "(keterangan LIKE '%{$search}%')" ; 
       $where 	 = implode(" AND ", $where) ;
       $f        = "*" ; 
-      $dbd      = $this->select("tabungan_golongan", $f, $where, "", "", "kode ASC", $limit) ;
+      $dbd      = $this->select("tabungan_kodetransaksi", $f, $where, "", "", "kode ASC", $limit) ;
 
       $row      = 0 ;
-      $dba      = $this->select("tabungan_golongan", "COUNT(id) id", $where) ;
+      $dba      = $this->select("tabungan_kodetransaksi", "COUNT(id) id", $where) ; 
       if($dbra  = $this->getrow($dba)){
          $row   = $dbra['id'] ;
       }   
@@ -22,12 +22,12 @@ class Tabungangolongan_m extends Bismillah_Model{
    public function saving($va, $id){ 
       $f    = $va ; 
       $w    = "id = " . $this->escape($id) ; 
-      $this->update("tabungan_golongan", $f, $w) ;
+      $this->update("tabungan_kodetransaksi", $f, $w) ;
    }
 
    public function editing($id=''){
       $w    = "id = " . $this->escape($id) ;  
-      $d    = $this->getval("*", $w, "tabungan_golongan") ;
+      $d    = $this->getval("*", $w, "tabungan_kodetransaksi") ;
       return !empty($d) ? $d : false ;
    }
 }
