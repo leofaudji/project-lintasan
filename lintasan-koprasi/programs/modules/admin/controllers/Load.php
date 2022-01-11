@@ -41,6 +41,17 @@ class Load extends Bismillah_Controller{
       echo(json_encode($vare)) ; 
    }
 
+   public function load_tabungan_golongan(){
+      $q    = $this->input->get('q') ;
+      $vare = array() ;  
+      $w    = "(keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%' OR kode LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
+      $dbd  = $this->bdb->select("tabungan_golongan", "id, kode ,keterangan", $w, "", "", "kode ASC", "0,5") ;
+      while($dbr    = $this->bdb->getrow($dbd)){
+         $vare[]    = array("id"=>$dbr['kode'], "text"=>$dbr['kode'] . " - "  . $dbr['keterangan']) ;
+      }
+      echo(json_encode($vare)) ; 
+   }
+
    public function load_rate(){
       $q    = $this->input->get('q') ;
       $vare = array() ;  
