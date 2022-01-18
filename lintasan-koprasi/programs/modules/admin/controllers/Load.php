@@ -25,11 +25,22 @@ class Load extends Bismillah_Controller{
       $w    = "(kode LIKE '%". $this->bdb->escape_like_str($q) ."%' OR nama LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
       $dbd  = $this->bdb->select("mst_customer", "id,kode,nama", $w, "", "", "kode ASC", "0,10") ; 
       while($dbr    = $this->bdb->getrow($dbd)){
-         $vare[]    = array("id"=>$dbr['kode'], "text"=>$dbr['nama']) ;  
+         $vare[]    = array("id"=>$dbr['kode'], "text"=>join(" - ",array($dbr['kode'],$dbr['nama']))) ;  
       } 
       echo(json_encode($vare)) ; 
    }
-
+   
+   public function load_kantor(){
+      $q    = $this->input->get('q') ;
+      $vare = array() ;  
+      $w    = "(m.kode LIKE '%". $this->bdb->escape_like_str($q) ."%' OR m.keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
+      $dbd  = $this->bdb->select("mst_kantor m", "m.id,m.kode,m.keterangan,m.id_kantor,mc.nama", $w, "left join mst_customer mc on mc.kode = m.customer", "", "m.kode ASC", "0,10") ; 
+      while($dbr    = $this->bdb->getrow($dbd)){
+         $vare[]    = array("id"=>$dbr['id_kantor'], "text"=>join(" - ",array($dbr['kode'],$dbr['nama'],$dbr['keterangan']))) ;  
+      } 
+      echo(json_encode($vare)) ; 
+   }
+   
    public function load_rekening(){
       $q    = $this->input->get('q') ;
       $vare = array() ;  

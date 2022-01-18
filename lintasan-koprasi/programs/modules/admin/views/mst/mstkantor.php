@@ -11,7 +11,7 @@
 				</div>
 			</td> 
 			<td class="button">
-				<table class="header-button" align="right">
+				<table class="header-button" align="right"> 
 					<tr>  
 						<td>
 							<div class="btn-circle btn-close transition" onclick="bos.mstkantor.close()">
@@ -37,7 +37,7 @@
 							<td><label for="customer">Nama Customer</label> </td>
 							<td width="1%">:</td>
 							<td>
-							<select name="customer" id="customer" class="form-control select" style="width:20%" data-sf="load_customer" data-placeholder="Customer" required></select>
+							<select name="customer" id="customer" class="form-control select" data-sf="load_customer" data-placeholder="Customer" required></select>
 							</td>
 						</tr> 
 			  		<tr>
@@ -98,9 +98,9 @@
 			},
 			multiSearch		: false, 
 			columns: [
-				{ field: 'customer', caption: 'Customer', size: '100px', sortable: false},
-				{ field: 'kode', caption: 'Kode', size: '100px', sortable: false},
-				{ field: 'keterangan', caption: 'Keterangan', size: '140px', sortable: false},
+				{ field: 'customer', caption: 'Customer', size: '250px', sortable: false},
+				{ field: 'kode', caption: 'Kode', size: '60px', sortable: false},
+				{ field: 'keterangan', caption: 'Keterangan', size: '150px', sortable: false},
   	    { field: 'alamat', caption: 'Alamat', size: '200px', sortable: false},
   	    { field: 'telepon', caption: 'Telepon', size: '100px', sortable: false},
   	    { field: 'cmdedit', caption: ' ', size: '80px', sortable: false },

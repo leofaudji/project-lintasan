@@ -5,7 +5,7 @@ class Login extends CI_Controller{
 		$this->load->model('loginm') ;
 	}
 
-	public function index(){
+	public function index(){ 
 		$data 	= array('app_title'=> $this->loginm->getconfig('app_title'),
 						'app_logo'=>base_url($this->loginm->getconfig('app_logo')),
 						'app_login_image'=>base_url($this->loginm->getconfig('app_login_image')) ) ;

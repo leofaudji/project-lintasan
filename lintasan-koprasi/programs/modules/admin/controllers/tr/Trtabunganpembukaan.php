@@ -10,7 +10,7 @@ class Trtabunganpembukaan extends Bismillah_Controller{
 	}  
 
 	public function index(){
-		$this->load->view("tr/trtabunganpembukaan") ;
+		$this->load->view("tr/trtabunganpembukaan") ; 
 
 	}   
 
@@ -19,8 +19,11 @@ class Trtabunganpembukaan extends Bismillah_Controller{
 		$vare   = array() ;
 		$vdb    = $this->bdb->loadgrid($va) ;
 		$dbd    = $vdb['db'] ;
+		$n = 0 ;
 		while( $dbr = $this->bdb->getrow($dbd) ){
 			$vs = $dbr;  
+			++$n ;
+			$vs['no'] = $n ;
 			$vs['tgl'] = date("d-m-Y", strtotime($vs['tgl'])) ;
 			//$vs['statuspelanggan'] = statuspelanggan($vs['statuspelanggan']) ;
 			$vs['cmdedit']    = '<button type="button" onClick="bos.trtabunganpembukaan.cmdedit(\''.$dbr['id'].'\')"

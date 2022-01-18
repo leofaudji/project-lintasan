@@ -22,5 +22,5 @@
   ["Saldo Tabungan", "rptbayar", "admin/mst/rptbayar", "ion-filing", 600,550]
 ["Konfigurasi", "cfg", "", "ion-ios-cog"]
   ["Setting Hari Libur", "configlibur", "admin/mst/configlibur", "" ,1100, 620]
-  ["Username", "username", "admin/config/username", "" ,400, 450, false]
+  ["Username", "username", "admin/config/username", "" ,800, 450, false]
   ["Username Level", "username_lv", "admin/config/username_lv", "" ,400, 550, false]

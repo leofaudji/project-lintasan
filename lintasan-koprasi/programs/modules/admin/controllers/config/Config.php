@@ -5,7 +5,7 @@ class Config extends Bismillah_Controller{
 		parent::__construct() ;
 		$this->load->model('load_m') ;
 		$this->bdb 	= $this->load_m ;
-	}
+	} 
 
 	public function index(){
 		$data 		= array("app_title"=> getsession($this, "app_title") , "app_logo"=>"", "app_login_image"=>"",

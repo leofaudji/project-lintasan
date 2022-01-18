@@ -7,7 +7,7 @@ class Username extends Bismillah_Controller{
       $this->bdb = $this->username_m;
 	} 
 
-	public function index(){
+	public function index(){ 
 		$this->load->view("config/username") ;
 	}
 
@@ -16,7 +16,9 @@ class Username extends Bismillah_Controller{
 		$db      = $this->bdb->loadgrid($va) ;
 		while( $dbrow	= $this->bdb->getrow($db['db']) ){
 			$vaset 		= $dbrow ;
-			$vaset['recid']		= $dbrow['username'] ;
+			
+			$vaset['recid']		= $dbrow['username'] ; 
+			$vaset['id_kantor'] = $this->bdb->getval("keterangan", "id_kantor = '{$dbrow['id_kantor']}'", "mst_kantor") ;
 
 			$vaset['cmdedit'] 	= '<button type="button" onClick="bos.username.cmdedit(\''.$dbrow['username'].'\')"
 									class="btn btn-default btn-grid">Koreksi</button>' ;
@@ -57,7 +59,7 @@ class Username extends Bismillah_Controller{
 			$dblast = array("password"=>"", "data_var"=>array('ava'=>"")) ;
 		}
 
-		$data 		= array("username"=>$va['username'], "fullname"=>$va['fullname']) ;
+		$data 		= array("id_kantor"=>$va['id_kantor'],"username"=>$va['username'], "fullname"=>$va['fullname']) ;
 		$data['data_var']	= array("ava"=>$dblast['data_var']['ava']) ;
 
 		if($va['password'] !== ""){
@@ -116,7 +118,7 @@ class Username extends Bismillah_Controller{
       $w    = "username = ".$this->bdb->escape($va['username']) ;
 		$data = $this->bdb->getval("*", $w, "sys_username") ;
 		if(!empty($data)){
-         savesession($this, "ssusername_username", $va['username']) ;
+      savesession($this, "ssusername_username", $va['username']) ;
 			$image 		= "" ;
 			$slevel 	= array() ;
 			$data_var	= ($data['data_var'] !== "") ? json_decode($data['data_var'], true) : array() ;
@@ -125,12 +127,14 @@ class Username extends Bismillah_Controller{
 			}
 			$level 		= substr($data['password'], -4) ;
 			$slevel[] 	= array("id"=>$level, "text"=> $level . " - " . $this->bdb->getval("name", "code = '{$level}'", "sys_username_level")) ;
+			$id_kantor[] 	= array("id"=>$data['id_kantor'], "text"=> $data['id_kantor'] . " - " . $this->bdb->getval("keterangan", "id_kantor = '{$data['id_kantor']}'", "mst_kantor")) ;
 
 				echo('
 				with(bos.username.obj){
 					find("#username").val("'.$data['username'].'").attr("readonly", true) ;
 					find("#fullname").val("'.$data['fullname'].'").focus() ;
-					find("#level").sval('.json_encode($slevel).') ;
+					find("#level").sval('.json_encode($slevel).') ; 
+					find("#id_kantor").sval('.json_encode($id_kantor).') ;
 					find("#idimage").html("'.$image.'")
 				}
             bos.username.settab(1) ;

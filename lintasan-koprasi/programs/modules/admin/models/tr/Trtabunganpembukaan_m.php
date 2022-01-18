@@ -9,14 +9,14 @@ class Trtabunganpembukaan_m extends Bismillah_Model{
       $limit    = $va['offset'].",".$va['limit'] ;
       $search	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
       $search   = $this->escape_like_str($search) ;
-      $where 	 = array() ; 
-      if($search !== "") $where[]	= "(nama LIKE '%{$search}%')" ;
+      $where 	 = array() ;  
+      if($search !== "") $where[]	= "(t.kode_anggota LIKE '%{$search}%' OR m.nama LIKE '%{$search}%' OR m.alamat LIKE '%{$search}%' )" ;
       $where 	 = implode(" AND ", $where) ;
-      $f        = "*" ; 
-      $dbd      = $this->select("tabungan_rekening", $f, $where, "", "", "id DESC", $limit) ;
+      $f        = "t.*,m.nama,m.alamat" ;     
+      $dbd      = $this->select("tabungan_rekening t", $f, $where, "left join mst_anggota m on m.kode = t.kode_anggota", "", "t.id DESC", $limit) ;
 
       $row      = 0 ;
-      $dba      = $this->select("tabungan_rekening", "COUNT(id) id", $where) ;
+      $dba      = $this->select("tabungan_rekening t", "COUNT(t.id) id", $where, "left join mst_anggota m on m.kode = t.kode_anggota") ;
       if($dbra  = $this->getrow($dba)){
          $row   = $dbra['id'] ;
       } 
@@ -27,6 +27,7 @@ class Trtabunganpembukaan_m extends Bismillah_Model{
       $f    = $va ; 
       $f['tgl']  = date_2s($f['tgl']) ;
       if($id == ""){       
+         $f['id_kantor']   = getsession($this,"id_kantor") ;
          $f['faktur']      = $this->getkode() ;       
          $f['rekening']    = implode(".",array($f['golongan_tabungan'],$f['kode_anggota'])) ;
          $f['datetime']    = date_now() ; 

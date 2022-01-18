@@ -19,17 +19,20 @@ class Mstkantor extends Bismillah_Controller{
       $vare   = array() ;
       $vdb    = $this->bdb->loadgrid($va) ;
       $dbd    = $vdb['db'] ;
-      while( $dbr = $this->bdb->getrow($dbd) ){
-         $vs = $dbr;   
-         $vs['cmdedit']    = '<button type="button" onClick="bos.mstkantor.cmdedit(\''.$dbr['id'].'\')"
-                           class="btn btn-default btn-grid">Koreksi</button>' ;
-         $vs['cmdedit']	   = html_entity_decode($vs['cmdedit']) ;
+      while( $dbr = $this->bdb->getrow($dbd) ){ 
+				$vs = $dbr;    
 
-		 $vs['cmddelete']  = '<button type="button" onClick="bos.mstkantor.cmddelete(\''.$dbr['id'].'\')"
-                           class="btn btn-danger btn-grid">Hapus</button>' ;
-         $vs['cmddelete']  = html_entity_decode($vs['cmddelete']) ;
+				$vs['customer'] = $dbr['customer'] . " " . $this->bdb->getval("nama", "kode = '{$dbr['customer']}'", "mst_customer") ;
 
-         $vare[]		= $vs ;  
+				$vs['cmdedit']    = '<button type="button" onClick="bos.mstkantor.cmdedit(\''.$dbr['id'].'\')"
+													class="btn btn-default btn-grid">Koreksi</button>' ;
+				$vs['cmdedit']	   = html_entity_decode($vs['cmdedit']) ;
+
+				$vs['cmddelete']  = '<button type="button" onClick="bos.mstkantor.cmddelete(\''.$dbr['id'].'\')"
+													class="btn btn-danger btn-grid">Hapus</button>' ;
+				$vs['cmddelete']  = html_entity_decode($vs['cmddelete']) ;
+
+				$vare[]		= $vs ;  
       }
 
       $vare 	= array("total"=>$vdb['rows'], "records"=>$vare ) ;

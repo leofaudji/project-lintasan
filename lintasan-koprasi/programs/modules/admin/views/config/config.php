@@ -12,7 +12,7 @@
 			<div class="tab-pane active" id="tgeneral">
 				<?php require_once 'config.general.php' ?>
 		    </div>
-
+ 
 
 			<div class="tab-pane" id="tttd">
 				<?php require_once 'config.ttd.php' ?>

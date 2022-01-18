@@ -9,7 +9,7 @@
 						<button class="btn btn-tab tdi" href="#tusername_2" data-toggle="tab">Username</button>
 					</div>
 				</div>
-			</td>
+			</td> 
 			<td class="button">
 				<table class="header-button" align="right">
 					<tr>
@@ -36,6 +36,12 @@
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="form-group">
+							<label for="id_kantor">ID Kantor</label>
+							<select name="id_kantor" id="id_kantor" class="form-control select" data-sf="load_kantor" data-placeholder="ID Kantor" required></select>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group">
 							<label for="username">Username</label>
 							<input type="text" class="form-control" name="username" id="username" placeholder="Username" required>
 						</div>
@@ -53,9 +59,9 @@
 						</div>
 					</div>
 					<div class="col-sm-6">
-						<div class="form-group">
+						<div class="form-group"> 
 							<label for="level">Level</label>
-							<select class="form-control select2" data-sf="load_level"
+							<select class="form-control select" data-sf="load_level"
 							name="level" id="level" data-placeholder="Level" required>
 							</select>
 						</div>
@@ -94,6 +100,7 @@
 	        	footer 		: true
 	        },
 	        columns: [
+							{ field: 'id_kantor', caption: 'ID Kantor', size: '120px', sortable: false },
 	            { field: 'username', caption: 'Username', size: '80px', sortable: false },
 	            { field: 'fullname', caption: 'Fullname', size: '150px', sortable: false },
 	            { field: 'cmdedit', caption: ' ', size: '80px', sortable: false,style:'text-align:center;' },
@@ -134,8 +141,9 @@
 
 	bos.username.init 			= function(){
 		this.obj.find("#username").val("").attr("readonly", false).focus() ;
+		this.obj.find("#id_kantor").sval({}) ;
 		this.obj.find("#fullname").val("") ;
-      this.obj.find("#password").val("") ;
+    this.obj.find("#password").val("") ;
 		this.obj.find("#level").sval({}) ;
 		this.obj.find("#image").val("") ;
 		this.obj.find("#idlimage").html("") ;
@@ -148,7 +156,7 @@
 		this.grid1_loaddata() ;
 		this.grid1_load() ;
 		bjs.initselect({
-			class 		: "#" + this.id + " .select2"
+			class 		: "#" + this.id + " .select"
 		}) ;
 		bjs_os.inittab(this.obj, '.tdi') ;
 		bjs_os._header(this.id) ; //drag header

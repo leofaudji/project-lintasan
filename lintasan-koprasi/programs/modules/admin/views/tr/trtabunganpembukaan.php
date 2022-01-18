@@ -11,7 +11,7 @@
         </div>
       </td>
       <td class="button">
-        <table class="header-button" align="right">
+        <table class="header-button" align="right"> 
           <tr> 
             <td> 
               <div class="btn-circle btn-close transition" onclick="bos.trtabunganpembukaan.close()">
@@ -144,11 +144,11 @@
       },
       multiSearch    : false, 
       columns: [
-        { field: 'datetime', caption: 'Datetime', size: '120px', sortable: false},
-        { field: 'golongan_tabungan', caption: 'Golongan Tabungan', size: '140px', sortable: false},
-        { field: 'rekening', caption: 'No.Rekening', size: '100px', sortable: false},
+        { field: 'no', caption: 'No', size: '40px',style:'text-align:center', sortable: false},
+        { field: 'datetime', caption: 'Datetime', size: '140px',style:'text-align:center', sortable: false},
+        { field: 'rekening', caption: 'No.Rekening', size: '140px', sortable: false},
         { field: 'nama', caption: 'Nama', size: '200px', sortable: false}, 
-        { field: 'alamat', caption: 'Alamat', size: '200px', sortable: false},
+        { field: 'alamat', caption: 'Alamat', size: '240px', sortable: false},
         { field: 'cmdedit', caption: ' ', size: '80px', sortable: false },
         { field: 'cmddelete', caption: ' ', size: '80px', sortable: false },
         { field: 'cmdcetak', caption: ' ', size: '80px', sortable: false }
