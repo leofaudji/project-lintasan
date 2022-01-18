@@ -11,7 +11,7 @@ class Mstkantor_m extends Bismillah_Model{
       $f        = "*" ; 
       $dbd      = $this->select("mst_kantor", $f, $where, "", "", "kode ASC", $limit) ;
 
-      $row      = 0 ;
+      $row      = 0 ; 
       $dba      = $this->select("mst_kantor", "COUNT(id) id", $where) ;
       if($dbra  = $this->getrow($dba)){
          $row   = $dbra['id'] ;
@@ -27,7 +27,7 @@ class Mstkantor_m extends Bismillah_Model{
 
    public function editing($id=''){
       $w    = "id = " . $this->escape($id) ;  
-      $d    = $this->getval("id,kode,keterangan,alamat,telepon", $w, "mst_kantor") ;
+      $d    = $this->getval("id,customer,kode,keterangan,alamat,telepon", $w, "mst_kantor") ;
       return !empty($d) ? $d : false ;
    }
 }

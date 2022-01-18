@@ -29,7 +29,7 @@ class Mstkantor extends Bismillah_Controller{
                            class="btn btn-danger btn-grid">Hapus</button>' ;
          $vs['cmddelete']  = html_entity_decode($vs['cmddelete']) ;
 
-         $vare[]		= $vs ; 
+         $vare[]		= $vs ;  
       }
 
       $vare 	= array("total"=>$vdb['rows'], "records"=>$vare ) ;
@@ -58,8 +58,10 @@ class Mstkantor extends Bismillah_Controller{
 	public function editing(){
 		$va 	= $this->input->post() ;
 		if($d = $this->bdb->editing($va['id'])){
-			savesession($this, "ssmstkantor_id", $d['id']) ;  
+			savesession($this, "ssmstkantor_id", $d['id']) ;   
+			$customer[]   = array("id"=>$d['customer'],"text"=>$d['customer']); 
 			echo('  
+				bos.mstkantor.obj.find("#customer").sval('.json_encode($customer).') ; 
 				bos.mstkantor.obj.find("#kode").val("'.$d['kode'].'") ;      
 				bos.mstkantor.obj.find("#keterangan").val("'.$d['keterangan'].'") ;
 				bos.mstkantor.obj.find("#alamat").val("'.$d['alamat'].'") ;

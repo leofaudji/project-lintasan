@@ -1,8 +1,8 @@
 <?php
 class Mstcustomer_m extends Bismillah_Model{ 
    public function getkode($u=true){
-      $k       = "CUST" ; 
-      return $this->getincrement($k, $u, 6) ;  
+      $k       = "CUST-" ;  
+      return $k . $this->getincrement($k, $u, 6) ;  
    } 
  
    public function loadgrid($va){ 
@@ -13,7 +13,7 @@ class Mstcustomer_m extends Bismillah_Model{
       if($search !== "") $where[]	= "(nama LIKE '%{$search}%')" ;
       $where 	 = implode(" AND ", $where) ;
       $f        = "*" ; 
-      $dbd      = $this->select("mst_customer", $f, $where, "", "", "id DESC", $limit) ;
+      $dbd      = $this->select("mst_customer", $f, $where, "", "", "id ASC", $limit) ;
 
       $row      = 0 ;
       $dba      = $this->select("mst_customer", "COUNT(id) id", $where) ;

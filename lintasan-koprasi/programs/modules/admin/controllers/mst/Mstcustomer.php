@@ -78,7 +78,7 @@ class Mstcustomer extends Bismillah_Controller{
 	public function deleting(){
 		$va 	= $this->input->post() ; 
 		$id 	= $va['id'] ;
-		$this->bdb->delete("pelanggan", "id = " . $this->bdb->escape($id)) ;
+		$this->bdb->delete("mst_customer", "id = " . $this->bdb->escape($id)) ;
 		echo(' bos.mstcustomer.grid1_reload() ; ') ;
 	}
 

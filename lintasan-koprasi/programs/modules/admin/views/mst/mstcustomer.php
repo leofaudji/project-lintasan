@@ -6,7 +6,7 @@
         <div class="nav ">
           <div class="btn-group" id="tpel">
             <button class="btn btn-tab tpel active" href="#tpel_1" data-toggle="tab" >Daftar Customer</button>
-            <button class="btn btn-tab tpel" href="#tpel_2" data-toggle="tab">Input Customer</button>
+            <button class="btn btn-tab tpel" href="#tpel_2" data-toggle="tab">Input Data</button>
           </div>
         </div>
       </td> 
@@ -160,14 +160,14 @@
       },
       multiSearch    : false, 
       columns: [
-        { field: 'kode', caption: 'Kode', size: '80px', sortable: false},
-        { field: 'tgl', caption: 'Tgl Daftar', size: '80px', sortable: false},
+        { field: 'tgl', caption: 'Tgl Daftar', size: '80px',align:'center',style:'text-align:center', sortable: false},
+        { field: 'kode', caption: 'Customer', size: '100px',style:'text-align:left', sortable: false},
         { field: 'nama', caption: 'Nama Customer', size: '180px', sortable: false},
         { field: 'alamat', caption: 'Alamat', size: '200px', sortable: false},
         { field: 'telepon', caption: 'Telepon', size: '120px', sortable: false},
-        { field: 'email', caption: 'Email', size: '80px', sortable: false},
-        { field: 'pic_nama', caption: 'Nama PIC', size: '120px', sortable: false},
-        { field: 'telepon', caption: 'Telepon PIC', size: '80px', sortable: false},
+        { field: 'email', caption: 'Email', size: '150px', sortable: false},
+        { field: 'pic_nama', caption: 'Nama PIC', size: '100px', sortable: false},
+        { field: 'telepon', caption: 'Telepon PIC', size: '100px', sortable: false},
         { field: 'cmdedit', caption: ' ', size: '80px', sortable: false },
         { field: 'cmddelete', caption: ' ', size: '80px', sortable: false },
         { field: 'cmdcetak', caption: ' ', size: '80px', sortable: false }

@@ -9,7 +9,7 @@
 						<button class="btn btn-tab tpel" href="#tpel_2" data-toggle="tab">Input Data</button>
 					</div>
 				</div>
-			</td>
+			</td> 
 			<td class="button">
 				<table class="header-button" align="right">
 					<tr>  
@@ -33,6 +33,13 @@
 			</div>
 			<div role="tabpanel" class="tab-pane fade full-height" id="tpel_2">
 				<table class="osxtable form">
+						<tr>
+							<td><label for="customer">Nama Customer</label> </td>
+							<td width="1%">:</td>
+							<td>
+							<select name="customer" id="customer" class="form-control select" style="width:20%" data-sf="load_customer" data-placeholder="Customer" required></select>
+							</td>
+						</tr> 
 			  		<tr>
 						<td width="14%"><label for="kode">Kode</label> </td>
 						<td width="1%">:</td>
@@ -91,6 +98,7 @@
 			},
 			multiSearch		: false, 
 			columns: [
+				{ field: 'customer', caption: 'Customer', size: '100px', sortable: false},
 				{ field: 'kode', caption: 'Kode', size: '100px', sortable: false},
 				{ field: 'keterangan', caption: 'Keterangan', size: '140px', sortable: false},
   	    { field: 'alamat', caption: 'Alamat', size: '200px', sortable: false},
@@ -134,6 +142,7 @@
 	}
 
 	bos.mstkantor.init				= function(){
+		this.obj.find("#customer").val("") ;
 		this.obj.find("#kode").val("") ;
 		this.obj.find("#keterangan").val("") ;
 		this.obj.find("#alamat").val("") ;
@@ -160,7 +169,7 @@
 
 	bos.mstkantor.initcomp	= function(){
 		bjs.initselect({
-			class : "#" + this.id + " .select2",
+			class : "#" + this.id + " .select",
 			clear : true
 		}) ;
 		bjs.initdate("#" + this.id + " .date") ;
