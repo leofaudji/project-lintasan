@@ -21,6 +21,7 @@ class Mstkantor_m extends Bismillah_Model{
 
    public function saving($va, $id){ 
       $f    = $va ;  
+      $f['id_kantor'] = substr(md5(base64_encode($f['customer'] . $f['kode'])),6,6) ;
       $w    = "id = " . $this->escape($id) ; 
       $this->update("mst_kantor", $f, $w) ;
    }
