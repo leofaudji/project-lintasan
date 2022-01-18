@@ -1,16 +1,16 @@
 <?php
-class Daftaranggota extends Bismillah_Controller{ 
+class Mstcustomer extends Bismillah_Controller{ 
 	protected $bdb ;
 	public function __construct(){
 		parent::__construct() ;
 		$this->load->helper("bdate") ;
 		$this->load->helper("toko") ; 
-		$this->load->model("mst/daftaranggota_m") ;
-		$this->bdb 	= $this->daftaranggota_m ;
+		$this->load->model("mst/mstcustomer_m") ;
+		$this->bdb 	= $this->mstcustomer_m ;
 	}  
 
 	public function index(){
-		$this->load->view("mst/daftaranggota") ;
+		$this->load->view("mst/mstcustomer") ;
 
 	}   
 
@@ -23,15 +23,15 @@ class Daftaranggota extends Bismillah_Controller{
 			$vs = $dbr;  
 			$vs['tgl'] = date("d-m-Y", strtotime($vs['tgl'])) ;
 			//$vs['statuspelanggan'] = statuspelanggan($vs['statuspelanggan']) ;
-			$vs['cmdedit']    = '<button type="button" onClick="bos.daftaranggota.cmdedit(\''.$dbr['id'].'\')"
+			$vs['cmdedit']    = '<button type="button" onClick="bos.mstcustomer.cmdedit(\''.$dbr['id'].'\')"
 												class="btn btn-default btn-grid">Koreksi</button>' ;
 			$vs['cmdedit']	   = html_entity_decode($vs['cmdedit']) ;
 
-			$vs['cmddelete']  = '<button type="button" onClick="bos.daftaranggota.cmddelete(\''.$dbr['id'].'\')"
+			$vs['cmddelete']  = '<button type="button" onClick="bos.mstcustomer.cmddelete(\''.$dbr['id'].'\')"
 												class="btn btn-danger btn-grid">Hapus</button>' ;
 			$vs['cmddelete']  = html_entity_decode($vs['cmddelete']) ;
 
-			//$vs['cmdcetak']  = '<button type="button" onClick="bos.daftaranggota.cmdcetak(\''.$dbr['id'].'\')" class="btn btn-primary btn-grid">Cetak</button>' ;
+			//$vs['cmdcetak']  = '<button type="button" onClick="bos.mstcustomer.cmdcetak(\''.$dbr['id'].'\')" class="btn btn-primary btn-grid">Cetak</button>' ;
 			//$vs['cmdcetak']  = html_entity_decode($vs['cmdcetak']) ;
 			$vare[]		= $vs ;
 		}
@@ -41,16 +41,16 @@ class Daftaranggota extends Bismillah_Controller{
 	}
 
 	public function init(){
-		savesession($this, "ssdaftaranggota_id", "") ;
+		savesession($this, "ssmstcustomer_id", "") ;
 		$kode 	= $this->bdb->getkode(false) ;
 		echo('
-			bos.daftaranggota.obj.find("#kode").html("'.$kode.'") ;
+			bos.mstcustomer.obj.find("#kode").html("'.$kode.'") ;
 		') ;
 	}
 
 	public function saving(){
 		$va 	= $this->input->post() ;
-		$id 	= getsession($this, "ssdaftaranggota_id") ;
+		$id 	= getsession($this, "ssmstcustomer_id") ;
 		$url    = "" ;
 		$vimage 		= json_decode(getsession($this, "sspelanggan_image", "{}"), true) ;
 		if(!empty($vimage)){
@@ -72,20 +72,20 @@ class Daftaranggota extends Bismillah_Controller{
 		if($url <> "") $va['data_var']	= $url ;   
 
 		$this->bdb->saving($va, $id) ;
-		echo(' bos.daftaranggota.settab(0) ;  ') ;
+		echo(' bos.mstcustomer.settab(0) ;  ') ;
 	}
 
 	public function deleting(){
 		$va 	= $this->input->post() ; 
 		$id 	= $va['id'] ;
-		$this->bdb->delete("mst_anggota", "id = " . $this->bdb->escape($id)) ;
-		echo(' bos.daftaranggota.grid1_reload() ; ') ;
+		$this->bdb->delete("pelanggan", "id = " . $this->bdb->escape($id)) ;
+		echo(' bos.mstcustomer.grid1_reload() ; ') ;
 	}
 
 	public function editing(){
 		$va 	= $this->input->post() ;
 		if($d = $this->bdb->editing($va['id'])){
-			savesession($this, "ssdaftaranggota_id", $d['id']) ; 
+			savesession($this, "ssmstcustomer_id", $d['id']) ; 
 			$d['tgl_lahir'] 	= date("d-m-Y", strtotime($d['tgl_lahir'])) ;
 			$d['tgl'] 	= date("d-m-Y", strtotime($d['tgl'])) ;   
 			$image = '<img src=\"./uploads/no-image.png\" class=\"img-responsive\"/><br>' ; ;
@@ -100,21 +100,21 @@ class Daftaranggota extends Bismillah_Controller{
 			$agama[]   = array("id"=>$d['agama'],"text"=>$d['agama']); 
 			
 			echo('   
-				bos.daftaranggota.obj.find("#kode").html("'.$d['kode'].'") ;
-				bos.daftaranggota.obj.find("#tgl").val("'.$d['tgl'].'") ;
-				bos.daftaranggota.obj.find("#nama").val("'.$d['nama'].'") ;
-				bos.daftaranggota.obj.find("#provinsi").sval('.json_encode($provinsi).') ; 
-				bos.daftaranggota.obj.find("#kota").sval('.json_encode($kota).') ; 
-				bos.daftaranggota.obj.find("#kecamatan").sval('.json_encode($kecamatan).') ; 
-				bos.daftaranggota.obj.find("#alamat").val("'.$d['alamat'].'") ;
-				bos.daftaranggota.obj.find("#telepon").val("'.$d['telepon'].'") ; 
-				bos.daftaranggota.obj.find("#email").val("'.$d['email'].'") ;
-				bos.daftaranggota.obj.find("#tempat_lahir").val("'.$d['tempat_lahir'].'") ;
-				bjs.setopt(bos.daftaranggota.obj, "jenis_kelamin", "'.$d['jenis_kelamin'].'") ;
-				bos.daftaranggota.obj.find("#tgl_lahir").val("'.$d['tgl_lahir'].'") ;				
-				bos.daftaranggota.obj.find("#agama").sval('.json_encode($agama).') ; 
-				bos.daftaranggota.obj.find("#foto").html("'.$image.'") ;
-				bos.daftaranggota.settab(1) ;
+				bos.mstcustomer.obj.find("#kode").html("'.$d['kode'].'") ;
+				bos.mstcustomer.obj.find("#tgl").val("'.$d['tgl'].'") ;
+				bos.mstcustomer.obj.find("#nama").val("'.$d['nama'].'") ;
+				bos.mstcustomer.obj.find("#provinsi").sval('.json_encode($provinsi).') ; 
+				bos.mstcustomer.obj.find("#kota").sval('.json_encode($kota).') ; 
+				bos.mstcustomer.obj.find("#kecamatan").sval('.json_encode($kecamatan).') ; 
+				bos.mstcustomer.obj.find("#alamat").val("'.$d['alamat'].'") ;
+				bos.mstcustomer.obj.find("#telepon").val("'.$d['telepon'].'") ; 
+				bos.mstcustomer.obj.find("#email").val("'.$d['email'].'") ;
+				bos.mstcustomer.obj.find("#tempat_lahir").val("'.$d['tempat_lahir'].'") ;
+				bjs.setopt(bos.mstcustomer.obj, "jenis_kelamin", "'.$d['jenis_kelamin'].'") ;
+				bos.mstcustomer.obj.find("#tgl_lahir").val("'.$d['tgl_lahir'].'") ;				
+				bos.mstcustomer.obj.find("#agama").sval('.json_encode($agama).') ; 
+				bos.mstcustomer.obj.find("#foto").html("'.$image.'") ;
+				bos.mstcustomer.settab(1) ;
 			') ;
 		}
 	} 
@@ -160,7 +160,7 @@ class Daftaranggota extends Bismillah_Controller{
 		if ( ! $this->upload->do_upload(0) ){
 			echo('
 				alert("'. $this->upload->display_errors('','') .'") ;
-				bos.daftaranggota.obj.find("#idlimage").html("") ;
+				bos.mstcustomer.obj.find("#idlimage").html("") ;
 			') ;
 		}else{
 			$data 	= $this->upload->data() ;
@@ -169,8 +169,8 @@ class Daftaranggota extends Bismillah_Controller{
 			savesession($this, "sspelanggan_image", json_encode($vimage) ) ;  
 
 			echo('
-				bos.daftaranggota.obj.find("#idlimage").html("") ;
-				bos.daftaranggota.obj.find("#idimage").html("<img src=\"'.base_url("./tmp/" . $data['client_name'] . "?time=". time()).'\" class=\"img-responsive\" />") ;
+				bos.mstcustomer.obj.find("#idlimage").html("") ;
+				bos.mstcustomer.obj.find("#idimage").html("<img src=\"'.base_url("./tmp/" . $data['client_name'] . "?time=". time()).'\" class=\"img-responsive\" />") ;
 			') ;
 		}
 	}

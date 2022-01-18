@@ -5,16 +5,16 @@
       <td class="title">
         <div class="nav ">
           <div class="btn-group" id="tpel">
-            <button class="btn btn-tab tpel active" href="#tpel_1" data-toggle="tab" >Daftar Anggota</button>
-            <button class="btn btn-tab tpel" href="#tpel_2" data-toggle="tab">Input Data</button>
+            <button class="btn btn-tab tpel active" href="#tpel_1" data-toggle="tab" >Daftar Customer</button>
+            <button class="btn btn-tab tpel" href="#tpel_2" data-toggle="tab">Input Customer</button>
           </div>
         </div>
-      </td>
+      </td> 
       <td class="button">
         <table class="header-button" align="right">
           <tr> 
             <td> 
-              <div class="btn-circle btn-close transition" onclick="bos.daftaranggota.close()">
+              <div class="btn-circle btn-close transition" onclick="bos.mstcustomer.close()">
                 <img src="./uploads/titlebar/close.png">
               </div>
             </td>
@@ -51,7 +51,7 @@
             <td><label for="nama">Nama</label> </td>
             <td width="1%">:</td>
             <td>
-              <input style="width:70%" type="text" id="nama" name="nama" class="form-control" placeholder="Nama" required>
+              <input type="text" id="nama" name="nama" class="form-control" placeholder="Nama" required>
             </td>
           </tr>
           <tr>
@@ -76,57 +76,38 @@
             <td><label for="telepon">Telepon</label> </td>
             <td width="1%">:</td>
             <td>
-              <input style="width:30%" type="text" id="telepon" name="telepon" class="form-control" placeholder="Nomor Telepon" required>
+              <input type="text" id="telepon" name="telepon" class="form-control" placeholder="Nomor Telepon" required>
             </td>
           </tr>
           <tr>
             <td><label for="email">Email</label> </td>
             <td width="1%">:</td>
             <td>
-              <input style="width:40%" type="text" id="email" name="email" class="form-control" placeholder="Email" required>
+              <input type="text" id="email" name="email" class="form-control" placeholder="Email" required>
             </td>
           </tr>
 
           <tr>
-            <td><label for="tempat_lahir">Tempat Lahir</label> </td>
+            <td><label for="tempat_lahir">Nama PIC</label> </td>
             <td width="1%">:</td>
             <td>  
-              <input style="width:150px;" type="text" id="tempat_lahir" name="tempat_lahir" class="form-control" placeholder="Tempat Lahir" required>
+              <input type="text" id="pic_nama" name="pic_nama" class="form-control" placeholder="Nama PIC" required>
             </td>
           </tr> 
 
           <tr>
-            <td><label for="tgl_lahir">Tgl Lahir</label> </td>
+            <td><label for="tempat_lahir">Telepon PIC</label> </td>
             <td width="1%">:</td>
-            <td> 
-              <input style="width: 100px;" type="text" class="form-control date" id="tgl_lahir" name="tgl_lahir" required value=<?=date("d-m-Y")?> <?=date_set()?>>
+            <td>  
+              <input type="text" id="pic_telepon" name="pic_telepon" class="form-control" placeholder="Telepon PIC" required>
             </td>
           </tr> 
 
           <tr>
-            <td><label for="jenis_kelamin">Jenis Kelamin</label> </td>
-            <td width="1%">:</td>
-            <td>
-              <div class="radio-inline">
-                <label>
-                  <input type="radio" name="jenis_kelamin" class="jenis_kelamin" value="L" checked>
-                  Laki-laki
-                </label>
-                &nbsp;&nbsp;
-              </div>
-              <div class="radio-inline">
-                <label>
-                  <input type="radio" name="jenis_kelamin" class="jenis_kelamin" value="P">
-                  Perempuan
-                </label>
-              </div>
-            </td>
-          </tr>  
-          <tr>
-						<td><label for="rekening">Agama</label> </td>
+						<td><label for="rekening">Email PIC</label> </td>
 						<td width="1%">:</td>
 						<td>
-						<select name="agama" id="agama" class="form-control select" style="width:20%" data-sf="load_agama" data-placeholder="Agama" required></select>
+              <input type="text" id="pic_email" name="pic_email" class="form-control" placeholder="Email PIC" required>
 						</td>
 					</tr> 
           <tr>
@@ -161,16 +142,16 @@
 <script type="text/javascript">
   <?=cekbosjs();?>
   bjs.initenter($("form")) ;
-  bos.daftaranggota.grid1_data    = null ;
-  bos.daftaranggota.grid1_loaddata= function(){ 
+  bos.mstcustomer.grid1_data    = null ;
+  bos.mstcustomer.grid1_loaddata= function(){ 
     this.grid1_data     = {} ;
   }
 
-  bos.daftaranggota.grid1_load    = function(){
+  bos.mstcustomer.grid1_load    = function(){
       this.obj.find("#grid1").w2grid({
       name    : this.id + '_grid1',
       limit   : 100 ,
-      url     : bos.daftaranggota.base_url + "/loadgrid",
+      url     : bos.mstcustomer.base_url + "/loadgrid",
       postData : this.grid1_data ,
       show     : {
         footer     : true,
@@ -181,13 +162,12 @@
       columns: [
         { field: 'kode', caption: 'Kode', size: '80px', sortable: false},
         { field: 'tgl', caption: 'Tgl Daftar', size: '80px', sortable: false},
-        { field: 'nama', caption: 'Nama', size: '180px', sortable: false},
+        { field: 'nama', caption: 'Nama Customer', size: '180px', sortable: false},
         { field: 'alamat', caption: 'Alamat', size: '200px', sortable: false},
         { field: 'telepon', caption: 'Telepon', size: '120px', sortable: false},
         { field: 'email', caption: 'Email', size: '80px', sortable: false},
-        { field: 'tempat_lahir', caption: 'Tempat Lahir', size: '120px', sortable: false},
-        { field: 'jenis_kelamin', caption: 'JK', size: '40px', sortable: false},
-        { field: 'agama', caption: 'Agama', size: '100px', sortable: false},
+        { field: 'pic_nama', caption: 'Nama PIC', size: '120px', sortable: false},
+        { field: 'telepon', caption: 'Telepon PIC', size: '80px', sortable: false},
         { field: 'cmdedit', caption: ' ', size: '80px', sortable: false },
         { field: 'cmddelete', caption: ' ', size: '80px', sortable: false },
         { field: 'cmdcetak', caption: ' ', size: '80px', sortable: false }
@@ -195,43 +175,43 @@
     });
    }
 
-   bos.daftaranggota.grid1_setdata  = function(){
+   bos.mstcustomer.grid1_setdata  = function(){
     w2ui[this.id + '_grid1'].postData   = this.grid1_data ;
   }
-  bos.daftaranggota.grid1_reload    = function(){
+  bos.mstcustomer.grid1_reload    = function(){
     w2ui[this.id + '_grid1'].reload() ; 
   }
-  bos.daftaranggota.grid1_destroy   = function(){
+  bos.mstcustomer.grid1_destroy   = function(){
     if(w2ui[this.id + '_grid1'] !== undefined){
       w2ui[this.id + '_grid1'].destroy() ;
     }
   }
 
-  bos.daftaranggota.grid1_render   = function(){
+  bos.mstcustomer.grid1_render   = function(){
     this.obj.find("#grid1").w2render(this.id + '_grid1') ;
   }
 
-  bos.daftaranggota.grid1_reloaddata  = function(){
+  bos.mstcustomer.grid1_reloaddata  = function(){
     this.grid1_loaddata() ;
     this.grid1_setdata() ;
     this.grid1_reload() ;
   }
 
-  bos.daftaranggota.cmdedit    = function(id){
+  bos.mstcustomer.cmdedit    = function(id){
     bjs.ajax(this.url + '/editing', 'id=' + id);
   }
 
-  bos.daftaranggota.cmddelete    = function(id){
+  bos.mstcustomer.cmddelete    = function(id){
     if(confirm("Hapus Data?")){
       bjs.ajax(this.url + '/deleting', 'id=' + id);
     }
   }
 
-  bos.daftaranggota.cmdcetak    = function(id){
-    bjs_os.form_report(bos.daftaranggota.url+ '/showreport?id=' + id ) ;
+  bos.mstcustomer.cmdcetak    = function(id){
+    bjs_os.form_report(bos.mstcustomer.url+ '/showreport?id=' + id ) ;
   }
 
-  bos.daftaranggota.init        = function(){
+  bos.mstcustomer.init        = function(){
     this.obj.find("#kodefinger").html("") ;
     this.obj.find("#nama").val("") ;
     this.obj.find("#alamat").val("") ;
@@ -244,16 +224,16 @@
     bjs.ajax(this.url + "/init") ;
   }
 
-  bos.daftaranggota.settab     = function(n){
+  bos.mstcustomer.settab     = function(n){
     this.obj.find("#tpel button:eq("+n+")").tab("show") ;
   }
 
-  bos.daftaranggota.tabsaction  = function(n){
+  bos.mstcustomer.tabsaction  = function(n){
     if(n == 0){
       this.obj.find(".bodyfix").css("height","100%") ;
       this.obj.find(".footer").addClass("hidden") ;
-      bos.daftaranggota.grid1_render() ;
-      bos.daftaranggota.init() ;
+      bos.mstcustomer.grid1_render() ;
+      bos.mstcustomer.init() ;
     }else{
       this.obj.find(".bodyfix").css("height","calc(100% - 32px)") ;
       this.obj.find(".footer").removeClass("hidden") ;
@@ -261,7 +241,7 @@
     }
   }
 
-  bos.daftaranggota.initcomp  = function(){
+  bos.mstcustomer.initcomp  = function(){
     bjs.initselect({
       class : "#" + this.id + " .select",
       clear : true
@@ -272,18 +252,18 @@
     this.obj.find(".header").attr("id",this.id + "-title") ; //set to drag
   } 
 
-  bos.daftaranggota.initcallback  = function(){
+  bos.mstcustomer.initcallback  = function(){
     this.obj.on("bos:tab", function(e){
-      bos.daftaranggota.tabsaction( e.i )  ;
+      bos.mstcustomer.tabsaction( e.i )  ;
     });
 
     this.obj.on("remove",function(){
-      bos.daftaranggota.grid1_destroy() ;
+      bos.mstcustomer.grid1_destroy() ;
     }) ;
   }
 
-  bos.daftaranggota.objs = bos.daftaranggota.obj.find("#cmdsave") ;
-  bos.daftaranggota.initfunc     = function(){
+  bos.mstcustomer.objs = bos.mstcustomer.obj.find("#cmdsave") ;
+  bos.mstcustomer.initfunc     = function(){
     this.init() ;
     this.grid1_loaddata() ;
     this.grid1_load() ;
@@ -291,31 +271,31 @@
     this.obj.find("#image").on("change", function(e){
       e.preventDefault() ;
 
-            bos.daftaranggota.cfile    = e.target.files ;
-            bos.daftaranggota.gfile    = new FormData() ;
-            $.each(bos.daftaranggota.cfile, function(cKey,cValue){
-              bos.daftaranggota.gfile.append(cKey,cValue) ;
+            bos.mstcustomer.cfile    = e.target.files ;
+            bos.mstcustomer.gfile    = new FormData() ;
+            $.each(bos.mstcustomer.cfile, function(cKey,cValue){
+              bos.mstcustomer.gfile.append(cKey,cValue) ;
             }) ;
 
-            bos.daftaranggota.obj.find("#idlimage").html("<i class='fa fa-spinner fa-pulse'></i>");
-            bos.daftaranggota.obj.find("#idimage").html("") ;
-      bos.daftaranggota.obj.find("#image").val("") ;
+            bos.mstcustomer.obj.find("#idlimage").html("<i class='fa fa-spinner fa-pulse'></i>");
+            bos.mstcustomer.obj.find("#idimage").html("") ;
+      bos.mstcustomer.obj.find("#image").val("") ;
 
 
-            bjs.ajaxfile(bos.daftaranggota.base_url + "/saving_image", bos.daftaranggota.gfile, this) ;
+            bjs.ajaxfile(bos.mstcustomer.base_url + "/saving_image", bos.mstcustomer.gfile, this) ;
 
     })  
     this.obj.find("form").on("submit", function(e){
          e.preventDefault() ;
          if(bjs.isvalidform(this)){
-            bjs.ajax( bos.daftaranggota.url + '/saving', bjs.getdataform(this) , bos.daftaranggota.objs) ;
+            bjs.ajax( bos.mstcustomer.url + '/saving', bjs.getdataform(this) , bos.mstcustomer.objs) ;
          }
       });
   }
 
   $(function(){
-    bos.daftaranggota.initcomp() ;
-    bos.daftaranggota.initcallback() ;
-    bos.daftaranggota.initfunc() ;
+    bos.mstcustomer.initcomp() ;
+    bos.mstcustomer.initcallback() ;
+    bos.mstcustomer.initfunc() ;
   }) ;
 </script>
