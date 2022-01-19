@@ -156,12 +156,13 @@ DROP TABLE IF EXISTS `keuangan_rekening`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `keuangan_rekening` (
   `id` bigint NOT NULL AUTO_INCREMENT,
+  `customer` char(50) NOT NULL,
   `kode` char(10) DEFAULT NULL,
   `keterangan` char(50) DEFAULT NULL,
   `jenis` char(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `kodeid` (`id`,`kode`)
-) ENGINE=MyISAM AUTO_INCREMENT=86 DEFAULT CHARSET=latin1;
+  KEY `kodeid` (`id`,`customer`)
+) ENGINE=MyISAM AUTO_INCREMENT=87 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,7 +171,7 @@ CREATE TABLE `keuangan_rekening` (
 
 LOCK TABLES `keuangan_rekening` WRITE;
 /*!40000 ALTER TABLE `keuangan_rekening` DISABLE KEYS */;
-INSERT INTO `keuangan_rekening` VALUES (3,'1','AKTIVA','I'),(4,'1.101','Kas','D'),(5,'2','PASIVA','I'),(6,'2.201','Hutang Dagang','D'),(7,'3','MODAL','I'),(8,'3.300','Modal','D'),(32,'3.301','Laba Ditahan','D'),(10,'4','PENDAPATAN','I'),(11,'4.401','Bulanan','D'),(12,'5','BIAYA','I'),(13,'5.501','Gaji Karyawan','D'),(49,'5.507','Cadangan THR','D'),(48,'4.407','Senam','I'),(47,'5.506','Cadangan kaos bonus','D'),(46,'5.505','Biaya Promosi','D'),(21,'4.402','Insidentil','D'),(45,'5.504','Cadangan B 2000','D'),(23,'4.403','B 2000','D'),(44,'5.503','Penyusutan Peralatan','D'),(43,'4.406','Privat Gym','D'),(26,'4.404','Pendaftaran bulanan','D'),(42,'4.405','Sewa Gedung','D'),(52,'5.510','Listrik dan Telepon','D'),(51,'5.509','Pemeliharaan Gedung','D'),(30,'2.202','Rupa-rupa Pasiva','I'),(50,'5.508','Pemeliharaan peralatan','D'),(33,'5.502','Gaji Instruktur Senam','D'),(34,'1.102','Kas Kecil','D'),(35,'1.103','Bank','D'),(36,'1.104','Piutang','D'),(37,'1.105','Persediaan','D'),(38,'1.106','Tanah','D'),(39,'1.107','Gedung','D'),(40,'1.108','Peralatan','D'),(41,'1.109','Akum Penyusutan Peralatan','D'),(53,'5.511','Rumah Tangga','D'),(54,'5.512','Air isi ulang','D'),(55,'2.201.01','Hutang Mba Alfi','D'),(56,'2.201.02','Hutang Mas Rengga','D'),(57,'2.202.01','Titipan Suplemen','D'),(58,'2.202.02','Titipan Minuman','D'),(59,'1.110','Aktiva lain-lain','I'),(60,'1.111','Program Fitness','D'),(61,'5.513','biaya operasional lainnya','I'),(62,'5.514','biaya non operasional','I'),(63,'4.408','pendapatan konsinyasi','D');
+INSERT INTO `keuangan_rekening` VALUES (3,'CUST-000002','1','AKTIVA','I'),(4,'CUST-000002','1.101','Kas','D'),(5,'CUST-000002','2','PASIVA','I'),(6,'CUST-000002','2.201','Hutang Dagang','D'),(7,'CUST-000002','3','MODAL','I'),(8,'CUST-000002','3.300','Modal','D'),(32,'CUST-000002','3.301','Laba Ditahan','D'),(10,'CUST-000002','4','PENDAPATAN','I'),(11,'CUST-000002','4.401','Bulanan','D'),(12,'CUST-000002','5','BIAYA','I'),(13,'CUST-000002','5.501','Gaji Karyawan','D'),(49,'CUST-000002','5.507','Cadangan THR','D'),(48,'CUST-000002','4.407','Senam','I'),(47,'CUST-000002','5.506','Cadangan kaos bonus','D'),(46,'CUST-000002','5.505','Biaya Promosi','D'),(21,'CUST-000002','4.402','Insidentil','D'),(45,'CUST-000002','5.504','Cadangan B 2000','D'),(23,'CUST-000002','4.403','B 2000','D'),(44,'CUST-000002','5.503','Penyusutan Peralatan','D'),(43,'CUST-000002','4.406','Privat Gym','D'),(26,'CUST-000002','4.404','Pendaftaran bulanan','D'),(42,'CUST-000002','4.405','Sewa Gedung','D'),(52,'CUST-000002','5.510','Listrik dan Telepon','D'),(51,'CUST-000002','5.509','Pemeliharaan Gedung','D'),(30,'CUST-000002','2.202','Rupa-rupa Pasiva','I'),(50,'CUST-000002','5.508','Pemeliharaan peralatan','D'),(33,'CUST-000002','5.502','Gaji Instruktur Senam','D'),(34,'CUST-000002','1.102','Kas Kecil','D'),(35,'CUST-000002','1.103','Bank','D'),(36,'CUST-000002','1.104','Piutang','D'),(37,'CUST-000002','1.105','Persediaan','D'),(38,'CUST-000002','1.106','Tanah','D'),(39,'CUST-000002','1.107','Gedung','D'),(40,'CUST-000002','1.108','Peralatan','D'),(41,'CUST-000002','1.109','Akum Penyusutan Peralatan','D'),(53,'CUST-000002','5.511','Rumah Tangga','D'),(54,'CUST-000002','5.512','Air isi ulang','D'),(55,'CUST-000002','2.201.01','Hutang Mba Alfi','D'),(56,'CUST-000002','2.201.02','Hutang Mas Rengga','D'),(57,'CUST-000002','2.202.01','Titipan Suplemen','D'),(58,'CUST-000002','2.202.02','Titipan Minuman','D'),(59,'CUST-000002','1.110','Aktiva lain-lain','I'),(60,'CUST-000002','1.111','Program Fitness','D'),(61,'CUST-000002','5.513','biaya operasional lainnya','I'),(62,'CUST-000002','5.514','biaya non operasional','I'),(63,'CUST-000002','4.408','pendapatan konsinyasi','D');
 /*!40000 ALTER TABLE `keuangan_rekening` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -209,6 +210,7 @@ DROP TABLE IF EXISTS `mst_anggota`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `mst_anggota` (
   `id` bigint NOT NULL AUTO_INCREMENT,
+  `id_kantor` char(10) DEFAULT NULL,
   `tgl` date NOT NULL,
   `kode` char(10) NOT NULL,
   `nama` char(100) NOT NULL,
@@ -223,8 +225,8 @@ CREATE TABLE `mst_anggota` (
   `jenis_kelamin` char(1) NOT NULL,
   `agama` char(2) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `Key` (`kode`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+  KEY `Key` (`id`,`id_kantor`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -233,7 +235,7 @@ CREATE TABLE `mst_anggota` (
 
 LOCK TABLES `mst_anggota` WRITE;
 /*!40000 ALTER TABLE `mst_anggota` DISABLE KEYS */;
-INSERT INTO `mst_anggota` VALUES (1,'2022-01-10','000001','Faudji','178c1b92-8aff-e811-93f4-f2a2153b9ba7','178c1b92-8aff-e811-93f4-f2a2153b9ba7','178c1b92-8aff-e811-93f4-f2a2153b9ba7','Jln. Terusan Batu Bara II/15 Malang','+6287759651803','leofaudji@gmail.com','Malang','1992-05-30','L','01'),(2,'2022-01-11','000002','Verdana','329acc54-8aff-e811-93f4-f2a2153b9ba7','178c1b92-8aff-e811-93f4-f2a2153b9ba7','178c1b92-8aff-e811-93f4-f2a2153b9ba7','Jln. Terusan Batu Bara II/15 Malang','+6287759651803','leofaudji@gmail.com','Malang','1992-04-30','L','01');
+INSERT INTO `mst_anggota` VALUES (1,'bbb057','2022-01-10','000001','Faudji','178c1b92-8aff-e811-93f4-f2a2153b9ba7','178c1b92-8aff-e811-93f4-f2a2153b9ba7','178c1b92-8aff-e811-93f4-f2a2153b9ba7','Jln. Terusan Batu Bara II/15 Malang','+6287759651803','leofaudji@gmail.com','Malang','1992-05-30','L','01'),(2,'bbb057','2022-01-11','000002','Verdana','329acc54-8aff-e811-93f4-f2a2153b9ba7','178c1b92-8aff-e811-93f4-f2a2153b9ba7','178c1b92-8aff-e811-93f4-f2a2153b9ba7','Jln. Terusan Batu Bara II/15 Malang','+6287759651803','leofaudji@gmail.com','Malang','1992-04-30','L','01'),(3,'bbb057','2022-01-11','000003','Agus','Jawa Timur','Kota Malang','Blimbing','Jln. Terusan Batu Bara II/15 Malang','+6287759651803','leofaudji@gmail.com','Malang','1992-04-30','P','03');
 /*!40000 ALTER TABLE `mst_anggota` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -351,7 +353,7 @@ CREATE TABLE `sys_config` (
   PRIMARY KEY (`id`),
   KEY `Key` (`title`),
   KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=3036 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=3038 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -360,7 +362,7 @@ CREATE TABLE `sys_config` (
 
 LOCK TABLES `sys_config` WRITE;
 /*!40000 ALTER TABLE `sys_config` DISABLE KEYS */;
-INSERT INTO `sys_config` VALUES (3032,'inc_PEL','2','','',''),(3033,'inc_TAB','1','','',''),(3034,'inc_TB220118','2','','',''),(3035,'inc_CUST-','3','','','');
+INSERT INTO `sys_config` VALUES (3037,'inc_TB00220119','1','','','');
 /*!40000 ALTER TABLE `sys_config` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -444,7 +446,7 @@ CREATE TABLE `sys_username` (
 
 LOCK TABLES `sys_username` WRITE;
 /*!40000 ALTER TABLE `sys_username` DISABLE KEYS */;
-INSERT INTO `sys_username` VALUES ('','iniad','d154c23962918b23239809a675ef3b8ad860bff50000','Administrator','2017-03-14 00:00:00','{\"ava\":\"./uploads/ava.png\"}','2017-03-14 00:00:00');
+INSERT INTO `sys_username` VALUES ('bbb057','faudji','181d480db28faf71d9758c5ac933c1c17101abac1001','faudji','0000-00-00 00:00:00','{\"ava\":\"\"}',NULL),('fce63b','faudji2','181d480db28faf71d9758c5ac933c1c17101abac1002','faudji','0000-00-00 00:00:00','{\"ava\":\"\"}',NULL),('bbb057','iniad','d154c23962918b23239809a675ef3b8ad860bff50000','Administrator','2017-03-14 00:00:00','{\"ava\":\".\\/uploads\\/ava.png\"}','2017-03-14 00:00:00');
 /*!40000 ALTER TABLE `sys_username` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -470,7 +472,7 @@ CREATE TABLE `sys_username_level` (
 
 LOCK TABLES `sys_username_level` WRITE;
 /*!40000 ALTER TABLE `sys_username_level` DISABLE KEYS */;
-INSERT INTO `sys_username_level` VALUES ('0001','Kasir','a88ad3a75f88bbe93b64a7c55ade7a5d,e7d707a26e7f7b6ff52c489c60e429b1,c5422092276ea6c9b68e18f834710893,76a6d02ff49bc5cd36f5fd94ef89c824,b1c9ee1af4240f4fec204efb65b6fa92,dcaaf5237b6c18f979b4383fb42d3be3,50ac35e322c176664634f5e827adb35a,9c04a151bb95c0f9be7b9c8540725717,53a1ceef6f69e5086420bf1b352b2e27,7b83cbb12154ed6523415564ba588193,42ab0e4968db1e7ae90a4565736d3cc0,9f87b2194e05c86d21f104e1095185ae,011134986548f3458aa3e7e2a7fceb8d,316708c872ab14cb46e8ba3a96afd64f','{\"md5\":\"6793ab20b093fe614b86fd501893a924\",\"name\":\"Dashboard\"}');
+INSERT INTO `sys_username_level` VALUES ('0001','Kasir','a88ad3a75f88bbe93b64a7c55ade7a5d,e7d707a26e7f7b6ff52c489c60e429b1,c5422092276ea6c9b68e18f834710893,76a6d02ff49bc5cd36f5fd94ef89c824,b1c9ee1af4240f4fec204efb65b6fa92,dcaaf5237b6c18f979b4383fb42d3be3,50ac35e322c176664634f5e827adb35a,9c04a151bb95c0f9be7b9c8540725717,53a1ceef6f69e5086420bf1b352b2e27,7b83cbb12154ed6523415564ba588193,42ab0e4968db1e7ae90a4565736d3cc0,9f87b2194e05c86d21f104e1095185ae,011134986548f3458aa3e7e2a7fceb8d,316708c872ab14cb46e8ba3a96afd64f','{\"md5\":\"6793ab20b093fe614b86fd501893a924\",\"name\":\"Dashboard\"}'),('1001','Bag. Tabungan','d227a19528a2653437e340b350380c14,a88ad3a75f88bbe93b64a7c55ade7a5d,76d056d61b13d81eb1f17fe08bc47070,75ea340a0609a541ecc0fe5640fe083a,61439b3512dd644ac2e45048de949bcd,563539fd6c1f04648b06c16b6fd8edfc,afbe9e965c62353e2b8a3b5337922aa1,c1785e6d15d2480d069284bed6e3676d,5ee2725088ffbc18091cf9657d4012fe,c603b331470704b81ce5fb9a74b688e9,ee88c3c105fd1d22db1bb0a53137677c,50ac35e322c176664634f5e827adb35a,9c04a151bb95c0f9be7b9c8540725717,53a1ceef6f69e5086420bf1b352b2e27,7b83cbb12154ed6523415564ba588193',''),('1002','Bag. Deposito','','');
 /*!40000 ALTER TABLE `sys_username_level` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -483,7 +485,7 @@ DROP TABLE IF EXISTS `tabungan_golongan`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tabungan_golongan` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `id_kantor` char(10) NOT NULL,
+  `customer` char(20) NOT NULL,
   `kode` char(2) NOT NULL,
   `keterangan` char(20) NOT NULL COMMENT 'jika join for meta value',
   `rekening` char(20) NOT NULL,
@@ -493,8 +495,8 @@ CREATE TABLE `tabungan_golongan` (
   `saldo_minimum_bunga` double(16,0) NOT NULL,
   `administrasi` double(16,0) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `Key` (`id_kantor`,`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+  KEY `Key` (`customer`,`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -503,7 +505,7 @@ CREATE TABLE `tabungan_golongan` (
 
 LOCK TABLES `tabungan_golongan` WRITE;
 /*!40000 ALTER TABLE `tabungan_golongan` DISABLE KEYS */;
-INSERT INTO `tabungan_golongan` VALUES (2,'','10','Tabungan Pelajar','1.102','5.501','10',10000,300000,0),(3,'','11','Tabungan Umum','1.104','3.301','10',5000,150000,0);
+INSERT INTO `tabungan_golongan` VALUES (2,'CUST-000002','10','Tabungan Pelajar','1.102','5.501','10',10000,300000,0),(3,'CUST-000002','11','Tabungan Umum','1.104','3.301','10',5000,150000,0),(4,'CUST-000002','15','Tabungan Hari Raya','1.104','3.301','11',100000,15000,0);
 /*!40000 ALTER TABLE `tabungan_golongan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -516,14 +518,14 @@ DROP TABLE IF EXISTS `tabungan_kodetransaksi`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tabungan_kodetransaksi` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `id_kantor` char(10) NOT NULL,
+  `customer` char(20) NOT NULL,
   `kode` char(2) NOT NULL,
   `keterangan` char(20) NOT NULL COMMENT 'jika join for meta value',
   `dk` char(1) NOT NULL,
   `rekening` char(20) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `Key` (`id_kantor`,`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+  KEY `Key` (`customer`,`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -532,7 +534,7 @@ CREATE TABLE `tabungan_kodetransaksi` (
 
 LOCK TABLES `tabungan_kodetransaksi` WRITE;
 /*!40000 ALTER TABLE `tabungan_kodetransaksi` DISABLE KEYS */;
-INSERT INTO `tabungan_kodetransaksi` VALUES (1,'','01','Setoran Tabungan','K','1.103'),(2,'','02','Penarikan Tabungan','D','1.104');
+INSERT INTO `tabungan_kodetransaksi` VALUES (1,'CUST-000002','01','Setoran Tabungan','K','1.103'),(2,'CUST-000002','02','Penarikan Tabungan','D','1.104'),(4,'CUST-000002','05','Administrasi Tabunga','D','5.506');
 /*!40000 ALTER TABLE `tabungan_kodetransaksi` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -579,7 +581,7 @@ DROP TABLE IF EXISTS `tabungan_rate`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tabungan_rate` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `id_kantor` char(10) NOT NULL,
+  `customer` char(20) NOT NULL,
   `tgl` date NOT NULL,
   `keterangan` char(50) NOT NULL,
   `golongan_tabungan` char(2) NOT NULL,
@@ -587,7 +589,7 @@ CREATE TABLE `tabungan_rate` (
   `datetime` datetime NOT NULL,
   `username` char(20) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `Key` (`id_kantor`,`golongan_tabungan`)
+  KEY `Key` (`customer`,`golongan_tabungan`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -597,7 +599,7 @@ CREATE TABLE `tabungan_rate` (
 
 LOCK TABLES `tabungan_rate` WRITE;
 /*!40000 ALTER TABLE `tabungan_rate` DISABLE KEYS */;
-INSERT INTO `tabungan_rate` VALUES (1,'','2022-01-25','Perubahan suku bunga 11 persen','10',11,'0000-00-00 00:00:00','system'),(2,'','2022-01-26','perubahan suku bunga 12 persen','10',12,'0000-00-00 00:00:00',''),(3,'','2022-01-26','Perubahan suku bunga 9 persen','11',9,'0000-00-00 00:00:00',''),(4,'','2022-01-26','Perubahan suku bunga 15 persen','11',15,'0000-00-00 00:00:00','');
+INSERT INTO `tabungan_rate` VALUES (1,'','2022-01-25','Perubahan suku bunga 11 persen','10',11,'0000-00-00 00:00:00','system'),(2,'','2022-01-26','perubahan suku bunga 12 persen','10',12,'0000-00-00 00:00:00',''),(3,'CUST-000002','2022-01-26','Perubahan suku bunga 9 persen','11',9,'0000-00-00 00:00:00',''),(4,'CUST-000002','2022-01-26','Perubahan suku bunga 15 persen','11',15,'0000-00-00 00:00:00','');
 /*!40000 ALTER TABLE `tabungan_rate` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -612,7 +614,6 @@ CREATE TABLE `tabungan_rekening` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `id_kantor` char(10) NOT NULL,
   `rekening_lama` char(30) NOT NULL,
-  `faktur` char(20) NOT NULL,
   `tgl` date NOT NULL,
   `kode_anggota` char(10) NOT NULL,
   `golongan_tabungan` char(3) NOT NULL,
@@ -623,7 +624,7 @@ CREATE TABLE `tabungan_rekening` (
   `username` char(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idgolongantabungan` (`id_kantor`,`golongan_tabungan`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -632,7 +633,7 @@ CREATE TABLE `tabungan_rekening` (
 
 LOCK TABLES `tabungan_rekening` WRITE;
 /*!40000 ALTER TABLE `tabungan_rekening` DISABLE KEYS */;
-INSERT INTO `tabungan_rekening` VALUES (2,'','','','2022-01-18','000002','11','11.000002','arisan','faudji','2022-01-18 11:23:29','iniad'),(3,'','','000001','2022-01-18','000001','11','11.000001','arisan','faudji','2022-01-18 11:26:54','iniad'),(4,'','','TB220118000002','2022-01-18','000001','11','11.000001','arisan','faudji','2022-01-18 11:29:08','iniad');
+INSERT INTO `tabungan_rekening` VALUES (13,'bbb057','','2022-01-19','000001','11','00.11.000001.01','aa','aa','2022-01-19 14:16:35','faudji'),(14,'bbb057','','2022-01-19','000001','11','00.11.000001.02','b','b','2022-01-19 14:17:36','faudji');
 /*!40000 ALTER TABLE `tabungan_rekening` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -645,4 +646,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-01-18 17:01:14
+-- Dump completed on 2022-01-19 16:19:07
