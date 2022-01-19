@@ -5,7 +5,8 @@ class Tabungankodetransaksi_m extends Bismillah_Model{
       $limit    = $va['offset'].",".$va['limit'] ;
       $search	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
       $search   = $this->escape_like_str($search) ;
-      $where 	 = array() ; 
+      $customer = getsession($this, "customer")  ;
+      $where 	 = array("customer = '$customer'") ;  
       if($search !== "") $where[]	= "(keterangan LIKE '%{$search}%')" ; 
       $where 	 = implode(" AND ", $where) ;
       $f        = "*" ; 
@@ -21,6 +22,7 @@ class Tabungankodetransaksi_m extends Bismillah_Model{
 
    public function saving($va, $id){ 
       $f    = $va ; 
+      $f['customer'] = getsession($this, "customer")  ;
       $w    = "id = " . $this->escape($id) ; 
       $this->update("tabungan_kodetransaksi", $f, $w) ;
    }

@@ -1,7 +1,7 @@
 <?php
 class Trtabunganpembukaan_m extends Bismillah_Model{  
    public function getkode($u=true){
-      $k       = "TB" . date("ymd") ;  
+      $k       = "TB" . getsession($this,"kode_kantor") . date("ymd") ;         
       return $k . $this->getincrement($k, $u, 6) ;
    } 
   
@@ -9,7 +9,8 @@ class Trtabunganpembukaan_m extends Bismillah_Model{
       $limit    = $va['offset'].",".$va['limit'] ;
       $search	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
       $search   = $this->escape_like_str($search) ;
-      $where 	 = array() ;  
+      $id_kantor = getsession($this,"id_kantor") ;
+      $where 	 = array("t.id_kantor = '$id_kantor'") ;    
       if($search !== "") $where[]	= "(t.kode_anggota LIKE '%{$search}%' OR m.nama LIKE '%{$search}%' OR m.alamat LIKE '%{$search}%' )" ;
       $where 	 = implode(" AND ", $where) ;
       $f        = "t.*,m.nama,m.alamat" ;     
@@ -23,12 +24,12 @@ class Trtabunganpembukaan_m extends Bismillah_Model{
       return array("db"=>$dbd, "rows"=> $row ) ;
    }
 
-   public function saving($va, $id){    
+   public function saving($va, $id){      
       $f    = $va ; 
       $f['tgl']  = date_2s($f['tgl']) ;
       if($id == ""){       
          $f['id_kantor']   = getsession($this,"id_kantor") ;
-         $f['faktur']      = $this->getkode() ;       
+         //$f['faktur']      = $this->getkode() ;       
          $f['rekening']    = implode(".",array($f['golongan_tabungan'],$f['kode_anggota'])) ;
          $f['datetime']    = date_now() ; 
          $f['username']    = getsession($this, "username") ;
@@ -36,15 +37,6 @@ class Trtabunganpembukaan_m extends Bismillah_Model{
       $w    = "id = " . $this->escape($id) ; 
       $this->update("tabungan_rekening", $f, $w) ;
    }
-
-   public function getmst_anggota($id){ 
-      $va = array() ;
-      $dba      = $this->select("tabungan_rekening", "*","id = '$id'") ;
-      if($dbra  = $this->getrow($dba)){
-         $va   = $dbra ; 
-      } 
-      return $va ;
-   } 
 
    public function editing($id=''){
       $w    = "id = " . $this->escape($id) ; 
@@ -56,7 +48,8 @@ class Trtabunganpembukaan_m extends Bismillah_Model{
       $limit    = $va['offset'].",".$va['limit'] ;
       $search   = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
       $search   = $this->escape_like_str($search) ;
-      $where    = array() ;
+      $id_kantor   = getsession($this,"id_kantor") ; 
+      $where    = array("id_kantor = '$id_kantor'") ; 
       //$where[]  = "jenis = 'P'" ;
       if($search !== "") $where[]  = "(kode LIKE '{$search}%' OR nama LIKE '%{$search}%'  OR alamat LIKE '%{$search}%'  OR telepon LIKE '%{$search}%')" ;
       $where    = implode(" AND ", $where) ;

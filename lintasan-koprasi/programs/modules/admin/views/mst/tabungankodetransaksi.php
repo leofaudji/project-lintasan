@@ -37,14 +37,14 @@
 						<td width="18%"><label for="kode">Kode</label> </td>
 						<td width="1%">:</td>
 						<td>
-							<input style="width:20%" type="text" id="kode" name="kode" class="form-control" placeholder="Kode" required>
+							<input type="text" id="kode" name="kode" class="form-control" placeholder="Kode" required>
 						</td>
 					</tr>
 					<tr>
 						<td width="14%"><label for="keterangan">Keterangan</label> </td>
 						<td width="1%">:</td>
 						<td>
-							<input style="width:60%" type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" required>
+							<input type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" required>
 						</td>
 					</tr> 
 					<tr>
@@ -70,7 +70,7 @@
 						<td width="14%"><label for="rekening">Rekening</label> </td>
 						<td width="1%">:</td>
 						<td>
-						<select name="rekening" id="rekening" class="form-control select" style="width:30%"
+						<select name="rekening" id="rekening" class="form-control select" 
             data-sf="load_rekening" data-placeholder="Rekening" required></select>
 						</td>
 					</tr> 
@@ -79,7 +79,7 @@
 		</div>
 	</div>
 	<div class="footer fix hidden" style="height:32px">
-		<button class="btn btn-primary pull-right" id="cmdsave">Simpan</button>
+		<button class="btn btn-primary btn-block" id="cmdsave">Simpan</button>
 	</div>
 	</form>
 </div>

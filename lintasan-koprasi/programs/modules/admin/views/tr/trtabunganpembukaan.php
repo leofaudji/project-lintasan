@@ -100,7 +100,7 @@
     </div> 
   </div>
   <div class="footer fix hidden" style="height:32px">
-    <button class="btn btn-primary pull-right" id="cmdsave">Simpan</button>
+    <button class="btn btn-primary btn-block" id="cmdsave">Simpan</button>
   </div>
   </form>
 </div>
@@ -120,7 +120,7 @@
           </div>
       </div>
   </div>
-</div>
+</div> 
 
 
 <script type="text/javascript">
@@ -133,7 +133,7 @@
 
   bos.trtabunganpembukaan.grid1_load    = function(){
       this.obj.find("#grid1").w2grid({
-      name    : this.id + '_grid1',
+      name    : this.id + '_grid1', 
       limit   : 100 ,
       url     : bos.trtabunganpembukaan.base_url + "/loadgrid",
       postData : this.grid1_data ,
@@ -251,12 +251,13 @@
   }
 
   bos.trtabunganpembukaan.init        = function(){
-    this.obj.find("#kodefinger").html("") ;
+    this.obj.find("#kode_anggota").val("") ;
     this.obj.find("#nama").val("") ;
     this.obj.find("#alamat").val("") ;
     this.obj.find("#telepon").val("") ;
-    this.obj.find("#email").val("") ;
-    this.obj.find("#tempatlahir").val("") ;
+    this.obj.find("#golongan_tabungan").html("") ; 
+    this.obj.find("#tujuan_pembukaan").val("") ;
+    this.obj.find("#ahli_waris").val("") ;
     this.obj.find("#image").val("") ;
     this.obj.find("#idlimage").html("") ;
     this.obj.find("#idimage").html("") ;
@@ -276,7 +277,7 @@
     }else{
       this.obj.find(".bodyfix").css("height","calc(100% - 32px)") ;
       this.obj.find(".footer").removeClass("hidden") ;
-      this.obj.find("#kodefinger").focus() ;
+      this.obj.find("#kode_anggota").focus() ;
     }
   }
 

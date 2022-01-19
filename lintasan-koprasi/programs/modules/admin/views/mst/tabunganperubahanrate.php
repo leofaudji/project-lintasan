@@ -41,10 +41,10 @@
 						</td>
 					</tr> 
 					<tr>
-						<td width="14%"><label for="rekening">Golongan Tabungan</label> </td>
+						<td width="20%"><label for="rekening">Golongan Tabungan</label> </td>
 						<td width="1%">:</td>
 						<td>
-						<select name="golongan_tabungan" id="golongan_tabungan" class="form-control select" style="width:30%"
+						<select name="golongan_tabungan" id="golongan_tabungan" class="form-control select"
             data-sf="load_tabungan_golongan" data-placeholder="Golongan Tabungan" required></select>
 						</td>
 					</tr> 
@@ -52,14 +52,14 @@
 						<td width="14%"><label for="keterangan">Keterangan</label> </td>
 						<td width="1%">:</td>
 						<td>
-							<input style="width:60%" type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" required>
+							<input type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" required>
 						</td>
 					</tr> 
 					<tr>
 						<td width="14%"><label for="sukubunga">Suku Bunga</label> </td>
 						<td width="1%">:</td>
 						<td> 
-							<input type="text" name="sukubunga" id="sukubunga" class="form-control number" style="font-size:12px; padding-right: 15px;width:30%;" value="0">
+							<input type="text" name="sukubunga" id="sukubunga" class="form-control number" style="font-size:12px; padding-right: 15px;" value="0">
 						</td>
 					</tr>  
 				</table>
@@ -67,7 +67,7 @@
 		</div>
 	</div>
 	<div class="footer fix hidden" style="height:32px">
-		<button class="btn btn-primary pull-right" id="cmdsave">Simpan</button>
+		<button class="btn btn-primary btn-block" id="cmdsave">Simpan</button>
 	</div>
 	</form>
 </div>

@@ -8,7 +8,7 @@ class Username extends Bismillah_Controller{
 	} 
 
 	public function index(){ 
-		$this->load->view("config/username") ;
+		$this->load->view("config/username") ; 
 	}
 
 	public function loadgrid(){
@@ -18,7 +18,11 @@ class Username extends Bismillah_Controller{
 			$vaset 		= $dbrow ;
 			
 			$vaset['recid']		= $dbrow['username'] ; 
-			$vaset['id_kantor'] = $this->bdb->getval("keterangan", "id_kantor = '{$dbrow['id_kantor']}'", "mst_kantor") ;
+
+			$nama_kantor   = $this->bdb->getval("keterangan", "id_kantor = '{$dbrow['id_kantor']}'", "mst_kantor") ;
+			$kode_customer = $this->bdb->getval("customer", "id_kantor = '{$dbrow['id_kantor']}'", "mst_kantor") ; 
+			$nama_customer = $this->bdb->getval("nama", "kode = '$kode_customer'", "mst_customer") ;
+			$vaset['id_kantor'] = $nama_customer . " - " . $nama_kantor ;
 
 			$vaset['cmdedit'] 	= '<button type="button" onClick="bos.username.cmdedit(\''.$dbrow['username'].'\')"
 									class="btn btn-default btn-grid">Koreksi</button>' ;

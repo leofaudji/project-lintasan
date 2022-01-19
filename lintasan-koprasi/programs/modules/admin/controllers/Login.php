@@ -3,6 +3,7 @@ class Login extends CI_Controller{
 	public function __construct(){
 		parent::__construct() ;
 		$this->load->model('loginm') ;
+		$this->bdb = $this->loginm; 
 	}
 
 	public function index(){ 
@@ -28,10 +29,20 @@ class Login extends CI_Controller{
 			$level 					= substr($data['password'], -4) ;
 			$data['level_code']	= $level ;
 			$data['level_value'] = "" ;
+
+			$customer   = $this->bdb->getval("customer", "id_kantor = '{$data['id_kantor']}'", "mst_kantor") ;     
+			$data['customer'] = $customer ; 
+
+			$kode_kantor   = $this->bdb->getval("kode", "id_kantor = '{$data['id_kantor']}'", "mst_kantor") ;     
+			$data['kode_kantor'] = $kode_kantor ; 
+
 			if($dbl = $this->loginm->getval("value, dashboard", "code = '$level'", "sys_username_level")){
 				$data['level_value'] = $dbl['value'] ;
-				$data['dash']			= json_decode($dbl['dashboard'], true) ;
-				$data['dash']			= $data['dash']['md5'] ;
+				$data['dash']			= "" ;
+				if(!empty($dbl['dashboard'])){
+					$data['dash']			= json_decode($dbl['dashboard'], true) ;
+					$data['dash']			= $data['dash']['md5'] ;
+				}				
 			}
 
 			//tgl tgl_transaksi

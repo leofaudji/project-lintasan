@@ -44,7 +44,8 @@ class Load extends Bismillah_Controller{
    public function load_rekening(){
       $q    = $this->input->get('q') ;
       $vare = array() ;  
-      $w    = "(keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%' OR kode LIKE '%". $this->bdb->escape_like_str($q) ."%') and jenis='D'" ;
+      $customer = getsession($this, "customer")  ;
+      $w    = "customer = '$customer' AND (keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%' OR kode LIKE '%". $this->bdb->escape_like_str($q) ."%') and jenis='D'" ;
       $dbd  = $this->bdb->select("keuangan_rekening", "id, kode ,keterangan", $w, "", "", "kode ASC", "0,5") ;
       while($dbr    = $this->bdb->getrow($dbd)){
          $vare[]    = array("id"=>$dbr['kode'], "text"=>$dbr['kode'] . " - "  . $dbr['keterangan']) ;
@@ -55,7 +56,8 @@ class Load extends Bismillah_Controller{
    public function load_tabungan_golongan(){
       $q    = $this->input->get('q') ;
       $vare = array() ;  
-      $w    = "(keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%' OR kode LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
+      $customer = getsession($this, "customer")  ;
+      $w    = "customer = '$customer' AND (keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%' OR kode LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
       $dbd  = $this->bdb->select("tabungan_golongan", "id, kode ,keterangan", $w, "", "", "kode ASC", "0,5") ;
       while($dbr    = $this->bdb->getrow($dbd)){
          $vare[]    = array("id"=>$dbr['kode'], "text"=>$dbr['kode'] . " - "  . $dbr['keterangan']) ;
@@ -77,7 +79,8 @@ class Load extends Bismillah_Controller{
    public function load_rate(){
       $q    = $this->input->get('q') ;
       $vare = array() ;  
-      $w    = "(golongan_tabungan LIKE '%". $this->bdb->escape_like_str($q) ."%' OR sukubunga LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
+      $customer = getsession($this, "customer")  ;
+      $w    = "customer = '$customer' AND (golongan_tabungan LIKE '%". $this->bdb->escape_like_str($q) ."%' OR sukubunga LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
       $dbd  = $this->bdb->select("tabungan_rate", "id,golongan_tabungan,sukubunga", $w, "", "", "golongan_tabungan DESC", "0,5") ;
       while($dbr    = $this->bdb->getrow($dbd)){
          $vare[]    = array("id"=>$dbr['golongan_tabungan'], "text"=>$dbr['golongan_tabungan'] . " - "  . $dbr['sukubunga'] . " % ") ; 

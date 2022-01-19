@@ -46,7 +46,7 @@ class Mstrekening extends Bismillah_Controller{
 
 		$this->bdb->saving($va, $id) ;
 		echo(' bos.mstrekening.settab(0) ;  ') ;
-	}
+	} 
 
 	public function deleting(){
 		$va 	= $this->input->post() ; 

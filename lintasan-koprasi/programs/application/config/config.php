@@ -24,9 +24,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 // PC Kantor
-//$config['base_url']       = 'http://192.168.115.128/lintasan-koprasi/programs/';
+$config['base_url']       = 'http://192.168.115.128/lintasan-koprasi/programs/';
 // PC Rumah
-$config['base_url']       = 'http://192.168.115.128/project-lintasan/lintasan-koprasi/programs/';
+//$config['base_url']       = 'http://192.168.115.128/project-lintasan/lintasan-koprasi/programs/';
 //$config['base_url']       = 'http://localhost/fitness/fitness/';
 //$config['base_url']       = 'http://syanjaya.kerjapandai.com/fitness/';  
 

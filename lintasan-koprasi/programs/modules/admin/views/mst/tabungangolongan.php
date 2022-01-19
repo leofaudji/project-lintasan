@@ -37,21 +37,21 @@
 						<td width="18%"><label for="kode">Kode</label> </td>
 						<td width="1%">:</td>
 						<td>
-							<input style="width:20%" type="text" id="kode" name="kode" class="form-control" placeholder="Kode" required>
+							<input type="text" id="kode" name="kode" class="form-control" placeholder="Kode" required>
 						</td>
 					</tr>
 					<tr>
 						<td width="14%"><label for="keterangan">Keterangan</label> </td>
 						<td width="1%">:</td>
 						<td>
-							<input style="width:60%" type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" required>
+							<input type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" required>
 						</td>
 					</tr> 
 					<tr>
 						<td width="14%"><label for="rekening">Rekening</label> </td>
 						<td width="1%">:</td>
 						<td>
-						<select name="rekening" id="rekening" class="form-control select" style="width:30%"
+						<select name="rekening" id="rekening" class="form-control select" 
             data-sf="load_rekening" data-placeholder="Rekening" required></select>
 						</td>
 					</tr> 
@@ -59,7 +59,7 @@
 						<td width="14%"><label for="rekening_bunga">Rekening Bunga</label> </td>
 						<td width="1%">:</td>
 						<td>
-						<select name="rekening_bunga" id="rekening_bunga" class="form-control select" style="width:30%"
+						<select name="rekening_bunga" id="rekening_bunga" class="form-control select" 
             data-sf="load_rekening" data-placeholder="Rekening Bunga" required></select>
 						</td>
 					</tr> 
@@ -67,22 +67,21 @@
 						<td width="14%"><label for="saldo_minimum">Saldo Minimum</label> </td>
 						<td width="1%">:</td>
 						<td>
-							<input type="text" name="saldo_minimum" id="saldo_minimum" class="form-control number" style="font-size:12px; padding-right: 15px;width:30%;" value="0">
+							<input type="text" name="saldo_minimum" id="saldo_minimum" class="form-control number" style="font-size:12px; padding-right: 15px;" value="0">
 						</td>
 					</tr> 
 					<tr>
 						<td width="14%"><label for="saldo_minimum_bunga">Saldo Minimum Dapat Bunga</label> </td>
 						<td width="1%">:</td>
 						<td>
-						<input type="text" name="saldo_minimum_bunga" id="saldo_minimum_bunga" class="form-control number" style="font-size:12px; padding-right: 15px;width:30%;" value="0">
+						<input type="text" name="saldo_minimum_bunga" id="saldo_minimum_bunga" class="form-control number" style="font-size:12px; padding-right: 15px;" value="0">
 						</td>
 					</tr> 
 					<tr>
 						<td width="14%"><label for="rate">Rate</label> </td>
 						<td width="1%">:</td>
 						<td> 
-						<select name="rate" id="rate" class="form-control select" style="width:30%"
-            data-sf="load_rate" data-placeholder="Rate Suku Bunga" required></select>
+						<select name="rate" id="rate" class="form-control select" data-sf="load_rate" data-placeholder="Rate Suku Bunga" required></select>
 						</td>
 					</tr> 
 				</table>
@@ -90,7 +89,7 @@
 		</div>
 	</div>
 	<div class="footer fix hidden" style="height:32px">
-		<button class="btn btn-primary pull-right" id="cmdsave">Simpan</button>
+		<button class="btn btn-primary btn-block" id="cmdsave">Simpan</button>
 	</div>
 	</form>
 </div>

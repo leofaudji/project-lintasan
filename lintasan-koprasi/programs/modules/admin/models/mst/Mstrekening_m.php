@@ -5,7 +5,8 @@ class Mstrekening_m extends Bismillah_Model{
       $limit    = $va['offset'].",".$va['limit'] ;
       $search	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
       $search   = $this->escape_like_str($search) ;
-      $where 	 = array() ; 
+      $customer = getsession($this,"customer") ; 
+      $where 	 = array("customer = '$customer'") ; 
       if($search !== "") $where[]	= "(keterangan LIKE '%{$search}%')" ;
       $where 	 = implode(" AND ", $where) ;
       $f        = "id,kode,keterangan,jenis" ; 
@@ -22,6 +23,7 @@ class Mstrekening_m extends Bismillah_Model{
    public function saving($va, $id){ 
       $f    = $va ; 
       $w    = "id = " . $this->escape($id) ; 
+      $f['customer'] = getsession($this,"customer") ; 
       $this->update("keuangan_rekening", $f, $w) ;
    }
 

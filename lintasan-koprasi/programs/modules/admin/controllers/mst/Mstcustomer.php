@@ -3,8 +3,7 @@ class Mstcustomer extends Bismillah_Controller{
 	protected $bdb ;
 	public function __construct(){
 		parent::__construct() ;
-		$this->load->helper("bdate") ;
-		$this->load->helper("toko") ; 
+		$this->load->helper("bdate") ; 
 		$this->load->model("mst/mstcustomer_m") ;
 		$this->bdb 	= $this->mstcustomer_m ;
 	}  
@@ -83,11 +82,10 @@ class Mstcustomer extends Bismillah_Controller{
 	}
 
 	public function editing(){
-		$va 	= $this->input->post() ;
+		$va 	= $this->input->post() ; 
 		if($d = $this->bdb->editing($va['id'])){
 			savesession($this, "ssmstcustomer_id", $d['id']) ; 
-			$d['tgl_lahir'] 	= date("d-m-Y", strtotime($d['tgl_lahir'])) ;
-			$d['tgl'] 	= date("d-m-Y", strtotime($d['tgl'])) ;   
+			$d['tgl'] 	= date_2d($d['tgl']) ;    
 			$image = '<img src=\"./uploads/no-image.png\" class=\"img-responsive\"/><br>' ; ;
 			if(!empty($d['data_var'])){      
 				$image 	= '<img src=\"'.base_url($d['data_var']).'\" class=\"img-responsive\"/><br>' ;
@@ -97,24 +95,24 @@ class Mstcustomer extends Bismillah_Controller{
 			$provinsi[]   = array("id"=>$d['provinsi'],"text"=>$d['provinsi']); 
 			$kota[]   = array("id"=>$d['kota'],"text"=>$d['kota']); 
 			$kecamatan[]   = array("id"=>$d['kecamatan'],"text"=>$d['kecamatan']); 
-			$agama[]   = array("id"=>$d['agama'],"text"=>$d['agama']); 
 			
-			echo('   
-				bos.mstcustomer.obj.find("#kode").html("'.$d['kode'].'") ;
-				bos.mstcustomer.obj.find("#tgl").val("'.$d['tgl'].'") ;
-				bos.mstcustomer.obj.find("#nama").val("'.$d['nama'].'") ;
-				bos.mstcustomer.obj.find("#provinsi").sval('.json_encode($provinsi).') ; 
-				bos.mstcustomer.obj.find("#kota").sval('.json_encode($kota).') ; 
-				bos.mstcustomer.obj.find("#kecamatan").sval('.json_encode($kecamatan).') ; 
-				bos.mstcustomer.obj.find("#alamat").val("'.$d['alamat'].'") ;
-				bos.mstcustomer.obj.find("#telepon").val("'.$d['telepon'].'") ; 
-				bos.mstcustomer.obj.find("#email").val("'.$d['email'].'") ;
-				bos.mstcustomer.obj.find("#tempat_lahir").val("'.$d['tempat_lahir'].'") ;
-				bjs.setopt(bos.mstcustomer.obj, "jenis_kelamin", "'.$d['jenis_kelamin'].'") ;
-				bos.mstcustomer.obj.find("#tgl_lahir").val("'.$d['tgl_lahir'].'") ;				
-				bos.mstcustomer.obj.find("#agama").sval('.json_encode($agama).') ; 
-				bos.mstcustomer.obj.find("#foto").html("'.$image.'") ;
-				bos.mstcustomer.settab(1) ;
+			echo('    
+				with(bos.mstcustomer.obj){
+					find("#kode").html("'.$d['kode'].'") ;
+					find("#tgl").val("'.$d['tgl'].'") ;
+					find("#nama").val("'.$d['nama'].'") ;
+					find("#provinsi").sval('.json_encode($provinsi).') ; 
+					find("#kota").sval('.json_encode($kota).') ; 
+					find("#kecamatan").sval('.json_encode($kecamatan).') ; 
+					find("#alamat").val("'.$d['alamat'].'") ;
+					find("#telepon").val("'.$d['telepon'].'") ; 
+					find("#email").val("'.$d['email'].'") ;
+					find("#pic_nama").val("'.$d['pic_nama'].'") ;
+					find("#pic_telepon").val("'.$d['pic_telepon'].'") ;
+					find("#pic_email").val("'.$d['pic_nama'].'") ;
+					find("#foto").html("'.$image.'") ;
+				}
+				bos.mstcustomer.settab(1) ;				
 			') ;
 		}
 	} 

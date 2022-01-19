@@ -1,7 +1,7 @@
 <?php
 class Daftaranggota_m extends Bismillah_Model{ 
-   public function getkode($u=true){
-      $k       = "PEL" ;
+   public function getkode($u=true){ 
+      $k       = "DAFTAR-ANGGOTA-" . getsession($this, "id_kantor") ; 
       return $this->getincrement($k, $u, 6) ;
    } 
  
@@ -9,7 +9,8 @@ class Daftaranggota_m extends Bismillah_Model{
       $limit    = $va['offset'].",".$va['limit'] ;
       $search	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
       $search   = $this->escape_like_str($search) ;
-      $where 	 = array() ; 
+      $id_kantor = getsession($this, "id_kantor")  ;
+      $where 	 = array("id_kantor = '{$id_kantor}'") ; 
       if($search !== "") $where[]	= "(nama LIKE '%{$search}%')" ;
       $where 	 = implode(" AND ", $where) ;
       $f        = "*" ; 
@@ -29,6 +30,7 @@ class Daftaranggota_m extends Bismillah_Model{
       $f['tgl_lahir']  = date_2s($f['tgl_lahir']) ;
       if($id == ""){       
          $f['kode']    = $this->getkode() ;
+         $f['id_kantor'] = getsession($this, "id_kantor") ;
       } 
       $w    = "id = " . $this->escape($id) ; 
       $this->update("mst_anggota", $f, $w) ;

@@ -134,8 +134,8 @@
       </div>
     </div>
   </div>
-  <div class="footer fix hidden" style="height:32px">
-    <button class="btn btn-primary pull-right" id="cmdsave">Simpan</button>
+  <div class="footer fix hidden" style="height:32px"> 
+    <button class="btn btn-primary btn-block" id="cmdsave">Simpan</button> 
   </div>
   </form>
 </div>

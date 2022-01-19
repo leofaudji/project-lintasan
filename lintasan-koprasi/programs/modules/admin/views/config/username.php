@@ -75,7 +75,7 @@
 					<div class="col-sm-12">&nbsp;</div>
 					<div class="col-sm-6 col-sm-offset-3" id="idimage"></div>
 				</div>
-			</div>
+			</div> 
 		</div>
 	</div>
 	<div class="footer fix hidden" style="height:32px">
@@ -100,7 +100,7 @@
 	        	footer 		: true
 	        },
 	        columns: [
-							{ field: 'id_kantor', caption: 'ID Kantor', size: '120px', sortable: false },
+							{ field: 'id_kantor', caption: 'ID Kantor', size: '250px', sortable: false },
 	            { field: 'username', caption: 'Username', size: '80px', sortable: false },
 	            { field: 'fullname', caption: 'Fullname', size: '150px', sortable: false },
 	            { field: 'cmdedit', caption: ' ', size: '80px', sortable: false,style:'text-align:center;' },

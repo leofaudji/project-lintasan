@@ -81,7 +81,7 @@ class Trtabunganpembukaan extends Bismillah_Controller{
 	public function deleting(){
 		$va 	= $this->input->post() ; 
 		$id 	= $va['id'] ;
-		$this->bdb->delete("pelanggan", "id = " . $this->bdb->escape($id)) ;
+		$this->bdb->delete("tabungan_rekening", "id = " . $this->bdb->escape($id)) ;
 		echo(' bos.trtabunganpembukaan.grid1_reload() ; ') ;
 	}
 
@@ -89,72 +89,37 @@ class Trtabunganpembukaan extends Bismillah_Controller{
 		$va 	= $this->input->post() ;
 		if($d = $this->bdb->editing($va['id'])){
 			savesession($this, "sstrtabunganpembukaan_id", $d['id']) ; 
-			$d['tgl_lahir'] 	= date("d-m-Y", strtotime($d['tgl_lahir'])) ;
-			$d['tgl'] 	= date("d-m-Y", strtotime($d['tgl'])) ;   
+			$d['tgl'] 	= date_2d($d['tgl']) ;   
 			$image = '<img src=\"./uploads/no-image.png\" class=\"img-responsive\"/><br>' ; ;
 			if(!empty($d['data_var'])){      
 				$image 	= '<img src=\"'.base_url($d['data_var']).'\" class=\"img-responsive\"/><br>' ;
 				$image 	.= str_replace("./uploads/pelanggan/", "~/",$d['data_var']) ;
 			}
 
-			$provinsi[]   = array("id"=>$d['provinsi'],"text"=>$d['provinsi']); 
-			$kota[]   = array("id"=>$d['kota'],"text"=>$d['kota']); 
-			$kecamatan[]   = array("id"=>$d['kecamatan'],"text"=>$d['kecamatan']); 
-			$agama[]   = array("id"=>$d['agama'],"text"=>$d['agama']); 
+			$w =  "id_kantor = '{$d['id_kantor']}' and kode = '{$d['kode_anggota']}'" ; 
+			$nama = $this->bdb->getval("nama",$w, "mst_anggota") ;
+			$alamat = $this->bdb->getval("alamat",$w, "mst_anggota") ;
+			$telepon = $this->bdb->getval("telepon",$w, "mst_anggota") ; 
+			$golongan_tabungan[]   = array("id"=>$d['golongan_tabungan'],"text"=>$d['golongan_tabungan']);  
 			
 			echo('   
-				bos.trtabunganpembukaan.obj.find("#kode").html("'.$d['kode'].'") ;
-				bos.trtabunganpembukaan.obj.find("#tgl").val("'.$d['tgl'].'") ;
-				bos.trtabunganpembukaan.obj.find("#nama").val("'.$d['nama'].'") ;
-				bos.trtabunganpembukaan.obj.find("#provinsi").sval('.json_encode($provinsi).') ; 
-				bos.trtabunganpembukaan.obj.find("#kota").sval('.json_encode($kota).') ; 
-				bos.trtabunganpembukaan.obj.find("#kecamatan").sval('.json_encode($kecamatan).') ; 
-				bos.trtabunganpembukaan.obj.find("#alamat").val("'.$d['alamat'].'") ;
-				bos.trtabunganpembukaan.obj.find("#telepon").val("'.$d['telepon'].'") ; 
-				bos.trtabunganpembukaan.obj.find("#email").val("'.$d['email'].'") ;
-				bos.trtabunganpembukaan.obj.find("#tempat_lahir").val("'.$d['tempat_lahir'].'") ;
-				bjs.setopt(bos.trtabunganpembukaan.obj, "jenis_kelamin", "'.$d['jenis_kelamin'].'") ;
-				bos.trtabunganpembukaan.obj.find("#tgl_lahir").val("'.$d['tgl_lahir'].'") ;				
-				bos.trtabunganpembukaan.obj.find("#agama").sval('.json_encode($agama).') ; 
-				bos.trtabunganpembukaan.obj.find("#foto").html("'.$image.'") ;
+				with(bos.trtabunganpembukaan.obj){
+					find("#tgl").val("'.$d['tgl'].'") ;
+					find("#kode_anggota").val("'.$d['kode_anggota'].'") ;
+					find("#nama").val("'.$nama.'") ;
+					find("#alamat").val("'.$alamat.'") ;
+					find("#telepon").val("'.$telepon.'") ;
+					find("#golongan_tabungan").sval('.json_encode($golongan_tabungan).') ;  
+					find("#tujuan_pembukaan").val("'.$d['tujuan_pembukaan'].'") ;
+					find("#ahli_waris").val("'.$d['ahli_waris'].'") ;
+					find("#foto").html("'.$image.'") ;
+				}
 				bos.trtabunganpembukaan.settab(1) ;
 			') ;
-		}
+		} 
 	} 
 
-	public function showreport(){
-		extract($_GET) ;	
-      	$font = 8 ;
-      	$vaData = $this->bdb->getpelanggan($id) ;
-
-      	$data[0] = array("kode"=>"Kode Member","aa"=>":","keterangan"=>$vaData['kode']) ;
-      	$data[1] = array("kode"=>"Kode Finger","aa"=>":","keterangan"=>$vaData['kodefinger']) ;
-      	$data[2] = array("kode"=>"Nama Anggota ","aa"=>":","keterangan"=>$vaData['nama']) ;
-      	$data[3] = array("kode"=>"Alamat","aa"=>":","keterangan"=>$vaData['alamat']) ;
-      	$data[4] = array("kode"=>"Telepon","aa"=>":","keterangan"=>$vaData['telepon']) ;
-      	$data[5] = array("kode"=>"Email","aa"=>":","keterangan"=>$vaData['email']) ;
-      	$data[6] = array("kode"=>"","aa"=>":","keterangan"=>"") ;
-      	$data[7] = array("kode"=>"Tanggal Daftar","aa"=>":","keterangan"=>date_2d($vaData['tgl'])) ; 
-
-        $o    = array('paper'=>'A4', 'orientation'=>'portrait', 'export'=>"",
-                        'opt'=>array('export_name'=>'DaftarBukuBesar_' . getsession($this, "username") ) ) ;
-        $this->load->library('bospdf', $o) ;   
-        $this->bospdf->ezText("<b>TANDA BUKTI PENDAFTARAN</b>",$font+4) ; 
-        $this->bospdf->ezText("FITNESS SYANJAYA",$font+3) ;
-		$this->bospdf->ezText("____________________________________________________") ; 
-		$this->bospdf->ezText("") ;
-		$this->bospdf->ezTable($data,"","",   
-								array("fontSize"=>$font,'showLines'=>0,'showHeadings'=>0,"cols"=> array( "kode"=>array("caption"=>"Keterangan","width"=>16,"wrap"=>1),
-									"aa"=>array("caption"=>"Keterangan","align"=>"center","wrap"=>1,"width"=>2),
-			                     "keterangan"=>array("caption"=>"Username")))) ;  
-		$this->bospdf->ezText("") ;
-		$this->bospdf->ezText("____________________________________________________") ; 
-		$this->bospdf->ezText("* Persyaratan : ",$font) ;
-		
-
-        $this->bospdf->ezStream() ; 
-   }
-
+	
    public function saving_image(){   
 		$fcfg	= array("upload_path"=>"./tmp/", "allowed_types"=>"jpg|jpeg|png", "overwrite"=>true) ;
 
