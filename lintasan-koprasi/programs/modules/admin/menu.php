@@ -14,7 +14,7 @@
   ["Perubahan Suku Bunga", "tabunganperubahanrate", "admin/mst/tabunganperubahanrate", "ion-filing", 800, 500, false]
 ["Transaksi Tabungan", "trtabungan", "", "ion-ios-briefcase"] 
   ["Pembukaan Rekening Tabungan", "trtabunganpembukaan", "admin/tr/trtabunganpembukaan", "ion-filing", 1000, 600, false]    
-  ["Transaksi", "trxtabungan_transaksi", "admin/tr/tabungan_transaksi", "ion-cash",800, 700]  
+  ["Transaksi", "trtabungantransaksi", "admin/tr/trtabungantransaksi", "ion-cash",800, 700]   
 ["Laporan Tabungan", "rpttabungan", "", "ion-ios-paper"] 
   ["Pembukaan Rekening", "rptkunjungan", "admin/mst/rptkunjungan", "ion-filing", 1000,600]
   ["Mutasi Harian", "rptabsensi", "admin/mst/rptabsensi", "ion-filing", 1050,600] 

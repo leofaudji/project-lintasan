@@ -209,10 +209,6 @@
       this.grid3_reload() ;
   }
 
-  bos.trtabunganpembukaan.cmdpilih     = function(kode){
-      bjs.ajax(this.url + '/pilihstock', 'kode=' + kode);
-  }
-
   bos.trtabunganpembukaan.grid1_reload    = function(){
     w2ui[this.id + '_grid1'].reload() ; 
   }
