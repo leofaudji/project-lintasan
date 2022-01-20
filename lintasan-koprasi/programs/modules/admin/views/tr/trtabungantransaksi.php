@@ -1,3 +1,29 @@
+<div class="header active"> 
+  <table class="header-table"> 
+    <tr> 
+      <td class="icon" ><i class="fa fa-building"></i></td> 
+      <td class="title">
+        <div class="nav ">
+          <div class="btn-group" id="tpel"> 
+            <span> Transaksi Tabungan </span>
+          </div>
+        </div>
+      </td>
+      <td class="button">
+        <table class="header-button" align="right"> 
+          <tr> 
+            <td> 
+              <div class="btn-circle btn-close transition" onclick="bos.trtabungantransaksi.close()">
+                <img src="./uploads/titlebar/close.png">
+              </div>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>
+
 <div class="body">
 	<form novalidate> 
 		<div class="bodyfix scrollme" style="height:100%">  
@@ -6,7 +32,7 @@
 					<table class="osxtable form" border="0">
 						<tr>
 							<td width="15%"><label for="tgl">Tgl</label> </td>
-							<td width="1%">:</td>
+							<td width="1%">:</td> 
 							<td> 
 								<input style="width: 90px;" type="text" class="form-control date" id="tgl" name="tgl" required value=<?=date("d-m-Y")?> <?=date_set()?>> 
 							</td>
@@ -52,9 +78,9 @@
 							</td>
 						</tr> 
 						<tr>
-							<td><label for="kode_transaksi">Nominal</label> </td>
+							<td><label for="kode_transaksi">Jumlah</label> </td>
 							<td width="1%">:</td>
-							<td>
+							<td> 
 							<input type="text" onBlur="bos.trtabungantransaksi.sumnilai()" name="jumlah" id="jumlah"
 										class="form-control number" style="font-size:12px; padding-right: 15px;width:40%" value="0" required>
 							</td>
@@ -108,7 +134,7 @@
   bos.trtabungantransaksi.grid1_data    = null ;
   bos.trtabungantransaksi.grid1_loaddata= function(){
     this.grid1_data     = {
-      "pelanggan":this.obj.find("#pelanggan").val()
+      "rekening":this.obj.find("#rekening").val()          
     } ;
   }
 
@@ -125,15 +151,14 @@
       },
       multiSearch    : false,
       columns: [
-        { field: 'no', caption: 'No', size: '30px', sortable: false},
-        { field: 'faktur', caption: 'Faktur', size: '100px', sortable: false},
-        { field: 'datetime', caption: 'Datetime', size: '140px', sortable: false},
-        { field: 'kode_transaksi', caption: 'Kode Transaksi', size: '100px', sortable: false},
+        { field: 'no', caption: 'No', size: '40px',style:'text-align:center', sortable: false},
+        { field: 'faktur', caption: 'Faktur', size: '120px',style:'text-align:center', sortable: false},
+        { field: 'datetime', caption: 'Diproses pada', size: '180px', sortable: false},
+        { field: 'kode_transaksi', caption: 'Kode',style:'text-align:center', size: '60px', sortable: false},
         { field: 'keterangan', caption: 'Keterangan', size: '220px', sortable: false},
         { field: 'debet', caption: 'Debet',style:'text-align:right', size: '100px', sortable: false}, 
         { field: 'kredit', caption: 'Kredit',style:'text-align:right', size: '100px', sortable: false}, 
-        { field: 'saldo', caption: 'Saldo Akhir',style:'text-align:right', size: '100px', sortable: false}, 
-        { field: 'username', caption: 'Username', size: '80px', sortable: false}
+        { field: 'saldoakhir', caption: 'Saldo Akhir',style:'text-align:right', size: '120px', sortable: false}
       ]
     });
    }
@@ -225,12 +250,9 @@
 
   var nOnline = 0 ;
   bos.trtabungantransaksi.init        = function(){ 
+    this.obj.find("#kode_transaksi").html("") ;
+    this.obj.find("#jumlah").val("0") ;
     this.obj.find("#keterangan").val("") ;
-    this.obj.find("#pendaftaran").val("0") ;
-    this.obj.find("#iuran").val("0") ;
-    this.obj.find("#sewagedung").val("0") ;
-    this.obj.find("#suplemen").val("0") ;
-    this.obj.find("#total").val("0") ;
     bjs.ajax(this.url + "/init") ;    
   } 
 
@@ -238,15 +260,7 @@
   bos.trtabungantransaksi.sumnilai = function() {
       var total = 0 ;
       var kembalian = 0 ;
-      total += Number($("#pendaftaran").val()) ;
-      total += Number($("#iuran").val()) ;
-      total += Number($("#sewagedung").val()) ;
-      total += Number($("#suplemen").val()) ;
-      total += Number($("#lainnya").val()) ; 
-      $("#total").val(total);
-      
-      kembalian = Number($("#bayar").val()) - total ; 
-      $("#kembalian").val(kembalian); 
+       
   }  
 
   bos.trtabungantransaksi.initcomp  = function(){ 
@@ -272,9 +286,13 @@
 			bos.trtabungantransaksi.grid3_destroy() ; 
     }) ;
 
-    this.obj.find("#pelanggan").on("select2:select", function(e){ 
-           bjs.ajax(bos.trtabungantransaksi.url+"/seekpel", "pelanggan=" + $(this).val()) ;
-        }) ; 
+    this.obj.find("#rekening").on("select2:select", function(e){ 
+      bjs.ajax(bos.trtabungantransaksi.url+"/seekrekening", "rekening=" + $(this).val()) ;
+    }) ; 
+
+    this.obj.find("#kode_transaksi").on("select2:select", function(e){ 
+      bjs.ajax(bos.trtabungantransaksi.url+"/seekketerangan", "kode_transaksi=" + $(this).val()) ;
+    }) ; 
       
   }
 
@@ -297,12 +315,7 @@
          }
       });
   
-    bos.trtabungantransaksi.obj.find("#cmdabsen").on("click", function(){ 
-       if(confirm("Absen Masuk?")){ 
-          bjs.ajax( bos.trtabungantransaksi.url + '/absen', bjs.getdataform(this) , bos.trtabungantransaksi.objs) ;
-       }
-    }) ;
-
+      
 		this.obj.find("#cmdrekening").on("click", function(e){
           bos.trtabungantransaksi.loadmodelstock("show"); 
           bos.trtabungantransaksi.grid3_reloaddata() ;
@@ -319,9 +332,9 @@
 
     var nOnline = 0 ;  
     function UpdateTimes(){  
-      if(nOnline >= 5){  
+      if(nOnline >= 30){  
           nOnline = 0 ;
-             //bjs.ajax(bos.trtabungantransaksi.url+"/seekpelauto") ;
+             //bjs.ajax(bos.trtabungantransaksi.url+"/seekpelauto") ; 
         }  
         nOnline ++ ; 
         setTimeout(UpdateTimes,1000) ;

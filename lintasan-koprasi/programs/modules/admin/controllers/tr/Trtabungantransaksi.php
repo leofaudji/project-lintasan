@@ -4,7 +4,8 @@ class Trtabungantransaksi extends Bismillah_Controller{
   public function __construct(){ 
     parent::__construct() ; 
     $this->load->model("tr/trtabungantransaksi_m") ;
-    $this->bdb   = $this->trtabungantransaksi_m ;
+    $this->load->model("func/tabungan_m") ; 
+    $this->bdb   = $this->trtabungantransaksi_m ; 
   }
  
   public function index(){
@@ -18,13 +19,21 @@ class Trtabungantransaksi extends Bismillah_Controller{
       $vdb    = $this->bdb->loadgrid($va) ;
       $dbd    = $vdb['db'] ;
       $n = 0 ;
+      $saldoakhir = 0 ;
       while( $dbr = $this->bdb->getrow($dbd) ){
          ++$n ;
          $vs = $dbr;
          $vs['no'] = $n ;
          $vs['tgl'] = date_2d($vs['tgl']) ;
-         $vs['jumlah'] = $vs['pendaftaran'] + $vs['iuran'] + $vs['sewagedung'] + $vs['suplemen'] + $vs['lainnya'] ;
-         $vs['jumlah'] = string_2s($vs['jumlah']) ; 
+         $vs['datetime'] = $dbr['datetime'] . " oleh " . $dbr['username'] ;
+         
+         $saldoakhir += $dbr['kredit'] - $dbr['debet'] ;
+         
+         $vs['debet'] = string_2s($dbr['debet']) ;
+         $vs['kredit'] = string_2s($dbr['kredit']) ;
+
+         $vs['saldoakhir'] = string_2s($saldoakhir) ;
+         
          $vs['cmdedit']    = '<button type="button" onClick="bos.trtabungantransaksi.cmdedit(\''.$dbr['id'].'\')"
                            class="btn btn-default btn-grid">Koreksi</button>' ;
          $vs['cmdedit']     = html_entity_decode($vs['cmdedit']) ;
@@ -43,94 +52,24 @@ class Trtabungantransaksi extends Bismillah_Controller{
       bos.trtabungantransaksi.obj.find("#faktur").html("'.$kode.'") ;
     ') ;
   }
-
-  public function seekpel(){
-    $va   = $this->input->post() ;
-    $value   = $this->bdb->stpelanggan($va) ;  
-    $tarif  = $this->bdb->seektarif($value['statuspelanggan']) ;  
-    if($value['total'] > 0) $tarif['pendaftaran'] = 0 ;
-    $image = '<img src=\"./uploads/no-image.png\" class=\"img-responsive\"/><br>' ; ;
-    if(!empty($value['data_var'])){
-      $image   = '<img height=\"40px\" src=\"'.base_url($value['data_var']).'\" class=\"img-responsive\"/><br>' ;
-      $image   .= str_replace("./uploads/pelanggan/", "~/",$value['data_var']) ;
-    }
-    echo('   
-      bos.trtabungantransaksi.obj.find("#kode").html("'.$value['kode'].'") ;
-      bos.trtabungantransaksi.obj.find("#nama").html("'.$value['nama'].'") ;
-      bos.trtabungantransaksi.obj.find("#alamat").html("'.$value['alamat'].'") ;
-      bos.trtabungantransaksi.obj.find("#telepon").html("'.$value['telepon'].'") ;
-      bos.trtabungantransaksi.obj.find("#email").html("'.$value['email'].'") ;
-      bos.trtabungantransaksi.obj.find("#status").html("'.$value['statuspelanggan'].'") ;
-      bos.trtabungantransaksi.obj.find("#pendaftaran").val("'.$tarif['pendaftaran'].'") ;
-      bos.trtabungantransaksi.obj.find("#iuran").val("'.$tarif['iuran'].'") ;  
-      bos.trtabungantransaksi.obj.find("#foto").html("'.$image.'") ;
-      bos.trtabungantransaksi.grid1_reloaddata();
-    ')  ;
-  }
-
-  public function seekpelauto(){
-    $va   = $this->input->post() ;
-    $value   = $this->bdb->seekauto($va) ;       
-    $image = '<img src=\"./uploads/no-image.png\" class=\"img-responsive\"/><br>' ; ;
-    if(!empty($value['data_var'])){ 
-      $image   = '<img src=\"'.base_url($value['data_var']).'\" class=\"img-responsive\"/><br>' ;
-      $image   .= str_replace("./uploads/pelanggan/", "~/",$value['data_var']) ;
-    }
-
-    if($value['true'] == 1){
-      echo('   
-        bos.trtabungantransaksi.obj.find("#kode").html("'.$value['kode'].'") ;
-        bos.trtabungantransaksi.obj.find("#nama").html("'.$value['nama'].'") ;
-        bos.trtabungantransaksi.obj.find("#alamat").html("'.$value['alamat'].'") ;
-        bos.trtabungantransaksi.obj.find("#telepon").html("'.$value['telepon'].'") ;
-        bos.trtabungantransaksi.obj.find("#email").html("'.$value['email'].'") ;
-        bos.trtabungantransaksi.obj.find("#status").html("'.$value['statuspelanggan'].'") ;
-        bos.trtabungantransaksi.obj.find("#foto").html("'.$image.'") ; 
-        bos.trtabungantransaksi.obj.find("#pelanggan2").val("'.$value['pelanggan'].'") ;             
-        bos.trtabungantransaksi.grid1_reloaddata(); 
-      ')  ;
-    }else{
-      echo('
-        bos.trtabungantransaksi.obj.find("#pelanggan2").val("") ; 
-      ');
-        
-    }
-  }
-
   
   public function saving(){
     $va   = $this->input->post() ;
     $id   = getsession($this, "sstrtabungantransaksi_id") ;
     $true   = true ;
-    if($va['pendaftaran'] == 0 and $va['iuran'] == 0 and $va['sewagedung'] == 0 
-        and $va['suplemen'] == 0 and $va['lainnya'] == 0){
+    if($va['jumlah'] == 0){ 
       $true = false ;
     }
     if($true){
       $this->bdb->saving($va, $id) ;  
       echo('   
         bos.trtabungantransaksi.grid1_reloaddata();
-        bos.trtabungantransaksi.init();
-        alert("Transaksi Berhasil Disimpan...") ;  
+        bos.trtabungantransaksi.init(); 
       ')  ;
     }else{
       echo('   
-        alert("Maaf,Nominal tidak boleh nol...");
+        alert("Maaf,Jumlah tidak boleh nol...");
       ')  ;
-    }
-  }
-
-  public function editing(){
-    $va   = $this->input->post() ;
-    if($d = $this->bdb->editing($va['id'])){
-      savesession($this, "sstrtabungantransaksi_id", $d['id']) ;
-      echo('
-        bos.trtabungantransaksi.obj.find("#kode").val("'.$d['kode'].'") ; 
-        bos.trtabungantransaksi.obj.find("#keterangan").val("'.$d['keterangan'].'") ;
-        bos.trtabungantransaksi.obj.find("#tgl").val("'.date_2d($d['tgl']).'") ;
-        bos.trtabungantransaksi.obj.find("#jumlah").val("'.$d['jumlah'].'") ;
-        bos.trtabungantransaksi.settab(1) ;
-      ') ;
     }
   } 
 
@@ -156,15 +95,47 @@ class Trtabungantransaksi extends Bismillah_Controller{
 		$rekening   = $va['rekening'] ; 
 		$data = $this->trtabungantransaksi_m->getdata($rekening) ;
 		if(!empty($data)){
-				echo('
+		  echo('
 				with(bos.trtabungantransaksi.obj){
 					find("#rekening").val("'.$data['rekening'].'") ; 
 					find("#kode_transaksi").focus() ; 
 				}
 				bos.trtabungantransaksi.loadmodelstock("hide");
-		 ') ;
+        bos.trtabungantransaksi.grid1_reloaddata();
+		  ') ;
+      $this->seekrekening() ;
 		}
 	}	
+
+  public function seekrekening(){
+    $va   = $this->input->post() ; 
+    $value   = $this->bdb->seekrekening($va) ;  
+    $image = '<img src=\"./uploads/no-image.png\" class=\"img-responsive\"/><br>' ; ;
+    if(!empty($value['data_var'])){
+      $image   = '<img height=\"40px\" src=\"'.base_url($value['data_var']).'\" class=\"img-responsive\"/><br>' ;
+      $image   .= str_replace("./uploads/pelanggan/", "~/",$value['data_var']) ;
+    }
+    if(!empty($value)){
+      echo('   
+        with(bos.trtabungantransaksi.obj){
+          find("#nama").val("'.$value['nama'].'") ;
+          find("#alamat").val("'.$value['alamat'].'") ;
+          find("#telepon").val("'.$value['telepon'].'") ;  
+          bos.trtabungantransaksi.obj.find("#foto").html("'.$image.'") ;
+        }      
+      ')  ;
+    }
+  } 
+
+  public function seekketerangan(){
+    $va   = $this->input->post() ; 
+    $value   = $this->bdb->seekketerangan($va) ;  
+    if(!empty($value)){
+      echo('   
+        bos.trtabungantransaksi.obj.find("#keterangan").val("'.$value['keterangan'].'") ;      
+      ')  ;
+    }
+  } 
 
 }
 ?>

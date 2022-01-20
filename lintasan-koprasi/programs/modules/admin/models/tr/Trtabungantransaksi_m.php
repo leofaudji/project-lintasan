@@ -1,25 +1,25 @@
 <?php
 class Trtabungantransaksi_m extends Bismillah_Model{
-   var $pelanggan = "" ;
+
    public function getfaktur($l=true){ 
-      $k       = "KS" . date("ymd") ;   
+      $k       = "TB" . date("ymd") ;   
       return $k . $this->getincrement($k, $l, 4) ;  
    }   
- 
+  
    public function loadgrid($va){
       $limit    = $va['offset'].",".$va['limit'] ;
       $search   = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
-      $search   = $this->escape_like_str($search) ;
-      //$where    = "pelanggan = '".$va['pelanggan']."'" ;   
-      $where    = array("pelanggan = '".$va['pelanggan']."'") ;     
-      if($va['pelanggan2'] <> "") $where    = array("pelanggan = '".$va['pelanggan2']."'") ;
-      if($search !== "") $where[]   = "(tarif LIKE '{$search}%' OR keterangan LIKE '%{$search}%')" ;
+      $search   = $this->escape_like_str($search) ; 
+      $id_kantor = getsession($this, "id_kantor") ; 
+      $rekening = $va['rekening'] ;
+      $where    = array("t.id_kantor = '$id_kantor' and m.rekening = '$rekening'") ;      
+      if($search !== "") $where[]   = "(m.kode LIKE '{$search}%' OR m.keterangan LIKE '%{$search}%')" ;
       $where    = implode(" AND ", $where) ; 
-      $f        = "*" ;       
-      $dbd      = $this->select("pelanggan_bayar", $f, $where, "", "", "id DESC", $limit) ;
+      $f        = "m.*" ;       
+      $dbd      = $this->select("tabungan_mutasi m", $f, $where, "left join tabungan_rekening t on t.rekening = m.rekening", "", "m.id ASC", $limit) ;
 
-      $row      = 0 ;
-      $dba      = $this->select("pelanggan_bayar", "COUNT(id) id", $where) ;
+      $row      = 0 ; 
+      $dba      = $this->select("tabungan_mutasi m", "COUNT(m.id) id", $where, "left join tabungan_rekening t on t.rekening = m.rekening") ;
       if($dbra  = $this->getrow($dba)){ 
          $row   = $dbra['id'] ;
       }
@@ -27,123 +27,41 @@ class Trtabungantransaksi_m extends Bismillah_Model{
       return array("db"=>$dbd, "rows"=> $row ) ;
    }
 
-   public function stpelanggan($va){
-      $id = $va['pelanggan'] ;
-      $va = array() ;
-      $tgl      = date("Y-m-d") ;
-      $where    = "kode = '$id'" ; 
-      $dba      = $this->select("pelanggan", "*", $where) ;
+   public function seekrekening($va){
+      $rekening = $va['rekening'] ;    
+      $value = array() ;
+      $id_kantor = getsession($this, "id_kantor") ; 
+      $where    = "t.id_kantor = '$id_kantor' and t.rekening = '$rekening'" ;  
+      $f = "m.nama,m.alamat,m.telepon" ;
+      $dba      = $this->select("tabungan_rekening t", "*", $where,"left join mst_anggota m on m.kode = t.kode_anggota") ;
       if($dbra  = $this->getrow($dba)){ 
-         $va   = $dbra ; 
-      } 
-
-      $va['total'] = 0 ;
-      $dbb      = $this->select("pelanggan_bayar", "count(id) total","pelanggan='$id'") ;
-      if($dbra  = $this->getrow($dbb)){ 
-         $va['total']   = $dbra['total'] ; 
-      } 
-
-
-      return $va ;
-   }
- 
-   public function seektarif($id){  
-      $va = array("pendaftaran"=>10,"iuran"=>0,"sewagedung"=>0,"suplemen"=>0) ;  
-      $n = 0 ;
-      $tgl      = date("Y-m-d") ;
-      $dba      = $this->select("tarif", "*","","","","") ;    
-      while($dbra  = $this->getrow($dba)){ 
-         if($dbra['kode'] == "BP") $va['pendaftaran'] = $dbra['jumlah'] ;
-         if($dbra['kode'] == $id) $va['iuran'] = $dbra['jumlah'] ;    
-      } 
-
-      /*$where    = "tgl <= '$tgl' and pelanggan = '$id' and tarif = '$tr'" ;
-      $dba      = $this->select("pelanggan_tarif", "jumlah", $where, "", "", "id DESC","0,1") ;
-      if($dbra  = $this->getrow($dba)){ 
-         $n   = $dbra['jumlah'] ;
-      } */ 
-
-      return $va ;
+         $value   = $dbra ;      
+      }  
+      return $value ;
    }
 
-   public function seekauto(){
-      $va = array() ;
-      $tgl      = date("Y-m-d") ;   
-      $va['true']    = 0 ;
-      $field    = "a.*,p.kode,p.nama,p.alamat,p.telepon,p.email,p.statuspelanggan" ;
-      $join     = "left join pelanggan p on p.kode = a.pelanggan" ; 
-      $dba      = $this->select("absensi_tmp a",$field,"",$join,"","id DESC","0,1") ;
+   public function seekketerangan($va){  
+      $value = "" ; 
+      $dba      = $this->select("tabungan_kodetransaksi", "keterangan","kode = '{$va['kode_transaksi']}'") ;     
       if($dbra  = $this->getrow($dba)){ 
-         $va   = $dbra ;      
-         $va['true'] = 1 ;
-         $this->pelanggan = $dbra['kode'] ;    
-         $this->delete("absensi_tmp", "id = " . $va['id']) ;
+         $value = $dbra ;     
       } 
-      return $va ;
+      return $value ;
    }
  
    public function saving($va, $id){
       $f    = $va ; 
-      $f['faktur'] = $this->getfaktur(true) ;   
+      $f['id_kantor'] = getsession($this, "id_kantor") ;  
+      $f['faktur'] = $this->tabungan_m->getfaktur(true) ;     
       $f['tgl'] = date_2s($f['tgl']) ; 
       $f['datetime'] = date_now() ; 
-      $f['username'] = getsession($this, "username") ; 
-      unset($f['kembalian']) ;
-      unset($f['pelanggan2']) ;
-      $this->insert("pelanggan_bayar", $f) ; 
-      $total = $f['pendaftaran'] + $f['iuran'] + $f['sewagedung'] + $f['suplemen'] ; 
-      $cket = " [" . $f['pelanggan'] . "] " . $this->getnama($f['pelanggan']) ; 
-      $vkas = array("faktur"=>$f['faktur'],"tgl"=>$f['tgl'],"rekening"=>"1.102","keterangan"=>"Kas " . $f['keterangan'] . $cket,
-                     "debet"=>$total,"kredit"=>0,"datetime"=>$f['datetime'],"username"=>$f['username']) ;
-         $vpendaftaran = array("faktur"=>$f['faktur'],"tgl"=>$f['tgl'],"rekening"=>$this->getrekening("BP"),
-                     "keterangan"=>"Pendaftaran " . $f['keterangan'] . $cket,
-                     "debet"=>0,"kredit"=>$f['pendaftaran'],"datetime"=>$f['datetime'],"username"=>$f['username']) ;
-         $viuran = array("faktur"=>$f['faktur'],"tgl"=>$f['tgl'],"rekening"=>$this->getrekening("MB"), 
-                     "keterangan"=>"Iuran " . $f['keterangan'] . $cket,
-                     "debet"=>0,"kredit"=>$f['iuran'],"datetime"=>$f['datetime'],"username"=>$f['username']) ;
-         $vsewagedung = array("faktur"=>$f['faktur'],"tgl"=>$f['tgl'],"rekening"=>$this->getrekening("SG"), 
-                     "keterangan"=>"Sewa Gedung " . $f['keterangan'] . $cket,
-                     "debet"=>0,"kredit"=>$f['sewagedung'],"datetime"=>$f['datetime'],"username"=>$f['username']) ;
-         $vsuplemen = array("faktur"=>$f['faktur'],"tgl"=>$f['tgl'],"rekening"=>$this->getrekening("SP"), 
-                     "keterangan"=>"Suplemen " . $f['keterangan'] . $cket,
-                     "debet"=>0,"kredit"=>$f['suplemen'],"datetime"=>$f['datetime'],"username"=>$f['username']) ;
-      
-      $this->updbukubesar($vkas); 
-         $this->updbukubesar($vpendaftaran); 
-         $this->updbukubesar($viuran); 
-         $this->updbukubesar($vsewagedung); 
-         $this->updbukubesar($vsuplemen);   
+      $f['username'] = getsession($this, "username") ;  
+      unset($f['nama']) ;
+      unset($f['alamat']) ;
+      unset($f['telepon']) ;
+      $this->tabungan_m->setmutasi($f) ;  
+         
    }
-
-   public function getrekening($id){ 
-      $n = 0 ;
-      $dba      = $this->select("tarif", "rekening","kode = '$id'") ;     
-      if($dbra  = $this->getrow($dba)){ 
-         $n = $dbra['rekening'] ;    
-      } 
-      return $n ;
-   }
-   
-   public function getnama($id){ 
-      $n = 0 ;
-      $dba      = $this->select("pelanggan", "nama","kode = '$id'") ;     
-      if($dbra  = $this->getrow($dba)){ 
-         $n = $dbra['nama'] ;    
-      }  
-      return $n ;
-   }
-
-   public function updbukubesar($va){  
-      if($va['debet'] > 0 || $va['kredit'] > 0){
-         $this->insert("keuangan_bukubesar", $va) ; 
-      }
-   }
-
-   public function editing($id=''){
-      $w    = "id = " . $this->escape($id) ;
-      $d    = $this->getval("id, tgl,kode, keterangan,jumlah", $w, "tarif") ;
-      return !empty($d) ? $d : false ;
-   } 
 
    public function loadgrid3($va){
       $limit    = $va['offset'].",".$va['limit'] ;
