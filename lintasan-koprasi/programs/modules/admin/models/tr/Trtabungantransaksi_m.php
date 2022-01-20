@@ -72,7 +72,7 @@ class Trtabungantransaksi_m extends Bismillah_Model{
       //$where[]  = "jenis = 'P'" ;
       if($search !== "") $where[]  = "(t.rekening LIKE '{$search}%' OR m.kode LIKE '{$search}%' OR m.nama LIKE '%{$search}%'  OR m.alamat LIKE '%{$search}%'  OR m.telepon LIKE '%{$search}%')" ;
       $where    = implode(" AND ", $where) ; 
-      $join     = "left join mst_anggota m on m.kode = t.kode_anggota" ;
+      $join     = "left join mst_anggota m on t.id_kantor = m.id_kantor AND m.kode = t.kode_anggota" ; 
       $dbd      = $this->select("tabungan_rekening t", "m.kode,t.rekening,m.nama,m.alamat,m.telepon", $where, $join, "", "t.id DESC", $limit) ; 
       $dba      = $this->select("tabungan_rekening t", "t.id", $where,$join) ;    
 

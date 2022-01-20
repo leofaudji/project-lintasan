@@ -83,7 +83,7 @@ class Load extends Bismillah_Controller{
       $w    = "(kode LIKE '%". $this->bdb->escape_like_str($q) ."%' OR keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
       $dbd  = $this->bdb->select("mst_agama", "id,kode,keterangan", $w, "", "", "kode ASC", "0,5") ;
       while($dbr    = $this->bdb->getrow($dbd)){
-         $vare[]    = array("id"=>$dbr['kode'], "text"=>$dbr['kode'] . " - "  . $dbr['keterangan']) ; 
+         $vare[]    = array("id"=>$dbr['keterangan'], "text"=>$dbr['kode'] . " - "  . $dbr['keterangan']) ; 
       } 
       echo(json_encode($vare)) ; 
    }

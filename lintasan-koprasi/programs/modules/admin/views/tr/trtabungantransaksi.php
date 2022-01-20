@@ -75,23 +75,21 @@
 							<td width="1%">:</td>
 							<td>
 							<select name="kode_transaksi" id="kode_transaksi" class="form-control select" style="width:40%" data-sf="load_kode_transaksi" data-placeholder="Kode Transaksi" required></select>
-							</td>
+							</td> 
 						</tr> 
 						<tr>
-							<td><label for="kode_transaksi">Jumlah</label> </td>
+							<td><label for="jumlah">Jumlah</label> </td>
 							<td width="1%">:</td>
 							<td> 
-							<input type="text" onBlur="bos.trtabungantransaksi.sumnilai()" name="jumlah" id="jumlah"
-										class="form-control number" style="font-size:12px; padding-right: 15px;width:40%" value="0" required>
+                <input style="font-size:12px; padding-right: 15px;width:40%" type="text" id="jumlah" name="jumlah" class="form-control number" placeholder="Jumlah" required>
 							</td>
 						</tr>
-						<tr>
+            <tr> 
 							<td width="80px"><label for="keterangan">Keterangan</label> </td>
 							<td width="10px">:</td>
 							<td>
-								<input type="text" onBlur="bos.trtabungantransaksi.sumnilai()" name="keterangan" id="keterangan"
-										class="form-control" style="font-size:12px; padding-right: 15px;" value="0" required>
-							</td>
+                <input style="font-size:12px; padding-right: 15px;" type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" required>
+              </td>
 						</tr> 
 					</table>
 				</div>
