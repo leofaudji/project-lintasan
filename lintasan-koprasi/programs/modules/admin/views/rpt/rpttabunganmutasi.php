@@ -6,7 +6,7 @@
 <div class="bodyfix scrollme" style="height:100%">  
    <table class="osxtable form" border="0">
 		<tr> 
-			<td width="100px"><label for="tgl">Tgl</label> </td>
+			<td width="100px"><label for="tgl">Tgl</label> </td> 
 			<td width="20px">:</td>
 			<td>
 				<input style="width:80px" type="text" class="form-control date" id="tglawal" name="tglawal" required value=<?=date("d-m-Y")?> <?=date_set()?>>

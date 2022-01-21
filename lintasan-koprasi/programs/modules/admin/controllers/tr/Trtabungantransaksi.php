@@ -76,7 +76,7 @@ class Trtabungantransaksi extends Bismillah_Controller{
 	public function loadgrid3(){
 		$va     = json_decode($this->input->post('request'), true) ;
 		$vare   = array() ;
-		$vdb    = $this->trtabungantransaksi_m->loadgrid3($va) ;
+		$vdb    = $this->tabungan_m->loadgrid_rekening($va) ;
 		$dbd    = $vdb['db'] ;
 		while( $dbr = $this->trtabungantransaksi_m->getrow($dbd) ){
 				$vaset   = $dbr ;
@@ -86,14 +86,14 @@ class Trtabungantransaksi extends Bismillah_Controller{
 				$vare[]    = $vaset ; 
 		}
 
-		$vare   = array("total"=>$vdb['rows'], "records"=>$vare ) ;
+		$vare   = array("total"=>$vdb['rows'], "records"=>$vare ) ; 
 		echo(json_encode($vare)) ;
 	}
 
 	public function pilih(){
 		$va   = $this->input->post() ;
 		$rekening   = $va['rekening'] ; 
-		$data = $this->trtabungantransaksi_m->getdata($rekening) ;
+		$data = $this->tabungan_m->getdata_rekening($rekening) ;
 		if(!empty($data)){
 		  echo('
 				with(bos.trtabungantransaksi.obj){
@@ -103,7 +103,7 @@ class Trtabungantransaksi extends Bismillah_Controller{
 				bos.trtabungantransaksi.loadmodelstock("hide");
         bos.trtabungantransaksi.grid1_reloaddata();
 		  ') ;
-      $this->seekrekening() ;
+      $this->seekrekening() ; 
 		}
 	}	
 

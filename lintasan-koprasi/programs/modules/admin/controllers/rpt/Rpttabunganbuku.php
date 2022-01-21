@@ -1,39 +1,36 @@
 <?php
-class Rptkunjungan extends Bismillah_Controller{
+class Rpttabunganbuku extends Bismillah_Controller{ 
   protected $bdb ; 
   public function __construct(){ 
     parent::__construct() ;
-    $this->load->model("mst/rptkunjungan_m") ;
-    $this->bdb   = $this->rptkunjungan_m ;
+    $this->load->model("rpt/rpttabunganbuku_m") ;
+    $this->load->model("func/tabungan_m") ; 
+    $this->bdb   = $this->rpttabunganbuku_m ;
   }  
  
   public function index(){
-    $this->load->view("mst/rptkunjungan") ; 
+    $this->load->view("rpt/rpttabunganbuku") ; 
 
   }  
 
   public function loadgrid(){
-      $va     = json_decode($this->input->post('request'), true) ; 
+    $va     = json_decode($this->input->post('request'), true) ; 
     $vare   = array() ; 
     $varpt  = array() ;
     $vdb    = $this->bdb->loadgrid($va) ;
     $dbd    = $vdb['db'] ; 
     $n = 0 ;
+    $saldoakhir = 0 ;
     while( $dbr = $this->bdb->getrow($dbd) ){ 
       $vs = $dbr ;
-      $vs['no'] = ++$n ;
       $vs['tgl'] = date_2d($vs['tgl']);
-
-      $vs['pendaftaran'] = string_2s($vs['pendaftaran']);
-      $vs['iuran'] = string_2s($vs['iuran']);
-      $vs['sewagedung'] = string_2s($vs['sewagedung']);
-      $vs['suplemen'] = string_2s($vs['suplemen']);
-      $vs['cmdcetak']  = '<button type="button" onClick="bos.rptkunjungan.cmdcetak(\''.$dbr['faktur'].'\')"
-                           class="btn btn-primary btn-grid">Cetak</button>' ;
-         $vs['cmdcetak']  = html_entity_decode($vs['cmdcetak']) ;
-      unset($vs['id']) ; 
-      unset($vs['faktur']) ; 
-      unset($vs['keterangan']) ; 
+      $vs['datetime']  = $dbr['datetime'] . " oleh " . $dbr['username'] ;
+      $saldoakhir += $dbr['kredit'] - $dbr['debet'] ; 
+      $vs['saldoakhir'] = string_2s($saldoakhir) ;
+      $vs['debet'] = string_2s($vs['debet']) ;
+      $vs['kredit'] = string_2s($vs['kredit']) ;
+      $vs['no'] = ++$n ;
+      unset($vs['id']) ;  
       $vare[]    = $vs ;
       unset($vs['cmdcetak']) ;       
       $varpt[]  = $vs ;
@@ -43,16 +40,49 @@ class Rptkunjungan extends Bismillah_Controller{
       $vare   = array("total"=>$vdb['rows'], "records"=>$vare ) ;
       //$varpt = $vare['records'] ;
       echo(json_encode($vare)) ; 
-      savesession($this, "rptkunjungan_rpt", json_encode($varpt)) ;   
+      savesession($this, "rpttabunganbuku_rpt", json_encode($varpt)) ;   
   }
 
   public function init(){
-    savesession($this, "ssrptkunjungan_id", "") ;    
+    savesession($this, "ssrpttabunganbuku_id", "") ;     
   } 
+
+  public function loadgrid3(){
+		$va     = json_decode($this->input->post('request'), true) ;
+		$vare   = array() ;
+		$vdb    = $this->tabungan_m->loadgrid_rekening($va) ;
+		$dbd    = $vdb['db'] ;
+		while( $dbr = $this->rpttabunganbuku_m->getrow($dbd) ){
+				$vaset   = $dbr ;
+				$vaset['cmdpilih']    = '<button type="button" onClick="bos.rpttabunganbuku.cmdpilih(\''.$dbr['rekening'].'\')"
+											 class="btn btn-success btn-grid">Pilih</button>' ;
+				$vaset['cmdpilih']     = html_entity_decode($vaset['cmdpilih']) ;
+				$vare[]    = $vaset ; 
+		}
+
+		$vare   = array("total"=>$vdb['rows'], "records"=>$vare ) ;
+		echo(json_encode($vare)) ;
+	}
+
+	public function pilih(){
+		$va   = $this->input->post() ;
+		$rekening   = $va['rekening'] ; 
+		$data = $this->tabungan_m->getdata_rekening($rekening) ;
+		if(!empty($data)){
+		  echo('
+				with(bos.rpttabunganbuku.obj){
+					find("#rekening").val("'.$data['rekening'].'") ; 
+					find("#kode_transaksi").focus() ; 
+				}
+				bos.rpttabunganbuku.loadmodelstock("hide");
+        bos.rpttabunganbuku.grid1_reloaddata();
+		  ') ;
+    }
+	}	
 
 
   public function showreport(){
-      $data = getsession($this,"rptkunjungan_rpt") ;     
+      $data = getsession($this,"rpttabunganbuku_rpt") ;     
       $data = json_decode($data,true) ;    
       if(!empty($data)){ 
         $font = 8 ;

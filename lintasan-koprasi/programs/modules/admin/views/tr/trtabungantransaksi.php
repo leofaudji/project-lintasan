@@ -271,7 +271,7 @@
 		this.grid3_load() ;  
 
     bjs_os._header(this.id) ; //drag header
-    this.obj.find(".header").attr("id",this.id + "-title") ; //set to drag
+    this.obj.find(".header").attr("id",this.id + "-title") ; //set to drag 
   } 
 
   bos.trtabungantransaksi.initcallback  = function(){
