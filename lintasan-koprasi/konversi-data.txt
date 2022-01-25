@@ -1,0 +1,17 @@
+insert into keuangan_rekening(customer,kode,keterangan,jenis) 
+select 'CUST-000002',a.Kode kode,a.Keterangan keterangan,a.Jenis jenis from arc_putrajaya.rekening a order by a.Kode
+
+insert into mst_anggota(id_kantor,tgl,kode,nama,provinsi,kota,kecamatan,alamat,telepon,tempat_lahir,tgl_lahir,jenis_kelamin,agama,email)
+select 'fce63b','2022-01-25',Kode,Nama,'1','1','1',Alamat,Telepon,TempatLahir,TglLahir,Kelamin,Agama,1 from arc_putrajaya.registernasabah order by Kode ASC
+
+insert into tabungan_golongan(customer,kode,keterangan,rekening,rekening_bunga,saldo_minimum,saldo_minimum_bunga,rate)
+select 'CUST-000002',KODE,KETERANGAN,REKENING,RekeningBunga,SaldoMinimum,SaldoMinimumDapatBunga,1 from arc_putrajaya.golongantabungan
+
+insert into tabungan_kodetransaksi(customer,kode,keterangan,dk,rekening)
+select 'CUST-000002',KODE,Keterangan,DK,Rekening from arc_putrajaya.kodetransaksi order by kode
+
+insert into tabungan_rekening(id_kantor,rekening_lama,tgl,kode_anggota,golongan_tabungan,rekening,tujuan_pembukaan,ahli_waris,datetime,username)
+select 'fce63b',RekeningLama,Tgl,Kode,GolonganTabungan,Rekening,'Tabungan Hari Raya','faudji',Tgl,'system' from arc_putrajaya.tabungan order by Rekening
+
+insert into tabungan_mutasi(id_kantor,faktur,tgl,rekening,kode_transaksi,keterangan,debet,kredit,datetime,username)
+select 'fce63b',Faktur,Tgl,Rekening,KodeTransaksi,Keterangan,Debet,Kredit,DateTime,UserName from arc_putrajaya.mutasitabungan order by Rekening               
