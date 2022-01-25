@@ -8,7 +8,7 @@ class Rpttabunganbuku_m extends Bismillah_Model{
       $id_kantor = getsession($this,"id_kantor") ;
       $va['tglawal'] = date_2s($va['tglawal']) ; 
       $va['tglakhir'] = date_2s($va['tglakhir']) ;   
-      $where    = array("t.id_kantor = '$id_kantor' AND t.tgl >= '".$va['tglawal']."' AND t.tgl <= '".$va['tglakhir']."' AND tm.rekening = '".$va['rekening']."'") ;       
+      $where    = array("t.id_kantor = '$id_kantor' AND tm.tgl >= '".$va['tglawal']."' AND tm.tgl <= '".$va['tglakhir']."' AND tm.rekening = '".$va['rekening']."'") ;       
       if($search !== "") $where[]   = "(t.rekening LIKE '{$search}%' OR m.nama LIKE '%{$search}%' OR m.alamat LIKE '%{$search}%' OR m.telepon LIKE '%{$search}%')" ;
       $where    = implode(" AND ", $where) ;  
 

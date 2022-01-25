@@ -14,7 +14,7 @@ class Rpttabunganmutasi extends Bismillah_Controller{
 
   public function loadgrid(){
       $va     = json_decode($this->input->post('request'), true) ; 
-    $vare   = array() ; 
+    $vare   = array() ;  
     $varpt  = array() ;
     $vdb    = $this->bdb->loadgrid($va) ;
     $dbd    = $vdb['db'] ; 

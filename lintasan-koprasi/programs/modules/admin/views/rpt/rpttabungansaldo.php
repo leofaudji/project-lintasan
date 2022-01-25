@@ -109,8 +109,8 @@
 				{ field: 'no', caption: 'No',style:'text-align:center', size: '40px', sortable: false},
 				{ field: 'rekening', caption: 'No. Rekening',style:'text-align:center', size: '100px', sortable: false},
 				{ field: 'tgl', caption: 'Tgl Daftar',style:'text-align:center', size: '80px', sortable: false},
-				{ field: 'nama', caption: 'Nama', size: '200px', sortable: false},
-				{ field: 'alamat', caption: 'Alamat',style:'text-align:left', size: '220px', sortable: false},
+				{ field: 'nama', caption: 'Nama', size: '220px', sortable: false},
+				{ field: 'alamat', caption: 'Alamat',style:'text-align:left', size: '300px', sortable: false},
 				{ field: 'telepon', caption: 'Telepon',style:'text-align:left', size: '120px', sortable: false}, 
 				{ field: 'saldoakhir', caption: 'Saldo Akhir',style:'text-align:right', size: '150px', sortable: false}
 					

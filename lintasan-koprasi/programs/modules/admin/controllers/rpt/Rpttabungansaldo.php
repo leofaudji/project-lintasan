@@ -3,7 +3,7 @@ class Rpttabungansaldo extends Bismillah_Controller{
   protected $bdb ; 
   public function __construct(){ 
     parent::__construct() ;
-    $this->load->model("rpt/rpttabungansaldo_m") ;
+    $this->load->model("rpt/rpttabungansaldo_m") ; 
     $this->load->model("func/tabungan_m") ; 
     $this->bdb   = $this->rpttabungansaldo_m ;
   }  

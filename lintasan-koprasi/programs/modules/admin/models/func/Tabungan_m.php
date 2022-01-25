@@ -82,8 +82,8 @@ class Tabungan_m extends Bismillah_Model{
          $rekeningkt  = $row['rekeningkodetransaksi'] ;
 
          if($dk == "K"){
-            $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeningkas,$keterangan,0,$kredit,$datetime,$username) ;
-               $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeninggol,$keterangan,$kredit,0,$datetime,$username) ;
+            $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeningkas,$keterangan,$kredit,0,$datetime,$username) ;
+               $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeninggol,$keterangan,0,$kredit,$datetime,$username) ;
          }else{ 
             $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeninggol,$keterangan,$debet,0,$datetime,$username) ;
                $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeningkas,$keterangan,0,$debet,$datetime,$username) ;
