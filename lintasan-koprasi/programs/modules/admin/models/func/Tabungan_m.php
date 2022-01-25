@@ -55,6 +55,51 @@ class Tabungan_m extends Bismillah_Model{
                     "keterangan"=>$f['keterangan'],"debet"=>$debet,"kredit"=>$kredit, 
                     "datetime"=>$f['datetime'],"username"=>$f['username']) ; 
       $this->insert("tabungan_mutasi", $va) ;  
+      $this->setmutasi_bukubesar($f['faktur']) ;
+   }
+
+   public function setmutasi_bukubesar($faktur){
+      $id_kantor = getsession($this,"id_kantor") ;
+      $customer  = getsession($this,"customer") ;  
+      $f = "tm.*,tg.rekening rekeninggolongan,tk.rekening rekeningkodetransaksi,tk.dk" ;    
+      $w = "tm.faktur = '$faktur'" ;  
+      $join = "left join tabungan_rekening tr on tr.id_kantor = tm.id_kantor AND tr.rekening = tm.rekening
+               left join tabungan_golongan tg on tg.kode = tr.golongan_tabungan AND tg.customer = '$customer'
+               left join tabungan_kodetransaksi tk on tk.kode = tm.kode_transaksi AND tk.customer = '$customer'" ;  
+      $db  = $this->select("tabungan_mutasi tm", $f, $w,$join) ;  
+      if($row  = $this->getrow($db)){  
+         $tgl  = $row['tgl']  ;      
+         $dk   = $row['dk'] ;
+         $rekening   = $row['rekening'] ;
+         $debet      = $row['debet'] ;
+         $kredit     = $row['kredit'] ;
+         $keterangan = $row['keterangan']  ;
+         $datetime   = date_now() ; 
+         $username   = $row['username'] ;
+         
+         $rekeningkas = getsession($this,"rekening_kas") ; 
+         $rekeninggol = $row['rekeninggolongan'] ;
+         $rekeningkt  = $row['rekeningkodetransaksi'] ;
+
+         if($dk == "K"){
+            $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeningkas,$keterangan,0,$kredit,$datetime,$username) ;
+               $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeninggol,$keterangan,$kredit,0,$datetime,$username) ;
+         }else{ 
+            $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeninggol,$keterangan,$debet,0,$datetime,$username) ;
+               $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeningkas,$keterangan,0,$debet,$datetime,$username) ;
+         }
+         
+      }
+   }
+
+   public function setbukubesar($id_kantor,$faktur,$tgl,$rekening,$keterangan,$debet,$kredit,$datetime,$username){
+      if(($debet <> 0 || $kredit <> 0) && trim($rekening) !== ""){
+         $va   = array("id_kantor"=>$id_kantor,"faktur"=>$faktur,"tgl"=>$tgl,
+                    "rekening"=>$rekening,"keterangan"=>$keterangan,
+                    "debet"=>$debet,"kredit"=>$kredit,  
+                    "datetime"=>$datetime,"username"=>$username) ; 
+         $this->insert("keuangan_bukubesar", $va) ;  
+      }
    }
 
 }
