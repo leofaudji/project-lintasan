@@ -15,3 +15,54 @@ select 'fce63b',RekeningLama,Tgl,Kode,GolonganTabungan,Rekening,'Tabungan Hari R
 
 insert into tabungan_mutasi(id_kantor,faktur,tgl,rekening,kode_transaksi,keterangan,debet,kredit,datetime,username)
 select 'fce63b',Faktur,Tgl,Rekening,KodeTransaksi,Keterangan,Debet,Kredit,DateTime,UserName from arc_putrajaya.mutasitabungan order by Rekening               
+
+
+CREATE TABLE `kredit_agunan` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `id_kantor` char(10) NOT NULL,
+  `kode` char(2) NOT NULL,
+  `no_jaminan` char(3) NOT NULL DEFAULT '1',
+  `jaminan` char(10) NOT NULL,
+  `nilai_jaminan` double(16,0) NOT NULL,
+  `rekening` char(20) NOT NULL,
+  `data_jaminan` text NOT NULL,
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `username` char(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Key` (`id_kantor`,`id`),
+  KEY `idkantorrekening` (`id_kantor`,`jaminan`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3
+
+CREATE TABLE `kredit_golongan` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `customer` char(20) NOT NULL,
+  `kode` char(2) NOT NULL,
+  `keterangan` char(50) NOT NULL COMMENT 'jika join for meta value',
+  `rekening_pokok` char(20) NOT NULL,
+  `rekening_bunga` char(20) NOT NULL,
+  `rekening_administrasi` char(20) NOT NULL,
+  `rekening_denda` char(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Key` (`customer`,`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3
+
+CREATE TABLE `kredit_rekening` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `id_kantor` char(10) NOT NULL,
+  `rekening_lama` char(30) NOT NULL,
+  `tgl` date NOT NULL,
+  `kode_anggota` char(10) NOT NULL,
+  `golongan_kredit` char(3) NOT NULL,
+  `rekening` char(20) NOT NULL,
+  `no_spk` char(50) NOT NULL,
+  `plafond` double(16,0) NOT NULL,
+  `sukubunga` double(16,0) NOT NULL,
+  `lama` double(16,0) NOT NULL,
+  `administrasi` double(16,0) NOT NULL,
+  `provisi` double(16,0) NOT NULL,
+  `materai` double(16,0) NOT NULL,
+  `ao` char(10) NOT NULL,
+  `notaris` char(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idgolongantabungan` (`id_kantor`,`golongan_kredit`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3
