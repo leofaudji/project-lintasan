@@ -132,5 +132,29 @@ class Load extends Bismillah_Controller{
       }
       echo(json_encode($vare)) ; 
    }
+
+   public function load_kredit_jenis_agunan(){
+      $q    = $this->input->get('q') ;
+      $vare = array() ;   
+      $w    = "(kode LIKE '%". $this->bdb->escape_like_str($q) ."%' AND keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
+      $dbd  = $this->bdb->select("mst_jenis_agunan", "id,kode,keterangan", $w, "", "", "kode ASC", "0,10") ; 
+      while($dbr    = $this->bdb->getrow($dbd)){
+         $vare[]    = array("id"=>$dbr['kode'], "text"=>$dbr['kode'] . " - "  . $dbr['keterangan']) ; 
+      }
+      echo(json_encode($vare)) ; 
+   }
+
+   public function load_kredit_golongan(){
+      $q    = $this->input->get('q') ; 
+      $vare = array() ;  
+      $customer = getsession($this, "customer")  ;
+      $w    = "customer = '$customer' AND (keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%' OR kode LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
+      $dbd  = $this->bdb->select("kredit_golongan", "id, kode ,keterangan", $w, "", "", "kode ASC", "0,5") ;
+      while($dbr    = $this->bdb->getrow($dbd)){
+         $vare[]    = array("id"=>$dbr['kode'], "text"=>$dbr['kode'] . " - "  . $dbr['keterangan']) ;
+      }
+      echo(json_encode($vare)) ; 
+   }
+
 }
 ?>

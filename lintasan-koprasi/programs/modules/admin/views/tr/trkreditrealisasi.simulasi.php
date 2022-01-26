@@ -1,63 +1,99 @@
 <table class="osxtable form" border="0" width="100%">
   <tr>
-    <td width="15%"><label for="tgl">Tgl</label> </td>
-    <td width="1%">:</td>
-    <td> 
-      <input style="width: 100px;" type="text" class="form-control date" id="tgl" name="tgl" required value=<?=date("d-m-Y")?> <?=date_set()?>> 
+    <td valign="top" width="30%">
+      <table>
+        <tr>
+          <td style="font-weight:bold">:: Data Anggota ::</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Rekening</td>
+          <td>:</td>
+          <td>01.71.000001.01</td>
+        </tr>
+        <tr>
+          <td>Nama</td>
+          <td>:</td>
+          <td>Faudji</td>
+        </tr>
+        <tr>
+          <td>Alamat</td>
+          <td>:</td>
+          <td>Jl. Terusan Batu Bara II/15 Malang</td>
+        </tr>
+        <tr>
+          <td>Golongan Kredit</td>
+          <td>:</td>
+          <td>71 - Pinjaman Angsuran</td>
+        </tr>
+        <tr>
+          <td>Tujuan Pembukaan</td>
+          <td>:</td>
+          <td>Kredit Kepemilikan Rumah</td>
+        </tr>
+        <tr>
+          <td>Ahli Waris</td>
+          <td>:</td>
+          <td>Agus</td>
+        </tr>
+        <tr>
+          <td>Tgl Realisasi</td>
+          <td>:</td>
+          <td>20-01-2022</td>
+        </tr>
+        <tr>
+          <td>Plafond</td>
+          <td>:</td>
+          <td>Rp. 150.000.000,-</td>
+        </tr>
+        <tr>
+          <td>SukuBunga/Tahun</td>
+          <td>:</td>
+          <td>12 %</td>
+        </tr>
+        <tr>
+          <td>Jangka Waktu</td>
+          <td>:</td>
+          <td>12 Bulan</td>
+        </tr>
+        <tr>
+          <td>Angsuran Per Bulan</td>
+          <td>:</td>
+          <td>Rp. 1.200.000,-</td>
+        </tr>
+
+      </table>
+    </td>
+    <td width="50%">
+      <table>
+        <tr>
+          <td colspan="5" style="font-weight: bold;">
+            :: Data Angsuran ::
+          </td>
+        </tr>
+        <tr style="font-weight: bold;">
+          <td>No.</td>
+          <td align="center" width="200px">Keterangan</td>
+          <td align="center" width="120px">Angsuran Pokok</td>
+          <td align="center" width="120px">Angsuran Bunga</td>
+          <td align="center" width="150px">Total Angsuran</td>
+        </tr>
+        <?php
+          for($i=1;$i<=24;$i++){
+            echo('
+              <tr>
+                <td>'.$i.'</td>
+                <td>Angsuran ke '.$i.'</td>
+                <td align="right">1.000.000</td>
+                <td align="right">200.000</td>
+                <td align="right">1.200.000</td>
+              </tr>
+            ');
+          }
+        ?>
+      </table>
     </td>
   </tr>
-  <tr>
-    <td width="5%"><label for="sku">Kode Anggota</label> </td>
-    <td>:</td>
-    <td>
-      <div style="width:30%" class="input-group">
-        <input type="text" id="kode_anggota" name="kode_anggota" class="form-control" placeholder="Kode Anggota">
-        <span class="input-group-btn">
-          <button class="form-control btn btn-info" type="button" id="cmdanggota"><i class="fa fa-search"></i></button>
-        </span>
-      </div>              
-    </td>    
-  </tr>
-  <tr>
-    <td><label for="nama">Nama</label> </td>
-    <td width="1%">:</td>
-    <td>
-      <input disabled type="text" id="nama" name="nama" class="form-control" placeholder="Nama" required>
-    </td>
-  </tr>
-  <tr>
-    <td><label for="alamat">Alamat</label> </td>
-    <td width="1%">:</td>
-    <td>
-      <input disabled type="text" id="alamat" name="alamat" class="form-control" placeholder="Alamat" required>
-    </td> 
-  </tr>
-  <tr>
-    <td><label for="telepon">Telepon</label> </td>
-    <td width="1%">:</td>
-    <td>
-      <input disabled style="width:30%" type="text" id="telepon" name="telepon" class="form-control" placeholder="Nomor Telepon" required>
-    </td>
-  </tr> 
-  <tr>
-    <td><label for="rekening">Golongan Tabungan</label> </td>
-    <td width="1%">:</td>
-    <td>
-    <select name="golongan_tabungan" id="golongan_tabungan" class="form-control select" style="width:20%" data-sf="load_tabungan_golongan" data-placeholder="Golongan Tabungan" required></select>
-    </td>
-  </tr> 
-  <tr>
-    <td><label for="nama">Tujuan Pembukaan</label> </td>
-    <td width="1%">:</td>
-    <td>
-      <input type="text" id="tujuan_pembukaan" name="tujuan_pembukaan" class="form-control" placeholder="Tujuan Pembukaan" required>
-    </td>
-  </tr>
-  <tr>
-    <td><label for="nama">Ahli Waris</label> </td>
-    <td width="1%">:</td>
-    <td>
-      <input type="text" id="ahli_waris" name="ahli_waris" class="form-control" placeholder="Ahli Waris" required>
-    </td>
-  </tr>
+  
 </table>

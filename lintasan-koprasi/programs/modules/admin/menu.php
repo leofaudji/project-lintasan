@@ -15,7 +15,7 @@
   ["Perubahan Suku Bunga", "tabunganperubahanrate", "admin/mst/tabunganperubahanrate", "ion-filing", 800, 500, false]
 ["Master Kredit", "mstkre", "", "ion-ios-briefcase"]
   ["Golongan Kredit", "mstkreditgolongan", "admin/mst/mstkreditgolongan", "ion-filing", 1000, 600, false]
-  ["Jenis Agunan", "mstkreditagunan", "admin/mst/mstkreditagunan", "ion-filing", 1000, 600, false]
+  ["Jenis Agunan", "mstkreditagunan", "admin/mst/mstkreditagunan", "ion-filing", 800, 500, false]
 ["Transaksi Tabungan", "trtabungan", "", "ion-ios-briefcase"] 
   ["Pembukaan Rekening Tabungan", "trtabunganpembukaan", "admin/tr/trtabunganpembukaan", "ion-filing", 1000, 600, false]    
   ["Transaksi", "trtabungantransaksi", "admin/tr/trtabungantransaksi", "ion-cash",800, 700,false]   

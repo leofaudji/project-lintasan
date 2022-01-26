@@ -6,11 +6,12 @@
         <div class="nav ">
           <div class="btn-group" id="tpel"> 
             <button class="btn btn-tab tpel active" href="#tpel_1" data-toggle="tab" >Daftar Realisasi Baru</button>
-            <button class="btn btn-tab tpel" href="#tpel_2" data-toggle="tab">Agunan</button>
-            <button class="btn btn-tab tpel" href="#tpel_3" data-toggle="tab">Data Kredit</button>
-            <button class="btn btn-tab tpel" href="#tpel_4" data-toggle="tab">Simulasi Jadwal Angsuran</button>
-          </div>
-        </div>
+            <button class="btn btn-tab tpel" href="#tpel_2" data-toggle="tab">Data Anggota</button>
+            <button class="btn btn-tab tpel" href="#tpel_3" data-toggle="tab">Agunan</button>
+            <button class="btn btn-tab tpel" href="#tpel_4" data-toggle="tab">Data Kredit</button> 
+            <button class="btn btn-tab tpel" href="#tpel_5" data-toggle="tab">Simulasi Jadwal Angsuran</button>
+          </div> 
+        </div> 
       </td>
       <td class="button">
         <table class="header-button" align="right"> 
@@ -33,17 +34,22 @@
       <div role="tabpanel" class="tab-pane active full-height" id="tpel_1" style="padding-top:5px;">
         <div id="grid1" class="full-height"></div> 
       </div>
+
       <div role="tabpanel" class="tab-pane fade full-height" id="tpel_2">
+        <?php require_once "trkreditrealisasi.dataanggota.php" ; ?>
+      </div>
+
+      <div role="tabpanel" class="tab-pane fade full-height" id="tpel_3">
         <?php require_once "trkreditrealisasi.agunan.php" ; ?>
       </div>
 
-      <div role="tabpanel" class="tab-pane active full-height" id="tpel_3" style="padding-top:5px;">
+      <div role="tabpanel" class="tab-pane active full-height" id="tpel_4" style="padding-top:5px;">
         <div class="full-height">
           <?php require_once "trkreditrealisasi.datakredit.php" ; ?>
         </div> 
       </div>
 
-      <div role="tabpanel" class="tab-pane active full-height" id="tpel_4" style="padding-top:5px;">
+      <div role="tabpanel" class="tab-pane active full-height" id="tpel_5" style="padding-top:5px;">
         <div class="full-height">
           <?php require_once "trkreditrealisasi.simulasi.php" ; ?>
         </div> 
@@ -221,7 +227,7 @@
       this.obj.find(".bodyfix").css("height","100%") ;
       this.obj.find(".footer").addClass("hidden") ;
       bos.trkreditrealisasi.grid1_render() ;
-      bos.trkreditrealisasi.init() ;
+      //bos.trkreditrealisasi.init() ;
     }else{
       this.obj.find(".bodyfix").css("height","calc(100% - 32px)") ;
       this.obj.find(".footer").removeClass("hidden") ;
@@ -252,6 +258,10 @@
       bos.trkreditrealisasi.grid1_destroy() ;
       bos.trkreditrealisasi.grid3_destroy() ;
     }) ;
+
+    this.obj.find("#jenis_agunan").on("select2:select", function(e){ 
+      bjs.ajax(bos.trkreditrealisasi.url+"/seekjenisagunan", "jenis_agunan=" + $(this).val()) ;
+    }) ; 
   }
 
 
