@@ -30,7 +30,7 @@ class Tabungan_m extends Bismillah_Model{
           $data = $d; 
       }
       return $data ;
-  }
+   }
 
 
    public function setmutasi($f){ 

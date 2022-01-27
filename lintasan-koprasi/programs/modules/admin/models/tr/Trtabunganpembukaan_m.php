@@ -69,16 +69,6 @@ class Trtabunganpembukaan_m extends Bismillah_Model{
       $dba      = $this->select("mst_anggota", "id", $where) ;
 
       return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
-   }
-
-   public function getdata($kode){
-      $data = array() ;
-      $id_kantor   = getsession($this,"id_kantor") ;
-      $where = "id_kantor = '$id_kantor' AND kode = " . $this->escape($kode);
-      if($d = $this->getval("*",$where, "mst_anggota")){
-          $data = $d; 
-      }
-      return $data ;
-  }
+   } 
 }
 ?>

@@ -6,9 +6,8 @@
         <div class="nav ">
           <div class="btn-group" id="tpel"> 
             <button class="btn btn-tab tpel active" href="#tpel_1" data-toggle="tab" >Daftar Realisasi Baru</button>
-            <button class="btn btn-tab tpel" href="#tpel_2" data-toggle="tab">Data Anggota</button>
+            <button class="btn btn-tab tpel" href="#tpel_2" data-toggle="tab">Data Kredit</button> 
             <button class="btn btn-tab tpel" href="#tpel_3" data-toggle="tab">Agunan</button>
-            <button class="btn btn-tab tpel" href="#tpel_4" data-toggle="tab">Data Kredit</button> 
             <button class="btn btn-tab tpel" href="#tpel_5" data-toggle="tab">Simulasi Jadwal Angsuran</button>
           </div> 
         </div> 
@@ -36,20 +35,14 @@
       </div>
 
       <div role="tabpanel" class="tab-pane fade full-height" id="tpel_2">
-        <?php require_once "trkreditrealisasi.dataanggota.php" ; ?>
+        <?php require_once "trkreditrealisasi.datakredit.php" ; ?>
       </div>
 
       <div role="tabpanel" class="tab-pane fade full-height" id="tpel_3">
-        <?php require_once "trkreditrealisasi.agunan.php" ; ?>
+        <?php require_once "trkreditrealisasi.agunan.php" ; ?>     
       </div>
-
-      <div role="tabpanel" class="tab-pane active full-height" id="tpel_4" style="padding-top:5px;">
-        <div class="full-height">
-          <?php require_once "trkreditrealisasi.datakredit.php" ; ?>
-        </div> 
-      </div>
-
-      <div role="tabpanel" class="tab-pane active full-height" id="tpel_5" style="padding-top:5px;">
+ 
+      <div role="tabpanel" class="tab-pane fade full-height" id="tpel_5" style="padding-top:5px;">
         <div class="full-height">
           <?php require_once "trkreditrealisasi.simulasi.php" ; ?>
         </div> 
@@ -58,9 +51,9 @@
     </div> 
   </div>
   <div class="footer fix hidden" style="height:32px">
-    <button class="btn btn-primary btn-block" id="cmdsave">Simpan</button>
+    <button class="btn btn-primary btn-block" id="cmdsave" disabled>Simpan</button>
   </div>
-  </form>
+  </form> 
 </div>
   
 <div class="modal fade" id="wrap-pencarian-d" role="dialog" data-backdrop="false" data-keyboard="false">
@@ -86,7 +79,7 @@
   bjs.initenter($("form")) ;
   bos.trkreditrealisasi.grid1_data    = null ;
   bos.trkreditrealisasi.grid1_loaddata= function(){ 
-    this.grid1_data     = {} ;
+    this.grid1_data     = {} ; 
   }
 
   bos.trkreditrealisasi.grid1_load    = function(){
@@ -103,10 +96,15 @@
       multiSearch    : false, 
       columns: [
         { field: 'no', caption: 'No', size: '40px',style:'text-align:center', sortable: false},
-        { field: 'datetime', caption: 'Datetime', size: '140px',style:'text-align:center', sortable: false},
+        { field: 'datetime', caption: 'Datetime', size: '130px',style:'text-align:center', sortable: false},
         { field: 'rekening', caption: 'No.Rekening',style:'text-align:center', size: '120px', sortable: false},
-        { field: 'nama', caption: 'Nama', size: '220px', sortable: false}, 
-        { field: 'alamat', caption: 'Alamat', size: '320px', sortable: false},
+        { field: 'nama', caption: 'Nama', size: '200px', sortable: false}, 
+        { field: 'alamat', caption: 'Alamat', size: '350px', sortable: false},
+        { field: 'plafond', caption: 'Plafond', size: '100px',style:'text-align:right', sortable: false},
+        { field: 'lama', caption: 'Jangka Waktu', size: '100px',style:'text-align:right', sortable: false},
+        { field: 'sukubunga', caption: 'SukuBunga', size: '100px',style:'text-align:right', sortable: false}, 
+        { field: 'agunan', caption: 'Agunan', size: '150px', sortable: false}, 
+        { field: 'ao', caption: 'AO', size: '100px', sortable: false},
         { field: 'cmdedit', caption: ' ', size: '80px', sortable: false },
         { field: 'cmddelete', caption: ' ', size: '80px', sortable: false },
         { field: 'cmdcetak', caption: ' ', size: '80px', sortable: false }
@@ -116,6 +114,25 @@
 
    bos.trkreditrealisasi.grid1_setdata  = function(){
     w2ui[this.id + '_grid1'].postData   = this.grid1_data ;
+  }
+
+  bos.trkreditrealisasi.grid1_reload    = function(){
+    w2ui[this.id + '_grid1'].reload() ; 
+  }
+  bos.trkreditrealisasi.grid1_destroy   = function(){
+    if(w2ui[this.id + '_grid1'] !== undefined){
+      w2ui[this.id + '_grid1'].destroy() ;
+    }
+  }
+
+  bos.trkreditrealisasi.grid1_render   = function(){
+    this.obj.find("#grid1").w2render(this.id + '_grid1') ;
+  }
+
+  bos.trkreditrealisasi.grid1_reloaddata  = function(){
+    this.grid1_loaddata() ;
+    this.grid1_setdata() ;
+    this.grid1_reload() ;
   }
 
   //grid3 daftarstock
@@ -166,26 +183,7 @@
       this.grid3_setdata() ;
       this.grid3_reload() ;
   }
-
-  bos.trkreditrealisasi.grid1_reload    = function(){
-    w2ui[this.id + '_grid1'].reload() ; 
-  }
-  bos.trkreditrealisasi.grid1_destroy   = function(){
-    if(w2ui[this.id + '_grid1'] !== undefined){
-      w2ui[this.id + '_grid1'].destroy() ;
-    }
-  }
-
-  bos.trkreditrealisasi.grid1_render   = function(){
-    this.obj.find("#grid1").w2render(this.id + '_grid1') ;
-  }
-
-  bos.trkreditrealisasi.grid1_reloaddata  = function(){
-    this.grid1_loaddata() ;
-    this.grid1_setdata() ;
-    this.grid1_reload() ;
-  }
-
+ 
   bos.trkreditrealisasi.cmdpilih     = function(kode){
     bjs.ajax(this.url + '/pilih', 'kode=' + kode);
   }
@@ -204,14 +202,35 @@
     bjs_os.form_report(bos.trkreditrealisasi.url+ '/showreport?id=' + id ) ;
   }
 
+  bos.trkreditrealisasi.cmdadd    = function(){ 
+    var dataagunan = "kode_anggota=" + bos.trkreditrealisasi.obj.find("#kode_anggota").val() + "&nilai_agunan=" + bos.trkreditrealisasi.obj.find("#nilai_agunan").val() + "&jenis_agunan=" + bos.trkreditrealisasi.obj.find("#jenis_agunan").val() + "&data_agunan=" + bos.trkreditrealisasi.obj.find("#data_agunan").val()  ; 
+    bjs.ajax(this.url + '/addagunan', dataagunan);  
+  }
+
+  bos.trkreditrealisasi.cmdremove    = function(id){ 
+    var dataagunan = "id=" + id ;    
+    bjs.ajax(this.url + '/removeagunan', dataagunan);  
+  }
+
   bos.trkreditrealisasi.init        = function(){
     this.obj.find("#kode_anggota").val("") ;
     this.obj.find("#nama").val("") ;
     this.obj.find("#alamat").val("") ;
     this.obj.find("#telepon").val("") ;
+    this.obj.find("#no_spk").val("") ;
     this.obj.find("#golongan_tabungan").html("") ; 
+    this.obj.find("#plafond").val("") ;
+    this.obj.find("#sukubunga").val("") ;
+    this.obj.find("#lama").val("") ;
+    this.obj.find("#administrasi").val("") ;
+    this.obj.find("#provisi").val("") ;
+    this.obj.find("#materai").val("") ;
+    this.obj.find("#ao").html("") ;
     this.obj.find("#tujuan_pembukaan").val("") ;
     this.obj.find("#ahli_waris").val("") ;
+    this.obj.find("#jenis_agunan").html("") ;
+    this.obj.find("#nilai_agunan").val("") ;
+    this.obj.find("#data_agunan").val("") ;
     this.obj.find("#image").val("") ;
     this.obj.find("#idlimage").html("") ;
     this.obj.find("#idimage").html("") ;
@@ -255,7 +274,7 @@
     });
 
     this.obj.on("remove",function(){
-      bos.trkreditrealisasi.grid1_destroy() ;
+      bos.trkreditrealisasi.grid1_destroy() ; 
       bos.trkreditrealisasi.grid3_destroy() ;
     }) ;
 
@@ -276,20 +295,20 @@
     this.grid1_load() ;
 
     this.obj.find("#image").on("change", function(e){
-      e.preventDefault() ;
+      e.preventDefault() ; 
 
-            bos.trkreditrealisasi.cfile    = e.target.files ;
-            bos.trkreditrealisasi.gfile    = new FormData() ;
-            $.each(bos.trkreditrealisasi.cfile, function(cKey,cValue){
-              bos.trkreditrealisasi.gfile.append(cKey,cValue) ;
-            }) ;
+      bos.trkreditrealisasi.cfile    = e.target.files ;
+      bos.trkreditrealisasi.gfile    = new FormData() ;
+      $.each(bos.trkreditrealisasi.cfile, function(cKey,cValue){
+        bos.trkreditrealisasi.gfile.append(cKey,cValue) ;
+      }) ;
 
-            bos.trkreditrealisasi.obj.find("#idlimage").html("<i class='fa fa-spinner fa-pulse'></i>");
-            bos.trkreditrealisasi.obj.find("#idimage").html("") ;
+      bos.trkreditrealisasi.obj.find("#idlimage").html("<i class='fa fa-spinner fa-pulse'></i>");
+      bos.trkreditrealisasi.obj.find("#idimage").html("") ;
       bos.trkreditrealisasi.obj.find("#image").val("") ;
- 
- 
-            bjs.ajaxfile(bos.trkreditrealisasi.base_url + "/saving_image", bos.trkreditrealisasi.gfile, this) ;
+
+
+      bjs.ajaxfile(bos.trkreditrealisasi.base_url + "/saving_image", bos.trkreditrealisasi.gfile, this) ;
 
     })  
     this.obj.find("form").on("submit", function(e){
@@ -301,7 +320,7 @@
 
     this.obj.find("#cmdanggota").on("click", function(e){
           bos.trkreditrealisasi.loadmodelstock("show");
-          bos.trkreditrealisasi.grid3_reloaddata() ;
+          bos.trkreditrealisasi.grid3_reloaddata() ; 
       }) ;
       
   }

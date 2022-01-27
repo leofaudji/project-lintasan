@@ -4,7 +4,7 @@ class Trtabunganpembukaan extends Bismillah_Controller{
 	public function __construct(){
 		parent::__construct() ;
 		$this->load->helper("bdate") ;
-		$this->load->helper("toko") ; 
+		$this->load->model("func/anggota_m") ;
 		$this->load->model("tr/trtabunganpembukaan_m") ;
 		$this->bdb 	= $this->trtabunganpembukaan_m ;
 	}  
@@ -163,7 +163,7 @@ class Trtabunganpembukaan extends Bismillah_Controller{
 	public function pilih(){
 		$va   = $this->input->post() ;
 		$kode   = $va['kode'] ;
-		$data = $this->trtabunganpembukaan_m->getdata($kode) ;
+		$data = $this->anggota_m->getdata($kode) ;
 		if(!empty($data)){
 				echo('
 				with(bos.trtabunganpembukaan.obj){

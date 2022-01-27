@@ -4,6 +4,7 @@ class Trkreditrealisasi extends Bismillah_Controller{
 	public function __construct(){
 		parent::__construct() ;
 		$this->load->helper("bdate") ; 
+		$this->load->model("func/anggota_m") ;
 		$this->load->model("tr/trkreditrealisasi_m") ;
 		$this->bdb 	= $this->trkreditrealisasi_m ;
 	}  
@@ -23,8 +24,10 @@ class Trkreditrealisasi extends Bismillah_Controller{
 			$vs = $dbr;  
 			++$n ;
 			$vs['no'] = $n ;
-			$vs['tgl'] = date("d-m-Y", strtotime($vs['tgl'])) ;
-			//$vs['statuspelanggan'] = statuspelanggan($vs['statuspelanggan']) ;
+			$vs['tgl'] = date_2d($vs['tgl']) ;
+			$vs['plafond'] =  string_2s($vs['plafond']) ;
+			$vs['lama'] =  $vs['lama'] . " Bulan" ;
+			$vs['sukubunga'] =  $vs['sukubunga'] . " % p.a" ;
 			$vs['cmdedit']    = '<button type="button" onClick="bos.trkreditrealisasi.cmdedit(\''.$dbr['id'].'\')"
 												class="btn btn-default btn-grid">Koreksi</button>' ;
 			$vs['cmdedit']	   = html_entity_decode($vs['cmdedit']) ;
@@ -74,7 +77,7 @@ class Trkreditrealisasi extends Bismillah_Controller{
 		if($url <> "") $va['data_var']	= $url ;   
 
 		$this->bdb->saving($va, $id) ;
-		echo(' bos.trkreditrealisasi.settab(0) ;  ') ;
+		echo(' bos.trkreditrealisasi.settab(0) ;  bos.trkreditrealisasi.init() ;') ;
 	}
 
 	public function deleting(){
@@ -99,7 +102,9 @@ class Trkreditrealisasi extends Bismillah_Controller{
 			$nama = $this->bdb->getval("nama",$w, "mst_anggota") ;
 			$alamat = $this->bdb->getval("alamat",$w, "mst_anggota") ;
 			$telepon = $this->bdb->getval("telepon",$w, "mst_anggota") ; 
-			$golongan_tabungan[]   = array("id"=>$d['golongan_tabungan'],"text"=>$d['golongan_tabungan']);  
+			$no_spk = $d['no_spk'] ; 
+			$golongan_kredit[]   = array("id"=>$d['golongan_kredit'],"text"=>$d['golongan_kredit']);  
+			$ao[]   = array("id"=>$d['ao'],"text"=>$d['ao']);  
 			
 			echo('   
 				with(bos.trkreditrealisasi.obj){
@@ -108,7 +113,14 @@ class Trkreditrealisasi extends Bismillah_Controller{
 					find("#nama").val("'.$nama.'") ;
 					find("#alamat").val("'.$alamat.'") ;
 					find("#telepon").val("'.$telepon.'") ;
-					find("#golongan_tabungan").sval('.json_encode($golongan_tabungan).') ;  
+					find("#golongan_kredit").sval('.json_encode($golongan_kredit).') ;  
+					find("#plafond").val("'.$d['plafond'].'") ;
+					find("#sukubunga").val("'.$d['sukubunga'].'") ;
+					find("#lama").val("'.$d['lama'].'") ;
+					find("#administrasi").val("'.$d['administrasi'].'") ;
+					find("#provisi").val("'.$d['provisi'].'") ;
+					find("#materai").val("'.$d['materai'].'") ;
+					find("#ao").sval('.json_encode($ao).') ;  
 					find("#tujuan_pembukaan").val("'.$d['tujuan_pembukaan'].'") ;
 					find("#ahli_waris").val("'.$d['ahli_waris'].'") ;
 					find("#foto").html("'.$image.'") ;
@@ -162,7 +174,7 @@ class Trkreditrealisasi extends Bismillah_Controller{
 	public function pilih(){
 		$va   = $this->input->post() ;
 		$kode   = $va['kode'] ;
-		$data = $this->trkreditrealisasi_m->getdata($kode) ;
+		$data = $this->anggota_m->getdata($kode) ; 
 		if(!empty($data)){
 				echo('
 				with(bos.trkreditrealisasi.obj){
@@ -170,13 +182,66 @@ class Trkreditrealisasi extends Bismillah_Controller{
 					 find("#nama").val("'.$data['nama'].'");
 					 find("#alamat").val("'.$data['alamat'].'");
 					 find("#telepon").val("'.$data['telepon'].'");
-					 find("#golongan_tabungan").focus() ; 
-					 bos.trkreditrealisasi.loadmodelstock("hide");
+					 find("#no_spk").focus() ;     
 				}
+				bos.trkreditrealisasi.loadmodelstock("hide");
 
 		 ') ;
 		}
-}
+	}
+
+	public function seekjenisagunan(){
+		$va   = $this->input->post() ;
+		$kode   = $va['jenis_agunan'] ;
+		$data = $this->trkreditrealisasi_m->getdata_jenisagunan($kode) ;
+		if(!empty($data) and !empty($data['data_kategori'])){ 
+				$data_kategori = explode("~~",$data['data_kategori']) ;
+				$f = "" ;
+				foreach($data_kategori as $key=>$value){
+					$f .= $value . " : \\n" ;
+				}
+				echo('
+				with(bos.trkreditrealisasi.obj){
+					 find("#data_agunan").val("'.$f.'") ;  
+					 find("#nilai_agunan").focus() ;  
+				}
+		 ') ;
+		}
+	}
+
+	public function addagunan(){
+		$va = $this->input->post() ; 
+		$id = md5($va['kode_anggota'] . $va['jenis_agunan'] . $va['nilai_agunan'] . $va['data_agunan']) ;
+		$data_agunan[$id] = array("kode_anggota"=>$va['kode_anggota'], 
+													 "jenis_agunan"=>$va['jenis_agunan'],
+													 "nilai_agunan"=>$va['nilai_agunan'], 
+													 "data_agunan"=>$va['data_agunan']
+		) ;
+		savesession($this, "sstrkreditrealisasi_data_agunan_tmp", $data_agunan) ;  
+
+		$this->load_agunan() ;
+	}
+
+	public function load_agunan(){
+		$data = getsession($this, "sstrkreditrealisasi_data_agunan_tmp") ;   
+		$html_header = "<table style='width:50%;border-bottom:1px solid #bbc1c9;border-collapse:collapse'><tr><td style='text-align:center;width:200px'>Kode Anggota</td><td style='text-align:center;width:200px'>Jenis Agunan</td><td style='text-align:center;width:200px'>Nilai Agunan</td><td></td></tr></table>" ;	
+		
+		echo('  bos.trkreditrealisasi.obj.find("#data_agunan_tmp_header").html("'.$html_header.'") ; ');
+
+		foreach($data as $key=>$value){
+			$onclick = "onclick=bos.trkreditrealisasi.cmdremove('$key')" ; 
+			$html_content = "<table style='width:50%;border:0px solid'><tr><td style='text-align:center;width:200px'>". $value['kode_anggota'] ."</td><td style='text-align:center;width:200px'>". $value['jenis_agunan'] ."</td><td style='text-align:right;width:200px'>". $value['nilai_agunan'] ."</td><td ".$onclick."> x </td></tr></table>" ;
+			echo('bos.trkreditrealisasi.obj.find("#data_agunan_tmp_data").append("'.$html_content.'") ;') ; 
+		}
+	}
+
+	public function removeagunan(){
+		$va = $this->input->post() ;
+		$data_agunan = getsession($this, "sstrkreditrealisasi_data_agunan_tmp") ;   
+		unset($data_agunan[$va['id']]) ;
+		getsession($this, "sstrkreditrealisasi_data_agunan_tmp", $data_agunan) ;  
+		$this->load_agunan() ; 
+	}
 
 }
 ?>
