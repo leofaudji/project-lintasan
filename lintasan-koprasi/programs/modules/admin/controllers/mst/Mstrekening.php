@@ -3,8 +3,7 @@ class Mstrekening extends Bismillah_Controller{
 	protected $bdb ;  
 	public function __construct(){
 		parent::__construct() ;
-		$this->load->helper("bdate") ;
-		$this->load->helper("toko") ; 
+		$this->load->helper("bdate") ; 
 		$this->load->model("mst/mstrekening_m") ;
 		$this->bdb 	= $this->mstrekening_m ;
 	}

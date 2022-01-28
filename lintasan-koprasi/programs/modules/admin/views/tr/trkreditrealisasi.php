@@ -51,7 +51,7 @@
     </div> 
   </div>
   <div class="footer fix hidden" style="height:32px">
-    <button class="btn btn-primary btn-block" id="cmdsave" disabled>Simpan</button>
+    <button class="btn btn-primary btn-block" id="cmdsave">Simpan</button>
   </div>
   </form> 
 </div>
@@ -202,13 +202,13 @@
     bjs_os.form_report(bos.trkreditrealisasi.url+ '/showreport?id=' + id ) ;
   }
 
-  bos.trkreditrealisasi.cmdadd    = function(){ 
+  bos.trkreditrealisasi.cmdadd    = function(){  
     var dataagunan = "kode_anggota=" + bos.trkreditrealisasi.obj.find("#kode_anggota").val() + "&nilai_agunan=" + bos.trkreditrealisasi.obj.find("#nilai_agunan").val() + "&jenis_agunan=" + bos.trkreditrealisasi.obj.find("#jenis_agunan").val() + "&data_agunan=" + bos.trkreditrealisasi.obj.find("#data_agunan").val()  ; 
     bjs.ajax(this.url + '/addagunan', dataagunan);  
   }
 
-  bos.trkreditrealisasi.cmdremove    = function(id){ 
-    var dataagunan = "id=" + id ;    
+  bos.trkreditrealisasi.cmdremove    = function(key,id){  
+    var dataagunan = "key=" + key ;    
     bjs.ajax(this.url + '/removeagunan', dataagunan);  
   }
 
@@ -242,12 +242,13 @@
   }
 
   bos.trkreditrealisasi.tabsaction  = function(n){
-    if(n == 0){
+    if(n == 0 || n == 1 || n == 2){
       this.obj.find(".bodyfix").css("height","100%") ;
       this.obj.find(".footer").addClass("hidden") ;
       bos.trkreditrealisasi.grid1_render() ;
-      //bos.trkreditrealisasi.init() ;
-    }else{
+      //bos.trkreditrealisasi.init() ; 
+    }else if(n == 3){
+      bjs.ajax(bos.trkreditrealisasi.url + '/getsimulasi', bjs.getdataform(this) , bos.trkreditrealisasi.objs) ; 
       this.obj.find(".bodyfix").css("height","calc(100% - 32px)") ;
       this.obj.find(".footer").removeClass("hidden") ;
       this.obj.find("#kode_anggota").focus() ;

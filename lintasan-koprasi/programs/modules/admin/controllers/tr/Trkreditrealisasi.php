@@ -1,10 +1,12 @@
 <?php
 class Trkreditrealisasi extends Bismillah_Controller{ 
 	protected $bdb ;
+
 	public function __construct(){
 		parent::__construct() ;
 		$this->load->helper("bdate") ; 
 		$this->load->model("func/anggota_m") ;
+		$this->load->model("func/kredit_m") ;
 		$this->load->model("tr/trkreditrealisasi_m") ;
 		$this->bdb 	= $this->trkreditrealisasi_m ;
 	}  
@@ -76,8 +78,9 @@ class Trkreditrealisasi extends Bismillah_Controller{
 		unset($va['image']) ;           
 		if($url <> "") $va['data_var']	= $url ;   
 
-		$this->bdb->saving($va, $id) ;
+		$this->bdb->saving($va, $id) ; 
 		echo(' bos.trkreditrealisasi.settab(0) ;  bos.trkreditrealisasi.init() ;') ;
+		$this->init_agunan() ;
 	}
 
 	public function deleting(){
@@ -213,34 +216,60 @@ class Trkreditrealisasi extends Bismillah_Controller{
 		$va = $this->input->post() ; 
 		$id = md5($va['kode_anggota'] . $va['jenis_agunan'] . $va['nilai_agunan'] . $va['data_agunan']) ;
 		$data_agunan[$id] = array("kode_anggota"=>$va['kode_anggota'], 
-													 "jenis_agunan"=>$va['jenis_agunan'],
+													 "jenis_agunan"=>$va['jenis_agunan'], 
 													 "nilai_agunan"=>$va['nilai_agunan'], 
 													 "data_agunan"=>$va['data_agunan']
-		) ;
-		savesession($this, "sstrkreditrealisasi_data_agunan_tmp", $data_agunan) ;  
-
-		$this->load_agunan() ;
+		) ; 
+		$this->bdb->addagunan($data_agunan) ;  
+		$this->load_agunan($data_agunan) ;  
 	}
 
-	public function load_agunan(){
-		$data = getsession($this, "sstrkreditrealisasi_data_agunan_tmp") ;   
+	public function load_agunan($data){
 		$html_header = "<table style='width:50%;border-bottom:1px solid #bbc1c9;border-collapse:collapse'><tr><td style='text-align:center;width:200px'>Kode Anggota</td><td style='text-align:center;width:200px'>Jenis Agunan</td><td style='text-align:center;width:200px'>Nilai Agunan</td><td></td></tr></table>" ;	
 		
 		echo('  bos.trkreditrealisasi.obj.find("#data_agunan_tmp_header").html("'.$html_header.'") ; ');
-
-		foreach($data as $key=>$value){
-			$onclick = "onclick=bos.trkreditrealisasi.cmdremove('$key')" ; 
-			$html_content = "<table style='width:50%;border:0px solid'><tr><td style='text-align:center;width:200px'>". $value['kode_anggota'] ."</td><td style='text-align:center;width:200px'>". $value['jenis_agunan'] ."</td><td style='text-align:right;width:200px'>". $value['nilai_agunan'] ."</td><td ".$onclick."> x </td></tr></table>" ;
+ 
+		$n = 0 ;
+		foreach($data as $key=>$value){ 
+			$onclick = "onclick=bos.trkreditrealisasi.cmdremove('$key')" ;  
+			$html_content = "<table id='".$key."' style='width:50%;border:0px solid'><tr><td style='text-align:center;width:200px'>". $value['kode_anggota'] ."</td><td style='text-align:center;width:200px'>". $value['jenis_agunan'] ."</td><td style='text-align:right;width:200px'>". $value['nilai_agunan'] ."</td><td ".$onclick."> x </td></tr></table>" ;
 			echo('bos.trkreditrealisasi.obj.find("#data_agunan_tmp_data").append("'.$html_content.'") ;') ; 
 		}
 	}
 
-	public function removeagunan(){
-		$va = $this->input->post() ;
-		$data_agunan = getsession($this, "sstrkreditrealisasi_data_agunan_tmp") ;   
-		unset($data_agunan[$va['id']]) ;
-		getsession($this, "sstrkreditrealisasi_data_agunan_tmp", $data_agunan) ;  
-		$this->load_agunan() ; 
+	public function removeagunan(){  
+		$va = $this->input->post() ;    
+		$this->bdb->removeagunan($va['key']) ;   
+		echo('bos.trkreditrealisasi.obj.find("#'.$va['key'].'").remove() ;') ;   
+		//$this->load_agunan() ;    
+	}
+
+	public function init_agunan(){
+		echo('
+			with(bos.trkreditrealisasi.obj){
+				find("#data_agunan_tmp_header").html("") ;
+				find("#data_agunan_tmp_data").html("") ;
+			}
+		') ;  
+	}
+
+	public function getsimulasi(){  
+		$va 	= $this->input->post() ;
+		echo('  
+			with(bos.trkreditrealisasi.obj){
+				find("#s_nama").html(find("#nama").val()) ;  
+				find("#s_alamat").html(find("#alamat").val()) ;  
+				find("#s_golongan_kredit").html(find("#golongan_kredit").val()) ;  
+				find("#s_tujuan_pembukaan").html(find("#tujuan_pembukaan").val()) ;  
+				find("#s_ahli_waris").html(find("#ahli_waris").val()) ;  
+				find("#s_tgl").html(find("#tgl").val()) ;  
+				find("#s_plafond").html(find("#plafond").val()) ;  
+				find("#s_sukubunga").html(find("#sukubunga").val()  + " % per Tahun") ;  
+				find("#s_lama").html(find("#lama").val() + " Bulan") ;  
+				find("#s_tgl_jthtmp").html(find("#tgl").val()) ;  
+			}			
+		');
+
 	}
 
 }

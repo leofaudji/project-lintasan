@@ -23,7 +23,7 @@
     <td colspan="3" valign="top">
       <textarea style="font-size:16px;padding:12px;" id="data_agunan" name="data_agunan" class="form-control" placeholder="Data Agunan" rows="10" required></textarea>
     </td> 
-  </tr>
+  </tr> 
   <tr>
     <td colspan="3" align="right"> 
       <div class="" style="height:32px">  

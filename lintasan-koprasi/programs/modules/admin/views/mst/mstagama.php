@@ -58,7 +58,7 @@
 </div>
 <script type="text/javascript">
 	<?=cekbosjs();?>
-
+	bjs.initenter($("form")) ;
 	bos.mstagama.grid1_data 	 = null ;
 	bos.mstagama.grid1_loaddata= function(){
 		this.grid1_data 		= {} ;

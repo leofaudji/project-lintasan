@@ -1,68 +1,94 @@
 <table class="osxtable form" border="0" width="100%">
   <tr>
-    <td valign="top" width="30%">
-      <table>
+    <td valign="top" width="50%">
+      <table style="background:white;"> 
         <tr>
-          <td style="font-weight:bold">:: Data Anggota ::</td>
-          <td></td>
-          <td></td>
-        </tr>
+          <td colspan="3" style="text-align:center;font-weight:bold">:: Data Anggota ::</td>
+        </tr>        
         <tr>
           <td>Rekening</td>
           <td>:</td>
-          <td>01.71.000001.01</td>
+          <td id="s_rekening"></td>
         </tr>
         <tr>
           <td>Nama</td>
           <td>:</td>
-          <td>Faudji</td>
+          <td id="s_nama">Faudji</td>
         </tr>
         <tr>
           <td>Alamat</td>
           <td>:</td>
-          <td>Jl. Terusan Batu Bara II/15 Malang</td>
+          <td id="s_alamat"></td>
         </tr>
         <tr>
           <td>Golongan Kredit</td>
           <td>:</td>
-          <td>71 - Pinjaman Angsuran</td>
+          <td id="s_golongan_kredit"></td>
         </tr>
         <tr>
           <td>Tujuan Pembukaan</td>
           <td>:</td>
-          <td>Kredit Kepemilikan Rumah</td>
+          <td id="s_tujuan_pembukaan"></td>
         </tr>
         <tr>
           <td>Ahli Waris</td>
           <td>:</td>
-          <td>Agus</td>
+          <td id="s_ahli_waris"></td>
         </tr>
         <tr>
           <td>Tgl Realisasi</td>
           <td>:</td>
-          <td>20-01-2022</td>
+          <td id="s_tgl"></td>
         </tr>
         <tr>
           <td>Plafond</td>
           <td>:</td>
-          <td>Rp. 150.000.000,-</td>
+          <td id="s_plafond"></td>
         </tr>
         <tr>
-          <td>SukuBunga/Tahun</td>
+          <td>SukuBunga</td>
           <td>:</td>
-          <td>12 %</td>
+          <td id="s_sukubunga"></td>
         </tr>
         <tr>
           <td>Jangka Waktu</td>
           <td>:</td>
-          <td>12 Bulan</td>
+          <td id="s_lama"></td>
+        </tr>
+        <tr>
+          <td>Tgl Jatuh Tempo</td>
+          <td>:</td>
+          <td id="s_tgl_jthtmp"></td>
         </tr>
         <tr>
           <td>Angsuran Per Bulan</td>
           <td>:</td>
-          <td>Rp. 1.200.000,-</td>
-        </tr>
+          <td id="s_angsuran"></td> 
+        </tr> 
+      </table>
 
+      <table style="background:white;"> 
+        <tr> 
+          <td colspan="4" style="text-align:center;font-weight:bold">:: Data Agunan ::</td>
+        </tr>        
+        <tr style="font-weight: bold;">
+          <td>No.</td>
+          <td align="center" width="200px">Jenis Agunan</td>
+          <td align="center" width="120px">Nilai Agunan</td>
+          <td align="center" width="120px">Keterangan</td>
+        </tr>
+        <?php
+          for($i=1;$i<=3;$i++){
+            echo('
+              <tr>
+                <td>'.$i.'</td>
+                <td>05 - BPKB Kendaraaan Roda 2</td>
+                <td align="right">Rp. 20.000.000,-</td>
+                <td>-</td>
+              </tr>
+            ');
+          }
+        ?>
       </table>
     </td>
     <td width="50%">

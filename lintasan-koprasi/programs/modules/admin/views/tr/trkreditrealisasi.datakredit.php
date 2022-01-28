@@ -29,14 +29,14 @@
     <td><label for="alamat">Alamat</label> </td>
     <td width="1%">:</td>
     <td>
-      <input disabled style="width:50%" type="text" id="alamat" name="alamat" class="form-control" placeholder="Alamat" required>
+      <input disabled style="width:50%" type="text" id="alamat" name="alamat" class="form-control" placeholder="Alamat" required> 
     </td> 
   </tr>
   <tr>
     <td><label for="telepon">Telepon</label> </td>
     <td width="1%">:</td>
     <td>
-      <input disabled style="width:30%" type="text" id="telepon" name="telepon" class="form-control" placeholder="Nomor Telepon" required>
+      <input disabled style="width:30%" type="text" id="telepon" name="telepon" class="form-control" placeholder="Nomor Telepon">
     </td>
   </tr>  
 </table>
@@ -103,7 +103,11 @@
     </td>
   </tr>
   <tr>
-    <td colspan="3">
+    <td><label for="rekening">Cara Perhitungan</label> </td>
+    <td width="1%">:</td>
+    <td>
+    <select name="caraperhitungan" id="caraperhitungan" class="form-control select" style="width:90%" data-sf="load_kredit_cara_perhitungan" data-placeholder="Cara Perhitungan" required></select>
+    </td>
     <td><label for="nama">Ahli Waris</label> </td>
     <td width="1%">:</td>
     <td>

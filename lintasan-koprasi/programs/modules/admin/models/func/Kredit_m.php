@@ -1,9 +1,21 @@
 <?php
-class Tabungan_m extends Bismillah_Model{
+class Kredit_m extends Bismillah_Model{
+   var $data_agunan = array() ;
 
    public function getfaktur($l=true){
       $k       = "TB" . getsession($this,"kode_kantor") . date("ymd") ;          
       return $k . $this->getincrement($k, $l, 6) ;    
+   } 
+
+   function getfrekuensi($id_kantor,$kode_anggota,$golongan_kredit){
+      $row      = 0 ;
+      $w = "id_kantor = '$id_kantor' and kode_anggota = '$kode_anggota' and golongan_kredit = '$golongan_kredit'" ;
+      $dba      = $this->select("kredit_rekening", "COUNT(id) id", $w,"") ;  
+      if($dbra  = $this->getrow($dba)){
+         $row   = $dbra['id'] ;
+      } 
+      $row++ ; 
+      return str_pad($row, 2, "0", STR_PAD_LEFT); ; 
    } 
 
    public function loadgrid_rekening($va){

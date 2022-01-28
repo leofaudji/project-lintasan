@@ -148,9 +148,21 @@ class Load extends Bismillah_Controller{
       $q    = $this->input->get('q') ; 
       $vare = array() ;  
       $customer = getsession($this, "customer")  ;
-      $w    = "customer = '$customer' AND (keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%' OR kode LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
+      $w    = "customer = '$customer' AND (kode LIKE '%". $this->bdb->escape_like_str($q) ."%' OR keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
       $dbd  = $this->bdb->select("kredit_golongan", "id, kode ,keterangan", $w, "", "", "kode ASC", "0,5") ;
       while($dbr    = $this->bdb->getrow($dbd)){
+         $vare[]    = array("id"=>$dbr['kode'], "text"=>$dbr['kode'] . " - "  . $dbr['keterangan']) ;
+      }
+      echo(json_encode($vare)) ; 
+   }
+
+   public function load_kredit_cara_perhitungan(){
+      $q    = $this->input->get('q') ; 
+      $vare = array() ;  
+      $customer = getsession($this, "customer")  ;
+      $w    = "customer = '$customer' AND (kode LIKE '%". $this->bdb->escape_like_str($q) ."%' OR keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
+      $dbd  = $this->bdb->select("kredit_cara_perhitungan", "id, kode ,keterangan", $w, "", "", "kode ASC", "0,5") ;
+      while($dbr    = $this->bdb->getrow($dbd)){ 
          $vare[]    = array("id"=>$dbr['kode'], "text"=>$dbr['kode'] . " - "  . $dbr['keterangan']) ;
       }
       echo(json_encode($vare)) ; 
