@@ -69,55 +69,39 @@
 
       <table style="background:white;"> 
         <tr> 
-          <td colspan="4" style="text-align:center;font-weight:bold">:: Data Agunan ::</td>
+          <td colspan="4" style="text-align:left;font-weight:bold">:: Data Agunan ::</td>
         </tr>        
         <tr style="font-weight: bold;">
-          <td>No.</td>
-          <td align="center" width="200px">Jenis Agunan</td>
-          <td align="center" width="120px">Nilai Agunan</td>
-          <td align="center" width="120px">Keterangan</td>
+          <td align="center" width="20px">No.</td>
+          <td align="center" width="50px">Jenis</td>
+          <td align="right" width="120px">Nilai Agunan</td>
+          <td align="center">Keterangan</td>
+          <td width="10px"></td>
         </tr>
-        <?php
-          for($i=1;$i<=3;$i++){
-            echo('
-              <tr>
-                <td>'.$i.'</td>
-                <td>05 - BPKB Kendaraaan Roda 2</td>
-                <td align="right">Rp. 20.000.000,-</td>
-                <td>-</td>
-              </tr>
-            ');
-          }
-        ?>
+        <tr>
+          <td colspan="5">
+            <div style=" overflow-y: scroll;height:250px" id="s_data_agunan"></div>
+          </td>
+        </tr>
       </table>
     </td>
-    <td width="50%">
-      <table>
+    <td width="50%" valign="top">
+      <table style="width: 100%;"> 
         <tr>
           <td colspan="5" style="font-weight: bold;">
             :: Data Angsuran ::
           </td>
         </tr>
         <tr style="font-weight: bold;">
-          <td>No.</td>
-          <td align="center" width="200px">Keterangan</td>
-          <td align="center" width="120px">Angsuran Pokok</td>
-          <td align="center" width="120px">Angsuran Bunga</td>
-          <td align="center" width="150px">Total Angsuran</td>
+          <td align="center" width="30px">No.</td>
+          <td align="left">Periode</td>
+          <td align="right" width="120px">Angsuran Pokok</td>
+          <td align="right" width="120px">Angsuran Bunga</td>
+          <td align="right" width="150px">Total Angsuran</td>
         </tr>
-        <?php
-          for($i=1;$i<=24;$i++){
-            echo('
-              <tr>
-                <td>'.$i.'</td>
-                <td>Angsuran ke '.$i.'</td>
-                <td align="right">1.000.000</td>
-                <td align="right">200.000</td>
-                <td align="right">1.200.000</td>
-              </tr>
-            ');
-          }
-        ?>
+        <tr>  
+          <td colspan="5"><div style=" overflow-y: scroll;height:500px;width:100%" id="s_data_angsuran"></div></td>
+        </tr>
       </table>
     </td>
   </tr>

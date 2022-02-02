@@ -2,7 +2,7 @@
 class Trkreditrealisasi extends Bismillah_Controller{ 
 	protected $bdb ;
 
-	public function __construct(){
+	public function __construct(){ 
 		parent::__construct() ;
 		$this->load->helper("bdate") ; 
 		$this->load->model("func/anggota_m") ;
@@ -86,7 +86,7 @@ class Trkreditrealisasi extends Bismillah_Controller{
 	public function deleting(){
 		$va 	= $this->input->post() ; 
 		$id 	= $va['id'] ;
-		$this->bdb->delete("tabungan_rekening", "id = " . $this->bdb->escape($id)) ;
+		$this->bdb->delete("kredit_rekening", "id = " . $this->bdb->escape($id)) ;
 		echo(' bos.trkreditrealisasi.grid1_reload() ; ') ;
 	}
 
@@ -107,19 +107,31 @@ class Trkreditrealisasi extends Bismillah_Controller{
 			$telepon = $this->bdb->getval("telepon",$w, "mst_anggota") ; 
 			$no_spk = $d['no_spk'] ; 
 			$golongan_kredit[]   = array("id"=>$d['golongan_kredit'],"text"=>$d['golongan_kredit']);  
+			$cp[]   = array("id"=>$d['caraperhitungan'],"text"=>$d['caraperhitungan']);  
 			$ao[]   = array("id"=>$d['ao'],"text"=>$d['ao']);  
 			
+			$data_agunan = $this->bdb->get_agunan($d['id_kantor'],$d['rekening']) ;
+			if(!empty($data_agunan)){
+				$this->init_agunan() ;
+				$this->load_agunan($data_agunan) ;      
+			}
+
+			$this->getangsuran($d['caraperhitungan'],$d['plafond'],$d['sukubunga'],$d['lama'],$d['tgl']) ;  
+
 			echo('   
 				with(bos.trkreditrealisasi.obj){
 					find("#tgl").val("'.$d['tgl'].'") ;
-					find("#kode_anggota").val("'.$d['kode_anggota'].'") ;
+					find("#kode_anggota").val("'.$d['kode_anggota'].'") ;   
+					find("#s_rekening").val("'.$d['rekening'].'") ;
 					find("#nama").val("'.$nama.'") ;
 					find("#alamat").val("'.$alamat.'") ;
 					find("#telepon").val("'.$telepon.'") ;
+					find("#no_spk").val("'.$d['no_spk'].'") ;
 					find("#golongan_kredit").sval('.json_encode($golongan_kredit).') ;  
 					find("#plafond").val("'.$d['plafond'].'") ;
 					find("#sukubunga").val("'.$d['sukubunga'].'") ;
 					find("#lama").val("'.$d['lama'].'") ;
+					find("#caraperhitungan").sval('.json_encode($cp).') ;  
 					find("#administrasi").val("'.$d['administrasi'].'") ;
 					find("#provisi").val("'.$d['provisi'].'") ;
 					find("#materai").val("'.$d['materai'].'") ;
@@ -224,18 +236,24 @@ class Trkreditrealisasi extends Bismillah_Controller{
 		$this->load_agunan($data_agunan) ;  
 	}
 
-	public function load_agunan($data){
-		$html_header = "<table style='width:50%;border-bottom:1px solid #bbc1c9;border-collapse:collapse'><tr><td style='text-align:center;width:200px'>Kode Anggota</td><td style='text-align:center;width:200px'>Jenis Agunan</td><td style='text-align:center;width:200px'>Nilai Agunan</td><td></td></tr></table>" ;	
+	public function load_agunan($data){ 
+		$html_header = "<table style='width:100%;border-bottom:1px solid #bbc1c9;border-collapse:collapse;font-weight:bold'><tr><td style='text-align:center;width:120px'>Kode Anggota</td><td style='text-align:center;width:120px'>Jenis Agunan</td><td style='text-align:right;width:150px'>Nilai Agunan</td><td style='text-align:left;padding-left:15px'>Keterangan</td><td></td></tr></table>" ;	 
 		
-		echo('  bos.trkreditrealisasi.obj.find("#data_agunan_tmp_header").html("'.$html_header.'") ; ');
+		echo('  bos.trkreditrealisasi.obj.find("#data_agunan_tmp_header").html("'.$html_header.'") ; ');  
  
 		$n = 0 ;
 		foreach($data as $key=>$value){ 
 			$onclick = "onclick=bos.trkreditrealisasi.cmdremove('$key')" ;  
-			$html_content = "<table id='".$key."' style='width:50%;border:0px solid'><tr><td style='text-align:center;width:200px'>". $value['kode_anggota'] ."</td><td style='text-align:center;width:200px'>". $value['jenis_agunan'] ."</td><td style='text-align:right;width:200px'>". $value['nilai_agunan'] ."</td><td ".$onclick."> x </td></tr></table>" ;
+			$data_agunan = substr(str_replace("\n"," , ",$value['data_agunan']),0,100) ;
+			$nilai_agunan = string_2s($value['nilai_agunan']) ;
+			$html_content = "<table id='".$key."' style='width:100%;border:0px solid;' cellspacing='2' cellpadding='10'><tr><td style='text-align:center;width:120px'>". $value['kode_anggota'] ."</td><td style='text-align:center;width:120px'>". $value['jenis_agunan'] ."</td><td style='text-align:right;width:150px'>". $nilai_agunan ."</td><td style='text-align:left;padding-left:15px'>". $data_agunan ."</td><td style='width:10px' ".$onclick."> x </td></tr></table>" ;
+			$html_contents = "<table id='".$key."' style='width:100%;border:0px solid;' cellspacing='2' cellpadding='10'><tr><td style='text-align:center;width:20px'>". ++$n ."</td><td style='text-align:center;width:50px'>". $value['jenis_agunan'] ."</td><td style='text-align:right;width:120px'>". $nilai_agunan ."</td><td style='text-align:left;padding-left:15px'>". $data_agunan ."</td><td style='width:10px' ".$onclick."> x </td></tr></table>" ;
 			echo('bos.trkreditrealisasi.obj.find("#data_agunan_tmp_data").append("'.$html_content.'") ;') ; 
+			echo('bos.trkreditrealisasi.obj.find("#s_data_agunan").append("'.$html_contents.'") ;') ;  
 		}
 	}
+
+
 
 	public function removeagunan(){  
 		$va = $this->input->post() ;    
@@ -249,8 +267,23 @@ class Trkreditrealisasi extends Bismillah_Controller{
 			with(bos.trkreditrealisasi.obj){
 				find("#data_agunan_tmp_header").html("") ;
 				find("#data_agunan_tmp_data").html("") ;
+				find("#s_data_agunan").html("") ;
+				find("#s_data_angsuran").html("") ;
 			}
 		') ;  
+	}
+
+	public function getangsuran($cp,$plafond,$sukubunga,$lama,$tgl){  
+		$angsuran = $this->kredit_m->getangsuran($cp,$plafond,$sukubunga,$lama) ;
+		$html = "" ;
+		for($i=1;$i<=$lama;$i++){
+			$periode = date("d-m-Y",date_nextmonth(strtotime($tgl),$i)) ;
+			$pokok = $angsuran['pokok'] ; 
+			$bunga = $angsuran['bunga'] ; 
+			$total = $pokok + $bunga ;  
+			$html .= "<table><tr><td align='center' width='30px'>".$i."</td><td>" . $periode . "</td><td align='right' width='120px'>".string_2s($pokok)."</td><td align='right' width='120px'>".string_2s($bunga)."</td><td align='right' width='150px'>".string_2s($total)."</td></tr></table>" ;
+		} 
+		echo('bos.trkreditrealisasi.obj.find("#s_data_angsuran").append("'.$html.'")') ; 
 	}
 
 	public function getsimulasi(){  

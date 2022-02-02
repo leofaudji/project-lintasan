@@ -114,5 +114,23 @@ class Kredit_m extends Bismillah_Model{
       }
    }
 
+   public function getangsuran($cp,$plafond,$sukubunga,$lama,$musiman=1){
+      $va = array("pokok" => 0,"bunga" => 0) ;
+      if($plafond > 0 AND $lama > 0 AND $sukubunga > 0){ 
+         if($cp == "1"){ //flat
+            $va['pokok'] = $plafond / $lama ;
+            $va['bunga'] = ($plafond * $sukubunga / 100) / $lama ;
+         }else if($cp == "3"){ //flat
+            $va['pokok'] = $plafond / $lama ;
+            $va['bunga'] = ($plafond * $sukubunga / 100) / $lama ;
+         }else if($cp == "10"){ //flat
+            $va['pokok'] = $plafond / $lama ;
+            $va['bunga'] = ($plafond * $sukubunga / 100) / $lama ;
+         }     
+      }
+
+      return $va ; 
+   }
+
 }
 ?>

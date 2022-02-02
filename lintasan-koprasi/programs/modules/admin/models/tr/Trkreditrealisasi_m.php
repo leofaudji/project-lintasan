@@ -1,5 +1,5 @@
 <?php
-class Trkreditrealisasi_m extends Bismillah_Model{  
+class Trkreditrealisasi_m extends Bismillah_Model{   
    public function getkode($u=true){
       $k       = "AG" . getsession($this,"kode_kantor") . date("ymd") ;           
       return $k . $this->getincrement($k, $u, 4) ; 
@@ -107,6 +107,17 @@ class Trkreditrealisasi_m extends Bismillah_Model{
       return !empty($d) ? $d : false ;
    }
 
+   public function get_agunan($id_kantor,$rekening){      
+      $data = array() ;
+      $where = "id_kantor = '$id_kantor' AND rekening = '$rekening'" ; 
+      $dba      = $this->select("kredit_agunan", "*", $where) ; 
+      while($d  = $this->getrow($dba)){  
+         $id = md5($d['kode_anggota'] . $d['jenis_agunan'] . $d['nilai_agunan'] . $d['data_agunan']) ; 
+         $data[$id] = $d ;   
+      }
+      return $data ;
+   }
+
    public function removeagunan($id){
       $this->delete("kredit_agunan_tmp","id_key = '$id'") ;   
    }
@@ -130,8 +141,8 @@ class Trkreditrealisasi_m extends Bismillah_Model{
       $data = array() ;
       $customer   = getsession($this,"customer") ;  
       $where = "customer = '$customer' AND kode = " . $this->escape($kode);
-      if($d = $this->getval("*",$where, "mst_jenis_agunan")){ 
-         $data = $d;    
+      if($d = $this->getval("*",$where, "mst_jenis_agunan")){
+         $data = $d;      
       }
       return $data ;
    }

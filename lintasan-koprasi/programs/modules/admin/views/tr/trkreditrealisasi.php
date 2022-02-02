@@ -97,10 +97,10 @@
       columns: [
         { field: 'no', caption: 'No', size: '40px',style:'text-align:center', sortable: false},
         { field: 'datetime', caption: 'Datetime', size: '130px',style:'text-align:center', sortable: false},
-        { field: 'rekening', caption: 'No.Rekening',style:'text-align:center', size: '120px', sortable: false},
+        { field: 'rekening', caption: 'No.Rekening',style:'text-align:center', size: '130px', sortable: false},
         { field: 'nama', caption: 'Nama', size: '200px', sortable: false}, 
         { field: 'alamat', caption: 'Alamat', size: '350px', sortable: false},
-        { field: 'plafond', caption: 'Plafond', size: '100px',style:'text-align:right', sortable: false},
+        { field: 'plafond', caption: 'Plafond', size: '120px',style:'text-align:right', sortable: false},
         { field: 'lama', caption: 'Jangka Waktu', size: '100px',style:'text-align:right', sortable: false},
         { field: 'sukubunga', caption: 'SukuBunga', size: '100px',style:'text-align:right', sortable: false}, 
         { field: 'agunan', caption: 'Agunan', size: '150px', sortable: false}, 
@@ -226,6 +226,7 @@
     this.obj.find("#provisi").val("") ;
     this.obj.find("#materai").val("") ;
     this.obj.find("#ao").html("") ;
+    this.obj.find("#caraperhitungan").html("") ;
     this.obj.find("#tujuan_pembukaan").val("") ;
     this.obj.find("#ahli_waris").val("") ;
     this.obj.find("#jenis_agunan").html("") ;
