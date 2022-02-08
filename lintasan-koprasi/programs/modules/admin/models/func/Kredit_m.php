@@ -23,13 +23,29 @@ class Kredit_m extends Bismillah_Model{
       $search   = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
       $search   = $this->escape_like_str($search) ;
       $id_kantor   = getsession($this,"id_kantor") ; 
-      $where    = array("t.id_kantor = '$id_kantor'") ;  
+      $where    = array("t.id_kantor = '$id_kantor' AND t.status_cair = '1'") ;  
       //$where[]  = "jenis = 'P'" ;
       if($search !== "") $where[]  = "(t.rekening LIKE '{$search}%' OR m.kode LIKE '{$search}%' OR m.nama LIKE '%{$search}%'  OR m.alamat LIKE '%{$search}%'  OR m.telepon LIKE '%{$search}%')" ;
       $where    = implode(" AND ", $where) ; 
       $join     = "left join mst_anggota m on t.id_kantor = m.id_kantor AND m.kode = t.kode_anggota" ; 
-      $dbd      = $this->select("tabungan_rekening t", "m.kode,t.rekening,m.nama,m.alamat,m.telepon", $where, $join, "", "t.id DESC", $limit) ; 
-      $dba      = $this->select("tabungan_rekening t", "t.id", $where,$join) ;    
+      $dbd      = $this->select("kredit_rekening t", "m.kode,t.rekening,m.nama,m.alamat,m.telepon", $where, $join, "", "t.id DESC", $limit) ; 
+      $dba      = $this->select("kredit_rekening t", "t.id", $where,$join) ;     
+
+      return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
+   }
+
+   public function loadgrid_rekening_realisasi($va){   
+      $limit    = $va['offset'].",".$va['limit'] ;
+      $search   = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
+      $search   = $this->escape_like_str($search) ;  
+      $id_kantor   = getsession($this,"id_kantor") ; 
+      $where    = array("t.id_kantor = '$id_kantor' AND t.status_cair = '0'") ;  
+      //$where[]  = "jenis = 'P'" ;
+      if($search !== "") $where[]  = "(t.rekening LIKE '{$search}%' OR m.kode LIKE '{$search}%' OR m.nama LIKE '%{$search}%'  OR m.alamat LIKE '%{$search}%'  OR m.telepon LIKE '%{$search}%')" ;
+      $where    = implode(" AND ", $where) ; 
+      $join     = "left join mst_anggota m on t.id_kantor = m.id_kantor AND m.kode = t.kode_anggota" ; 
+      $dbd      = $this->select("kredit_rekening t", "m.kode,t.rekening,m.nama,m.alamat,m.telepon", $where, $join, "", "t.id DESC", $limit) ; 
+      $dba      = $this->select("kredit_rekening t", "t.id", $where,$join) ;     
 
       return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
    }
@@ -38,7 +54,7 @@ class Kredit_m extends Bismillah_Model{
       $data = array() ;
       $id_kantor   = getsession($this,"id_kantor") ; 
       $where = "id_kantor = '$id_kantor' AND rekening = " . $this->escape($rekening);
-      if($d = $this->getval("*",$where, "tabungan_rekening")){
+      if($d = $this->getval("*",$where, "kredit_rekening")){
           $data = $d; 
       }
       return $data ;
@@ -75,7 +91,7 @@ class Kredit_m extends Bismillah_Model{
       $customer  = getsession($this,"customer") ;  
       $f = "tm.*,tg.rekening rekeninggolongan,tk.rekening rekeningkodetransaksi,tk.dk" ;    
       $w = "tm.id_kantor = '$id_kantor' AND tm.faktur = '$faktur'" ;  
-      $join = "left join tabungan_rekening tr on tr.id_kantor = tm.id_kantor AND tr.rekening = tm.rekening
+      $join = "left join kredit_rekening tr on tr.id_kantor = tm.id_kantor AND tr.rekening = tm.rekening
                left join tabungan_golongan tg on tg.kode = tr.golongan_tabungan AND tg.customer = '$customer'
                left join tabungan_kodetransaksi tk on tk.kode = tm.kode_transaksi AND tk.customer = '$customer'" ;  
       $db  = $this->select("tabungan_mutasi tm", $f, $w,$join) ;  

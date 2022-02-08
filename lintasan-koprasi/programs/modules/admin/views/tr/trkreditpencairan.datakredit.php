@@ -1,21 +1,21 @@
 <table class="osxtable form" border="0" width="100%">
 <tr>
-    <td width="15%"><label for="tgl">Tgl Realisasi</label> </td>
+    <td width="15%"><label for="tgl">Tgl Pencairan</label> </td>
     <td width="1%">:</td>
     <td> 
       <input style="width: 100px;" type="text" class="form-control date" id="tgl" name="tgl" required value=<?=date("d-m-Y")?> <?=date_set()?>> 
     </td>
-  </tr>
+  </tr> 
   <tr>
-    <td width="5%"><label for="sku">Kode Anggota</label> </td>
+    <td width="5%"><label for="sku">Rekening</label> </td>
     <td>:</td>
     <td>
       <div style="width:30%" class="input-group">
-        <input type="text" id="kode_anggota" name="kode_anggota" class="form-control" placeholder="Kode Anggota">
+        <input type="text" id="rekening" name="rekening" class="form-control" placeholder="Rekening">
         <span class="input-group-btn">
           <button class="form-control btn btn-info" type="button" id="cmdanggota"><i class="fa fa-search"></i></button>
         </span> 
-      </div>              
+      </div>               
     </td>    
   </tr>
   <tr>
@@ -87,7 +87,7 @@
     <td><label for="rekening">AO</label> </td>
     <td width="1%">:</td>
     <td>
-    <select name="ao" id="ao" class="form-control select" style="width:90%" data-sf="load_kredit_ao" data-placeholder="AO" required></select>
+    <select name="ao" id="ao" class="form-control select" style="width:90%" data-sf="load_kredit_golongan" data-placeholder="AO" required></select>
     </td>
   </tr> 
   <tr>

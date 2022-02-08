@@ -80,7 +80,7 @@
         </tr>
         <tr>
           <td colspan="5">
-            <div style=" overflow-y: scroll;height:250px" id="s_data_agunan"></div>
+            <div style=" overflow-y: scroll;height:270px" id="s_data_agunan"></div>
           </td>
         </tr>
       </table>
@@ -100,7 +100,7 @@
           <td align="right" width="150px">Total Angsuran</td>
         </tr>
         <tr>  
-          <td colspan="5"><div style=" overflow-y: scroll;height:500px;width:100%" id="s_data_angsuran"></div></td>
+          <td colspan="5"><div style=" overflow-y: scroll;height:570px;width:100%" id="s_data_angsuran"></div></td>
         </tr>
       </table>
     </td>

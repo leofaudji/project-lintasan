@@ -168,5 +168,17 @@ class Load extends Bismillah_Controller{
       echo(json_encode($vare)) ; 
    }
 
+   public function load_kredit_ao(){
+      $q    = $this->input->get('q') ; 
+      $vare = array() ;  
+      $id_kantor = getsession($this, "id_kantor")  ;
+      $w    = "id_kantor = '$id_kantor' AND (kode LIKE '%". $this->bdb->escape_like_str($q) ."%' OR keterangan LIKE '%". $this->bdb->escape_like_str($q) ."%')" ;
+      $dbd  = $this->bdb->select("mst_ao", "id, kode ,keterangan", $w, "", "", "kode ASC", "0,10") ;
+      while($dbr    = $this->bdb->getrow($dbd)){       
+         $vare[]    = array("id"=>$dbr['kode'], "text"=>$dbr['kode'] . " - "  . $dbr['keterangan']) ;
+      }
+      echo(json_encode($vare)) ; 
+   }
+
 }
 ?>
