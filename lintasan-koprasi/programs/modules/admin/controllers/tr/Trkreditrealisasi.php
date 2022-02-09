@@ -172,7 +172,7 @@ class Trkreditrealisasi extends Bismillah_Controller{
 	public function loadgrid3(){
 		$va     = json_decode($this->input->post('request'), true) ;
 		$vare   = array() ;
-		$vdb    = $this->trkreditrealisasi_m->loadgrid3($va) ;
+		$vdb    = $this->anggota_m->loadgrid($va) ;
 		$dbd    = $vdb['db'] ;
 		while( $dbr = $this->trkreditrealisasi_m->getrow($dbd) ){
 				$vaset   = $dbr ;

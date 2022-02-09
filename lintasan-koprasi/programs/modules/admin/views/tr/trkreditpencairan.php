@@ -12,7 +12,7 @@
       </td>
       <td class="button">
         <table class="header-button" align="right"> 
-          <tr> 
+          <tr>  
             <td> 
               <div class="btn-circle btn-close transition" onclick="bos.trkreditpencairan.close()">
                 <img src="./uploads/titlebar/close.png">
@@ -32,7 +32,7 @@
         <div id="grid1" class="full-height"></div> 
       </div>
 
-      <div role="tabpanel" class="tab-pane fade full-height" id="tpel_2">
+      <div role="tabpanel" class="tab-pane fade full-height" id="tpel_2"> 
         <?php require_once "trkreditpencairan.datakredit.php" ; ?>
       </div>
 
@@ -45,14 +45,14 @@
 </div>
   
 <div class="modal fade" id="wrap-pencarian-d" role="dialog" data-backdrop="false" data-keyboard="false">
-  <div class="modal-dialog">
+  <div class="modal-dialog" style="width:800px;">
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="wm-title">Daftar Anggota</h4>
+              <h4 class="modal-title" id="wm-title">Daftar Rekening Realisasi</h4>
           </div>
           <div class="modal-body">
-              <div id="grid3" style="height:250px"></div>
+              <div id="grid3" style="height:400px"></div>
           </div>
           <div class="modal-footer">
               *Pilih Anggota
@@ -88,11 +88,7 @@
         { field: 'rekening', caption: 'No.Rekening',style:'text-align:center', size: '130px', sortable: false},
         { field: 'nama', caption: 'Nama', size: '200px', sortable: false}, 
         { field: 'alamat', caption: 'Alamat', size: '350px', sortable: false},
-        { field: 'plafond', caption: 'Plafond', size: '120px',style:'text-align:right', sortable: false},
-        { field: 'lama', caption: 'Jangka Waktu', size: '100px',style:'text-align:right', sortable: false},
-        { field: 'sukubunga', caption: 'SukuBunga', size: '100px',style:'text-align:right', sortable: false}, 
-        { field: 'agunan', caption: 'Agunan', size: '150px', sortable: false}, 
-        { field: 'ao', caption: 'AO', size: '100px', sortable: false},
+        { field: 'plafond', caption: 'Plafond', size: '130px',style:'text-align:right', sortable: false},
         { field: 'cmdedit', caption: ' ', size: '80px', sortable: false },
         { field: 'cmddelete', caption: ' ', size: '80px', sortable: false },
         { field: 'cmdcetak', caption: ' ', size: '80px', sortable: false }
@@ -142,9 +138,9 @@
           },
           multiSearch    : false,
           columns: [
-              { field: 'rekening', caption: 'Rekening',style:'text-align:center', size: '140px', sortable: false},
-              { field: 'nama', caption: 'Nama', size: '150px', sortable: false },
-              { field: 'alamat', caption: 'Alamat', size: '180px', sortable: false },
+              { field: 'rekening', caption: 'Rekening',style:'text-align:center', size: '130px', sortable: false},
+              { field: 'nama', caption: 'Nama', size: '180px', sortable: false },
+              { field: 'alamat', caption: 'Alamat', size: '340px', sortable: false },
               { field: 'cmdpilih', caption: ' ', size: '80px', sortable: false }
           ]
       });
@@ -190,18 +186,9 @@
     bjs_os.form_report(bos.trkreditpencairan.url+ '/showreport?id=' + id ) ;
   }
 
-  bos.trkreditpencairan.cmdadd    = function(){  
-    var dataagunan = "kode_anggota=" + bos.trkreditpencairan.obj.find("#kode_anggota").val() + "&nilai_agunan=" + bos.trkreditpencairan.obj.find("#nilai_agunan").val() + "&jenis_agunan=" + bos.trkreditpencairan.obj.find("#jenis_agunan").val() + "&data_agunan=" + bos.trkreditpencairan.obj.find("#data_agunan").val()  ; 
-    bjs.ajax(this.url + '/addagunan', dataagunan);  
-  }
-
-  bos.trkreditpencairan.cmdremove    = function(key,id){  
-    var dataagunan = "key=" + key ;    
-    bjs.ajax(this.url + '/removeagunan', dataagunan);  
-  }
 
   bos.trkreditpencairan.init        = function(){
-    this.obj.find("#kode_anggota").val("") ;
+    this.obj.find("#rekening").val("") ;
     this.obj.find("#nama").val("") ;
     this.obj.find("#alamat").val("") ;
     this.obj.find("#telepon").val("") ;
@@ -236,11 +223,10 @@
       this.obj.find(".footer").addClass("hidden") ;
       bos.trkreditpencairan.grid1_render() ;
       //bos.trkreditpencairan.init() ; 
-    }else if(n == 1){
-      bjs.ajax(bos.trkreditpencairan.url + '/getsimulasi', bjs.getdataform(this) , bos.trkreditpencairan.objs) ; 
+    }else{
       this.obj.find(".bodyfix").css("height","calc(100% - 32px)") ;
       this.obj.find(".footer").removeClass("hidden") ;
-      this.obj.find("#kode_anggota").focus() ;
+      this.obj.find("#rekening").focus() ;
     }
   }
 

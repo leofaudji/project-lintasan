@@ -11,7 +11,7 @@ class Trkreditpencairan_m extends Bismillah_Model{
       $dba      = $this->select("kredit_rekening", "COUNT(id) id", $w,"") ;  
       if($dbra  = $this->getrow($dba)){
          $row   = $dbra['id'] ;
-      } 
+      }  
       $row++ ; 
       return str_pad($row, 2, "0", STR_PAD_LEFT); ; 
    }
@@ -83,53 +83,11 @@ class Trkreditpencairan_m extends Bismillah_Model{
       
    }
 
-   public function addagunan($agunan){      
-      // untuk add data agunan 
-      foreach($agunan as $key=>$f){
-         $data_agunan = array( 
-            "id_kantor"    => getsession($this,"id_kantor"),
-            "id_key"       => $key,  
-            "kode_anggota" => $f['kode_anggota'], 
-            "no_agunan"    => 1,  
-            "jenis_agunan" => $f['jenis_agunan'],
-            "nilai_agunan" => $f['nilai_agunan'], 
-            "data_agunan"  => $f['data_agunan'], 
-            "username"     => getsession($this, "username"), 
-            "datetime"     => date_now() 
-         ) ;
-         $this->insert("kredit_agunan_tmp", $data_agunan) ;        
-      }
-   }
-
    public function editing($id=''){
       $w    = "id = " . $this->escape($id) ;  
       $d    = $this->getval("*", $w, "kredit_rekening") ;
       return !empty($d) ? $d : false ;
    }
 
-   public function get_agunan($id_kantor,$rekening){      
-      $data = array() ;
-      $where = "id_kantor = '$id_kantor' AND rekening = '$rekening'" ; 
-      $dba      = $this->select("kredit_agunan", "*", $where) ; 
-      while($d  = $this->getrow($dba)){  
-         $id = md5($d['kode_anggota'] . $d['jenis_agunan'] . $d['nilai_agunan'] . $d['data_agunan']) ; 
-         $data[$id] = $d ;   
-      }
-      return $data ;
-   }
-
-   public function removeagunan($id){
-      $this->delete("kredit_agunan_tmp","id_key = '$id'") ;   
-   }
-
-   public function getdata_jenisagunan($kode){
-      $data = array() ;
-      $customer   = getsession($this,"customer") ;  
-      $where = "customer = '$customer' AND kode = " . $this->escape($kode);
-      if($d = $this->getval("*",$where, "mst_jenis_agunan")){
-         $data = $d;      
-      }
-      return $data ;
-   }
 }
 ?>

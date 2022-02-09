@@ -23,7 +23,7 @@
 ["Transaksi Kredit", "trkre", "", "ion-ios-briefcase"]
   ["Realisasi Kredit", "trkreditrealisasi", "admin/tr/trkreditrealisasi", "ion-filing", 1200, 700, false] 
   ["Pencairan Kredit", "trkreditpencairan", "admin/tr/trkreditpencairan", "ion-filing", 1200, 700, false] 
-  ["Transaksi Angsuran", "trkreditangsuran", "admin/tr/trkreditangsuran", "ion-cash",800, 700, false] 
+  ["Angsuran Kredit", "trkreditangsuran", "admin/tr/trkreditangsuran", "ion-cash",900, 500, false] 
 ["Laporan Tabungan", "rpttabungan", "", "ion-ios-paper"] 
   ["Laporan Pembukaan Rekening", "rpttabunganpembukaan", "admin/rpt/rpttabunganpembukaan", "ion-filing", 1000,600]
   ["Laporan Mutasi Harian", "rpttabunganmutasi", "admin/rpt/rpttabunganmutasi", "ion-filing", 1050,600] 

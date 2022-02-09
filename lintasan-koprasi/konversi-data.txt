@@ -16,6 +16,11 @@ select 'fce63b',RekeningLama,Tgl,Kode,GolonganTabungan,Rekening,'Tabungan Hari R
 insert into tabungan_mutasi(id_kantor,faktur,tgl,rekening,kode_transaksi,keterangan,debet,kredit,datetime,username)
 select 'fce63b',Faktur,Tgl,Rekening,KodeTransaksi,Keterangan,Debet,Kredit,DateTime,UserName from arc_putrajaya.mutasitabungan order by Rekening               
 
+insert into kredit_rekening(id_kantor,rekening_lama,tgl,kode_anggota,golongan_kredit,rekening,no_spk,plafond,sukubunga,lama,caraperhitungan,administrasi,provisi,materai,ao,datetime,username)
+select '91946b',RekeningLama,Tgl,Kode,GolonganKredit,Rekening,NoSPK,Plafond,SukuBunga,Lama,CaraPerhitungan,Administrasi,Provisi,Materai,AO,DateTime,UserName from arc_kebonagung.debitur order by Rekening
+
+insert into kredit_angsuran(id_kantor,faktur,tgl,rekening,keterangan,dpokok,kpokok,dbunga,kbunga,kelebihan,denda,dtitipan,ktitipan,datetime,username)
+select '91946b',Faktur,Tgl,Rekening,Keterangan,DPokok,KPokok,DBunga,KBunga,Kelebihan,Denda,DTitipan,KTitipan,DateTime,UserName from arc_kebonagung.angsuran order by Rekening 
 
 CREATE TABLE `kredit_agunan` (
   `id` bigint NOT NULL AUTO_INCREMENT,

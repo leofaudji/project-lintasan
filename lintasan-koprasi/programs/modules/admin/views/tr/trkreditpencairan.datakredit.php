@@ -15,7 +15,7 @@
         <span class="input-group-btn">
           <button class="form-control btn btn-info" type="button" id="cmdanggota"><i class="fa fa-search"></i></button>
         </span> 
-      </div>               
+      </div>                
     </td>    
   </tr>
   <tr>
