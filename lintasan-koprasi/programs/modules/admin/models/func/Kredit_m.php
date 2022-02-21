@@ -1,6 +1,12 @@
 <?php
-class Kredit_m extends Bismillah_Model{
+class Kredit_m extends Bismillah_Model{ 
    var $data_agunan = array() ;
+
+   public function gettgltransaksi(){
+      $tgl = date("Y-m-d") ;
+      $tgl = date_2s($tgl) ;
+      return $tgl ; 
+   }
 
    public function getfaktur($l=true){
       $k       = "TB" . getsession($this,"kode_kantor") . date("ymd") ;          
@@ -23,13 +29,14 @@ class Kredit_m extends Bismillah_Model{
       $search   = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
       $search   = $this->escape_like_str($search) ;
       $id_kantor   = getsession($this,"id_kantor") ; 
-      $where    = array("t.id_kantor = '$id_kantor' AND t.status_cair = '1'") ;  
+      $where    = array("t.id_kantor = '$id_kantor' AND t.status_cair = '1' AND t.status_lunas = '0'") ;   
       //$where[]  = "jenis = 'P'" ;
-      if($search !== "") $where[]  = "(t.rekening LIKE '{$search}%' OR m.kode LIKE '{$search}%' OR m.nama LIKE '%{$search}%'  OR m.alamat LIKE '%{$search}%'  OR m.telepon LIKE '%{$search}%')" ;
+      if($search !== "") $where[]  = "(t.rekening LIKE '{$search}%' OR m.kode LIKE '{$search}%' OR m.nama LIKE '%{$search}%')" ;
       $where    = implode(" AND ", $where) ; 
-      $join     = "left join mst_anggota m on t.id_kantor = m.id_kantor AND m.kode = t.kode_anggota" ; 
+      $join     = "left join mst_anggota m on t.id_kantor = m.id_kantor AND m.kode = t.kode_anggota" ;  
+      //$limit    = "0,10" ;
       $dbd      = $this->select("kredit_rekening t", "m.kode,t.rekening,m.nama,m.alamat,m.telepon", $where, $join, "", "t.id DESC", $limit) ; 
-      $dba      = $this->select("kredit_rekening t", "t.id", $where,$join) ;     
+      $dba      = $this->select("kredit_rekening t", "t.id", $where,$join) ;      
 
       return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
    }
@@ -41,7 +48,7 @@ class Kredit_m extends Bismillah_Model{
       $id_kantor   = getsession($this,"id_kantor") ; 
       $where    = array("t.id_kantor = '$id_kantor' AND t.status_cair = '0'") ;  
       //$where[]  = "jenis = 'P'" ;
-      if($search !== "") $where[]  = "(t.rekening LIKE '{$search}%' OR m.kode LIKE '{$search}%' OR m.nama LIKE '%{$search}%'  OR m.alamat LIKE '%{$search}%'  OR m.telepon LIKE '%{$search}%')" ;
+      if($search !== "") $where[]  = "(t.rekening LIKE '{$search}%' OR m.kode LIKE '{$search}%' OR m.nama LIKE '%{$search}%')" ;
       $where    = implode(" AND ", $where) ; 
       $join     = "left join mst_anggota m on t.id_kantor = m.id_kantor AND m.kode = t.kode_anggota" ; 
       $dbd      = $this->select("kredit_rekening t", "m.kode,t.rekening,m.nama,m.alamat,m.telepon", $where, $join, "", "t.id DESC", $limit) ; 
@@ -147,6 +154,37 @@ class Kredit_m extends Bismillah_Model{
 
       return $va ; 
    }
+
+   public function getbakidebet($tgl,$rekening){
+      $saldo      = 0 ;
+      $tgl        = date_2s($tgl) ;
+      $id_kantor  = getsession($this,"id_kantor") ; 
+      $where      = "id_kantor = '$id_kantor' AND tgl <= '$tgl' AND rekening = " . $this->escape($rekening);
+
+      $db =  $this->select("kredit_angsuran", "sum(dpokok-kpokok) saldo", $where) ;
+      if($dbr  = $this->getrow($db)){
+         $saldo = $dbr['saldo'];  
+      }
+      return $saldo ;     
+   }
+
+   public function getdata_kredit($rekening){
+      $data = array() ;
+      $id_kantor   = getsession($this,"id_kantor") ; 
+      $where = "id_kantor = '$id_kantor' AND rekening = " . $this->escape($rekening);
+      $tgl = $this->gettgltransaksi() ; 
+      $db =  $this->select("kredit_rekening", "*", $where) ;
+      if($dbr  = $this->getrow($db)){
+         $dbr['tgl'] = date_2d($dbr['tgl']) ; 
+         $dbr['jthtmp'] = date("d-m-Y",date_nextmonth(strtotime($dbr['tgl']),$dbr['lama'])) ;      
+         $dbr['bakidebet'] = $this->getbakidebet($tgl,$rekening) ;
+         $angsuran = $this->getangsuran($dbr['caraperhitungan'],$dbr['plafond'],$dbr['sukubunga'],$dbr['lama'],1) ;    
+         $dbr['kpokok'] = $angsuran['pokok'] ;
+         $dbr['kbunga'] = $angsuran['bunga'] ;        
+         $data = $dbr;  
+      }
+      return $data ;       
+  }
 
 }
 ?>

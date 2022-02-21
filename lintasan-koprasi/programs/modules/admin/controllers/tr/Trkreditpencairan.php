@@ -80,8 +80,7 @@ class Trkreditpencairan extends Bismillah_Controller{
 		if($url <> "") $va['data_var']	= $url ;   
 
 		$this->bdb->saving($va, $id) ; 
-		echo(' bos.trkreditpencairan.settab(0) ;  bos.trkreditpencairan.init() ;') ;
-		$this->init_agunan() ;
+		echo(' bos.trkreditpencairan.settab(0) ;  bos.trkreditpencairan.init() ;') ; 
 	}
 
 	public function deleting(){

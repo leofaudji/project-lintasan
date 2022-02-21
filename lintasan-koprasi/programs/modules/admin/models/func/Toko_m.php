@@ -190,14 +190,6 @@ class Toko_m extends Bismillah_Model{
          $this->insert("brg_stok_kartu", $va) ;
       }
 
-      public function getjadwalbayar($id){
-         $d = "" ;
-         $db      = $this->select("pelanggan","*", "kode = " . $this->escape($id)) ;
-         if($r = $this->getrow($db)){
-            $d = $r['tgl'] ;
-         }
-         return $d ;
-      }
    }
 
     

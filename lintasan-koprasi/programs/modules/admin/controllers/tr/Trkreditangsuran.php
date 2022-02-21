@@ -10,7 +10,7 @@ class Trkreditangsuran extends Bismillah_Controller{
 		$this->load->model("func/kredit_m") ;
 		$this->load->model("tr/trkreditangsuran_m") ;
 		$this->bdb 	= $this->trkreditangsuran_m ;
-	}  
+	}   
  
 	public function index(){
 		$this->load->view("tr/trkreditangsuran") ; 
@@ -29,7 +29,9 @@ class Trkreditangsuran extends Bismillah_Controller{
 			$vs['no'] = $n ;
 			$vs['datetime'] = $dbr['datetime'] . " oleh " . $dbr['username'] ;
 			$vs['tgl'] = date_2d($vs['tgl']) ;
+			$vs['dpokok'] = string_2s($dbr['dpokok'],2) ;
 			$vs['kpokok'] = string_2s($dbr['kpokok'],2) ;
+			$vs['dbunga'] = string_2s($dbr['dbunga'],2) ;
 			$vs['kbunga'] = string_2s($dbr['kbunga'],2) ;
 			$vs['denda'] = string_2s($dbr['denda'],2) ;
 			$vs['dtitipan'] = string_2s($dbr['dtitipan'],2) ;
@@ -70,7 +72,6 @@ class Trkreditangsuran extends Bismillah_Controller{
 
 		$this->bdb->saving($va, $id) ; 
 		echo(' bos.trkreditangsuran.settab(0) ;  bos.trkreditangsuran.init() ;') ;
-		$this->init_agunan() ;
 	}
 
 	public function deleting(){
@@ -95,11 +96,12 @@ class Trkreditangsuran extends Bismillah_Controller{
 			$nama = $this->bdb->getval("nama",$w, "mst_anggota") ;
 			$alamat = $this->bdb->getval("alamat",$w, "mst_anggota") ;
 			$telepon = $this->bdb->getval("telepon",$w, "mst_anggota") ; 
-			$no_spk = $d['no_spk'] ; 
-			$golongan_kredit[]   = array("id"=>$d['golongan_kredit'],"text"=>$d['golongan_kredit']);  
-			$cp[]   = array("id"=>$d['caraperhitungan'],"text"=>$d['caraperhitungan']);  
-			$ao[]   = array("id"=>$d['ao'],"text"=>$d['ao']);  
 			
+			$datakredit = $this->kredit_m->getdata_kredit($d['rekening']) ; 
+			$datakredit['lama'] .= " Bulan" ; 
+			$keterangan = "Angsuran ke 1 " . " [".$d['rekening']."] an. " . $nama ;
+			$total_angsuran = $datakredit['kpokok'] + $datakredit['kbunga'] ; 
+
 			echo('   
 				with(bos.trkreditangsuran.obj){
 					find("#tgl").val("'.$d['tgl'].'") ;
@@ -108,29 +110,19 @@ class Trkreditangsuran extends Bismillah_Controller{
 					find("#nama").val("'.$nama.'") ;
 					find("#alamat").val("'.$alamat.'") ;
 					find("#telepon").val("'.$telepon.'") ;
-					find("#no_spk").val("'.$d['no_spk'].'") ;
-					find("#golongan_kredit").sval('.json_encode($golongan_kredit).') ;  
-					find("#plafond").val("'.$d['plafond'].'") ;
-					find("#sukubunga").val("'.$d['sukubunga'].'") ;
-					find("#lama").val("'.$d['lama'].'") ;
-					find("#caraperhitungan").sval('.json_encode($cp).') ;  
-					find("#administrasi").val("'.$d['administrasi'].'") ;
-					find("#provisi").val("'.$d['provisi'].'") ;
-					find("#materai").val("'.$d['materai'].'") ;
-					find("#ao").sval('.json_encode($ao).') ;  
-					find("#tujuan_pembukaan").val("'.$d['tujuan_pembukaan'].'") ;
-					find("#ahli_waris").val("'.$d['ahli_waris'].'") ;
+					find("#tgl_realisasi").val("'.$datakredit['tgl'].'") ;
+					find("#lama").val("   '.$datakredit['lama'].'") ;
+					find("#jthtmp").val("'.$datakredit['jthtmp'].'") ;
+					find("#bakidebet_awal").val("'.string_2s($datakredit['bakidebet']).'") ;
+					find("#kpokok").val("'.string_2s($datakredit['kpokok']).'") ;
+					find("#kbunga").val("'.string_2s($datakredit['kbunga']).'") ;
+					find("#total_angsuran").val("'.string_2s($total_angsuran).'") ;		
+					find("#keterangan").val("'.$keterangan.'") ;
+
 					find("#foto").html("'.$image.'") ;
 				}
-			') ;
-
-			if($this->ltrue == true){
-				echo ('
-					bjs.ajax(bos.trkreditangsuran.url + "/loadgrid","rek="); 
-					bos.trkreditangsuran.settab(1) ;
-				') ; 
-			} 
-			
+				bos.trkreditangsuran.grid1_reloaddata() ;
+			') ;			
 		} 
 	} 
 
@@ -173,7 +165,7 @@ class Trkreditangsuran extends Bismillah_Controller{
 
 		$vare   = array("total"=>$vdb['rows'], "records"=>$vare ) ;
 		echo(json_encode($vare)) ;
-	}
+	}  
 
 	public function pilih(){
 		$va   = $this->input->post() ;
@@ -185,7 +177,7 @@ class Trkreditangsuran extends Bismillah_Controller{
 				bjs.ajax(bos.trkreditangsuran.url + "/editing", "id=" + ' . $data['id'] . '); 
 				with(bos.trkreditangsuran.obj){
 					find("#rekening").val("'.$data['rekening'].'") ; 
-					find("#no_spk").focus() ;     
+					find("#keterangan").focus() ;     
 				}
 				bos.trkreditangsuran.loadmodelstock("hide");
 			') ;

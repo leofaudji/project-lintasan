@@ -20,7 +20,7 @@
             </td>
           </tr>
         </table>
-      </td>
+      </td> 
     </tr>
   </table>
 </div><!-- end header -->
@@ -50,7 +50,7 @@
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <h4 class="modal-title" id="wm-title">Daftar Rekening Realisasi</h4>
+              <h4 class="modal-title" id="wm-title">Daftar Rekening Kredit</h4>
           </div>
           <div class="modal-body">
               <div id="grid3" style="height:400px"></div>
@@ -68,7 +68,9 @@
   bjs.initenter($("form")) ;
   bos.trkreditangsuran.grid1_data    = null ; 
   bos.trkreditangsuran.grid1_loaddata= function(){ 
-    this.grid1_data     = {} ; 
+    this.grid1_data     = {
+      "rekening"	:this.obj.find("#rekening").val() 
+    } ; 
   }
 
   bos.trkreditangsuran.grid1_load    = function(){
@@ -85,11 +87,13 @@
       multiSearch    : false, 
       columns: [
         { field: 'no', caption: 'No', size: '40px',style:'text-align:center', sortable: false},
-        { field: 'datetime', caption: 'Diproses pada', size: '180px', sortable: false},
-        { field: 'faktur', caption: 'Faktur', size: '150px',style:'text-align:center', sortable: false},
-        { field: 'keterangan', caption: 'Keterangan', size: '200px', sortable: false},
-        { field: 'kpokok', caption: 'Pokok', size: '110px',style:'text-align:right', sortable: false},
-        { field: 'kbunga', caption: 'Bunga', size: '100px',style:'text-align:right', sortable: false},
+        { field: 'datetime', caption: 'Diproses pada', size: '220px', sortable: false},
+        { field: 'faktur', caption: 'Faktur', size: '160px', sortable: false},
+        { field: 'keterangan', caption: 'Keterangan', size: '350px', sortable: false},
+        { field: 'dpokok', caption: 'DPokok', size: '120px',style:'text-align:right', sortable: false},
+        { field: 'kpokok', caption: 'KPokok', size: '110px',style:'text-align:right', sortable: false},
+        { field: 'dbunga', caption: 'DBunga', size: '120px',style:'text-align:right', sortable: false},
+        { field: 'kbunga', caption: 'KBunga', size: '100px',style:'text-align:right', sortable: false},
         { field: 'denda', caption: 'Denda', size: '80px',style:'text-align:right', sortable: false},
         { field: 'dtitipan', caption: 'DTitipan', size: '100px',style:'text-align:right', sortable: false},
         { field: 'ktitipan', caption: 'KTitipan', size: '100px',style:'text-align:right', sortable: false}

@@ -17,7 +17,7 @@
         </span> 
       </div>                
     </td>    
-  </tr>
+  </tr> 
   <tr>
     <td><label for="nama">Nama</label> </td>
     <td width="1%">:</td>
@@ -29,7 +29,7 @@
     <td><label for="alamat">Alamat</label> </td>
     <td width="1%">:</td>
     <td>
-      <input disabled style="width:50%" type="text" id="alamat" name="alamat" class="form-control" placeholder="Alamat" required> 
+      <input disabled style="width:80%" type="text" id="alamat" name="alamat" class="form-control" placeholder="Alamat" required> 
     </td> 
   </tr>
   <tr>
@@ -51,7 +51,7 @@
     <td><label for="nama">Tgl Realisasi</label> </td>
     <td width="1%">:</td>
     <td>
-    <input style="width: 100px;" type="text" class="form-control date" id="tgl" name="tgl" required value=<?=date("d-m-Y")?> <?=date_set()?>> 
+    <input disabled style="width: 100px;" type="text" class="form-control date" id="tgl_realisasi" name="tgl_realisasi" value=<?=date("d-m-Y")?> <?=date_set()?>> 
     </td>
   </tr>
   <tr>
@@ -60,10 +60,10 @@
     <td>
       <input style="width:90%" type="text" id="kbunga" name="kbunga" class="form-control number" placeholder="0">
     </td>
-    <td><label for="nama">Jatuh Tempo</label> </td>
+    <td><label for="nama">Jangka Waktu</label> </td>
     <td width="1%">:</td>
     <td>
-    <input style="width: 100px;" type="text" class="form-control date" id="jthtmp" name="jthtmp" required value=<?=date("d-m-Y")?> <?=date_set()?>> 
+    <input disabled style="width: 100px;" type="text" class="form-control" id="lama" name="lama" placeholder="0 Bulan"> 
     </td> 
   </tr> 
   <tr>
@@ -72,11 +72,11 @@
     <td>
       <input style="width:90%" type="text" id="denda" name="denda" class="form-control number" placeholder="0">
     </td>
-    <td><label for="nama">Baki Debet Awal</label> </td>
+    <td><label for="nama">Jatuh Tempo</label> </td>
     <td width="1%">:</td>
     <td>
-      <input style="width:90%" type="text" id="bakidebet_awal" name="bakidebet_awal" class="form-control number" placeholder="0">
-    </td>  
+    <input disabled style="width: 100px;" type="text" class="form-control date" id="jthtmp" name="jthtmp" value=<?=date("d-m-Y")?> <?=date_set()?>> 
+    </td> 
   </tr>
   <tr>
     <td><label for="telepon">Setor Titipan</label> </td>
@@ -84,11 +84,11 @@
     <td>
       <input style="width:90%" type="text" id="dtitipan" name="dtitipan" class="form-control number" placeholder="0">
     </td>
-    <td><label for="nama">Tunggakan Pokok</label> </td>
+    <td><label for="nama">Baki Debet Awal</label> </td>
     <td width="1%">:</td>
     <td>
-      <input style="width:90%" type="text" id="tpokok" name="tpokok" class="form-control number" placeholder="0">
-    </td>
+      <input disabled style="width:90%" type="text" id="bakidebet_awal" name="bakidebet_awal" class="form-control number" placeholder="0">
+    </td>  
   </tr> 
   <tr>
     <td><label for="rekening">Penarikan Titipan</label> </td>
@@ -96,10 +96,10 @@
     <td>
       <input style="width:90%" type="text" id="ktitipan" name="ktitipan" class="form-control number" placeholder="0">
     </td>
-    <td><label for="nama">Tunggakan Bunga</label> </td>
+    <td><label for="nama">Tunggakan Pokok</label> </td>
     <td width="1%">:</td>
     <td>
-      <input style="width:90%" type="text" id="tbunga" name="tbunga" class="form-control number" placeholder="0">
+      <input disabled style="width:90%" type="text" id="tpokok" name="tpokok" class="form-control number" placeholder="0">
     </td>
   </tr>
   <tr>
@@ -108,22 +108,31 @@
     <td>
       <input style="width:90%" type="text" id="kelebihan" name="kelebihan" class="form-control number" placeholder="0">
     </td>
-    <td><label for="nama">Tunggakan Denda</label> </td>
+    <td><label for="nama">Tunggakan Bunga</label> </td>
     <td width="1%">:</td>
-    <td> 
-      <input style="width:90%" type="text" id="materai" name="materai" class="form-control number" placeholder="0">
+    <td>
+      <input disabled style="width:90%" type="text" id="tbunga" name="tbunga" class="form-control number" placeholder="0">
     </td>
   </tr>
   <tr>
     <td><label for="telepon">Total Angsuran</label> </td>
     <td width="1%">:</td>
-    <td>
-      <input style="width:90%" type="text" id="kelebihan" name="kelebihan" class="form-control number" placeholder="0">
+    <td> 
+      <input style="width:90%" type="text" id="total_angsuran" name="total_angsuran" class="form-control number" placeholder="0">
     </td>
+    <td><label for="nama">Tunggakan Denda</label> </td>
+    <td width="1%">:</td>
+    <td> 
+      <input disabled style="width:90%" type="text" id="materai" name="materai" class="form-control number" placeholder="0">
+    </td>
+  </tr> 
+  <tr>
     <td><label for="nama">Keterangan</label> </td>
     <td width="1%">:</td>
-    <td>
-      <input style="width:90%" type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" required>
+    <td colspan="5px">
+      <input style="width:96%" type="text" id="keterangan" name="keterangan" class="form-control" placeholder="Keterangan" required>
     </td>
-  </tr>
+  </tr> 
+  
+
 </table>
