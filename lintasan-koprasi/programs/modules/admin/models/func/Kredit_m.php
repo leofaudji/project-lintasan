@@ -29,7 +29,7 @@ class Kredit_m extends Bismillah_Model{
       $search   = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
       $search   = $this->escape_like_str($search) ;
       $id_kantor   = getsession($this,"id_kantor") ; 
-      $where    = array("t.id_kantor = '$id_kantor' AND t.status_cair = '1' AND t.status_lunas = '0'") ;   
+      $where    = array("t.id_kantor = '$id_kantor' AND t.status_cair = '1' AND t.status_lunas = '0'") ;    
       //$where[]  = "jenis = 'P'" ;
       if($search !== "") $where[]  = "(t.rekening LIKE '{$search}%' OR m.kode LIKE '{$search}%' OR m.nama LIKE '%{$search}%')" ;
       $where    = implode(" AND ", $where) ; 
@@ -185,6 +185,35 @@ class Kredit_m extends Bismillah_Model{
       }
       return $data ;       
   }
+
+  public function simulasi_GetAngsuran($dTgl,$nLama,$nPlafond,$nSukuBunga,$cCaraPerhitungan){
+
+   $vaArray[]  = array("Ke"=>0,"Pokok"=>0,"Bunga"=>0,"BakiDebet"=>0);
+   $nPlafond   = $nPlafond;
+   $nBakiDebet = $nPlafond;
+   $nBunga	  = 0;
+   $nPokok	  = 0;
+   
+   
+   $nPokok = $nPlafond/$nLama;
+   $nBunga = $nPlafond * $nSukuBunga / 100 / 12;
+   
+   for($n=1;$n<=$nLama;$n++){
+    if($cCaraPerhitungan == 1){ //flat
+       $nBakiDebet -= $nPokok ;
+    }else if($cCaraPerhitungan == 3){ //reguler / sliding
+       $nPokok = 0 ;
+       if($n == $nLama) $nPokok = $nPlafond;
+       $nBakiDebet -= $nPokok ;
+    }else if($cCaraPerhitungan == 3){ //flat menurun
+       $nBunga      = (($nBakiDebet * $nSukuBunga)/100/12)/$nLama ;
+       $nBakiDebet -= $nPokok ;
+       $nPlafond   -= $nPokok;
+    }
+    $vaArray[$n] = array("Pokok"=>$nPokok,"Bunga"=>$nBunga,"Ke"=>$n,"BakiDebet"=>$nBakiDebet);
+   }
+   return $vaArray;
+ }
 
 }
 ?>

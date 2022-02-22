@@ -1106,7 +1106,11 @@ function ezTable(&$data,$cols='',$title='',$options=''){
 
   if (!is_array($cols)){
     reset($data);
-    list($k,$v)=each($data);
+    //list($k,$v)=each($data);
+    
+    foreach ($data as $k => $v){
+    } 
+
     if (!is_array($v)) return;
     $cols=array();
     foreach($v as $k1=>$v1){
@@ -1752,7 +1756,7 @@ function ezPageNumber(){
   $nLeft  = $this->ez['pageWidth'] - $this->ez['rightMargin'] ;
   $nTop   = $this->ez['pageHeight'] - 20 ;
   $this->ezStartPageNumbers($nLeft,$nTop,8,'left','Hal : {PAGENUM} / {TOTALPAGENUM} ',1) ;
-  $this->ezStartPageNumbers($nLeft,$nTop-8,8,'left',date("d-m-Y H:i:s ") . GetSession("cSession_UserName") ) ;
+  $this->ezStartPageNumbers($nLeft,$nTop-8,8,'left',date("d-m-Y H:i:s ") . getsession($this, "username") ) ;
 }
 
 function ezLogoHeaderPage($cLoc,$nLeft=0,$nTop=0,$nWidth=0,$nHeight=0){

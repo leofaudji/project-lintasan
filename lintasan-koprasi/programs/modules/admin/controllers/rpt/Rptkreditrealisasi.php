@@ -1,14 +1,14 @@
 <?php
-class Rptkreditbakidebet extends Bismillah_Controller{ 
+class Rptkreditrealisasi extends Bismillah_Controller{ 
   protected $bdb ; 
   public function __construct(){ 
     parent::__construct() ;
-    $this->load->model("rpt/rptkreditbakidebet_m") ; 
-    $this->bdb   = $this->rptkreditbakidebet_m ;
+    $this->load->model("rpt/rptkreditrealisasi_m") ; 
+    $this->bdb   = $this->rptkreditrealisasi_m ;
   }  
  
   public function index(){
-    $this->load->view("rpt/rptkreditbakidebet") ; 
+    $this->load->view("rpt/rptkreditrealisasi") ; 
 
   }  
 
@@ -26,29 +26,26 @@ class Rptkreditbakidebet extends Bismillah_Controller{
       $vs['tgl'] = date_2d($vs['tgl']);
       $vs['lama'] = $vs['lama'] . " Bulan" ;
       $vs['jthtmp'] = date("d-m-Y",date_nextmonth(strtotime($dbr['tgl']),$dbr['lama'])) ; 
-      $vs['saldoakhir'] = string_2s($vs['saldoakhir']) ;
+      $vs['plafond'] = string_2s($vs['plafond']) ;
+      $vs['sukubunga'] .= " % p.a"  ;
       unset($vs['id']) ;  
       $vare[]    = $vs ;
       unset($vs['cmdcetak']) ;       
       $varpt[]  = $vs ;
-      
-      if($dbr['saldoakhir'] == 0){  
-        $this->bdb->update("kredit_rekening", array("status_lunas"=>1),"rekening = '{$vs['rekening']}'") ;
-      }
     }
 
     $vare   = array("total"=>$vdb['rows'], "records"=>$vare ) ;
     //$varpt = $vare['records'] ; 
     echo(json_encode($vare)) ; 
-    savesession($this, "rptkreditbakidebet_rpt", json_encode($varpt)) ;   
+    savesession($this, "rptkreditrealisasi_rpt", json_encode($varpt)) ;   
   }
 
   public function init(){
-    savesession($this, "ssrptkreditbakidebet_id", "") ;     
+    savesession($this, "ssrptkreditrealisasi_id", "") ;     
   } 
 
   public function showreport(){
-      $data = getsession($this,"rptkreditbakidebet_rpt") ;     
+      $data = getsession($this,"rptkreditrealisasi_rpt") ;     
       $data = json_decode($data,true) ;    
       
       foreach($data as $key=>$value){

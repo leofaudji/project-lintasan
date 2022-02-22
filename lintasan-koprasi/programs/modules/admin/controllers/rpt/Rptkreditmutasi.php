@@ -1,14 +1,14 @@
 <?php
-class Rptkreditbakidebet extends Bismillah_Controller{ 
+class Rptkreditmutasi extends Bismillah_Controller{ 
   protected $bdb ; 
   public function __construct(){ 
     parent::__construct() ;
-    $this->load->model("rpt/rptkreditbakidebet_m") ; 
-    $this->bdb   = $this->rptkreditbakidebet_m ;
+    $this->load->model("rpt/rptkreditmutasi_m") ; 
+    $this->bdb   = $this->rptkreditmutasi_m ;
   }  
  
   public function index(){
-    $this->load->view("rpt/rptkreditbakidebet") ; 
+    $this->load->view("rpt/rptkreditmutasi") ; 
 
   }  
 
@@ -24,31 +24,31 @@ class Rptkreditbakidebet extends Bismillah_Controller{
       $vs['no'] = ++$n ;
       if($va['offset'] > 0) $vs['no'] += $va['offset'] ;
       $vs['tgl'] = date_2d($vs['tgl']);
-      $vs['lama'] = $vs['lama'] . " Bulan" ;
-      $vs['jthtmp'] = date("d-m-Y",date_nextmonth(strtotime($dbr['tgl']),$dbr['lama'])) ; 
-      $vs['saldoakhir'] = string_2s($vs['saldoakhir']) ;
+      $vs['dpokok'] = string_2s($vs['dpokok']);
+      $vs['kpokok'] = string_2s($vs['kpokok']);
+      $vs['kbunga'] = string_2s($vs['kbunga']);
+      $vs['denda'] = string_2s($vs['denda']);
+      $vs['dtitipan'] = string_2s($vs['dtitipan']);
+      $vs['ktitipan'] = string_2s($vs['ktitipan']);
       unset($vs['id']) ;  
       $vare[]    = $vs ;
       unset($vs['cmdcetak']) ;       
       $varpt[]  = $vs ;
       
-      if($dbr['saldoakhir'] == 0){  
-        $this->bdb->update("kredit_rekening", array("status_lunas"=>1),"rekening = '{$vs['rekening']}'") ;
-      }
     }
 
     $vare   = array("total"=>$vdb['rows'], "records"=>$vare ) ;
     //$varpt = $vare['records'] ; 
     echo(json_encode($vare)) ; 
-    savesession($this, "rptkreditbakidebet_rpt", json_encode($varpt)) ;   
+    savesession($this, "rptkreditmutasi_rpt", json_encode($varpt)) ;   
   }
 
   public function init(){
-    savesession($this, "ssrptkreditbakidebet_id", "") ;     
+    savesession($this, "ssrptkreditmutasi_id", "") ;     
   } 
 
   public function showreport(){
-      $data = getsession($this,"rptkreditbakidebet_rpt") ;     
+      $data = getsession($this,"rptkreditmutasi_rpt") ;     
       $data = json_decode($data,true) ;    
       
       foreach($data as $key=>$value){

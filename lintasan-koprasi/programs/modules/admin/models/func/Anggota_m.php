@@ -11,13 +11,12 @@ class Anggota_m extends Bismillah_Model{
       $search   = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;
       $search   = $this->escape_like_str($search) ;
       $id_kantor   = getsession($this,"id_kantor") ; 
-      $where    = array("t.id_kantor = '$id_kantor'") ;  
+      $where    = array("m.id_kantor = '$id_kantor'") ;  
       //$where[]  = "jenis = 'P'" ;
-      if($search !== "") $where[]  = "(t.rekening LIKE '{$search}%' OR m.kode LIKE '{$search}%' OR m.nama LIKE '%{$search}%')" ;
+      if($search !== "") $where[]  = "(m.kode LIKE '{$search}%' OR m.nama LIKE '%{$search}%' OR m.alamat LIKE '%{$search}%')" ;
       $where    = implode(" AND ", $where) ; 
-      $join     = "left join mst_anggota m on t.id_kantor = m.id_kantor AND m.kode = t.kode_anggota" ; 
-      $dbd      = $this->select("tabungan_rekening t", "m.kode,t.rekening,m.nama,m.alamat,m.telepon", $where, $join, "", "t.id DESC", $limit) ; 
-      $dba      = $this->select("tabungan_rekening t", "t.id", $where,$join) ;    
+      $dbd      = $this->select("mst_anggota m", "m.kode,m.nama,m.alamat,m.telepon", $where, "", "", "m.id DESC", $limit) ; 
+      $dba      = $this->select("mst_anggota m", "m.id", $where) ;    
 
       return array("db"=>$dbd, "rows"=> $this->rows($dba) ) ;
    }
