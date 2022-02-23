@@ -64,6 +64,14 @@
 						</td>
 					</tr> 
 					<tr>
+						<td width="14%"><label for="rekening_administrasi">Rekening Provisi</label> </td>
+						<td width="1%">:</td>
+						<td>
+						<select name="rekening_provisi" id="rekening_provisi" class="form-control select" 
+            data-sf="load_rekening" data-placeholder="Rekening Provisi" required></select>
+						</td>
+					</tr> 
+					<tr>
 						<td width="14%"><label for="rekening_administrasi">Rekening Administrasi</label> </td>
 						<td width="1%">:</td>
 						<td>
@@ -121,6 +129,7 @@
 				{ field: 'keterangan', caption: 'Keterangan', size: '200px', sortable: false},
   		  { field: 'rekening_pokok', caption: 'Rekening Pokok', size: '150px', sortable: false},
   		  { field: 'rekening_bunga', caption: 'Rekening Bunga', size: '150px', sortable: false},
+  		  { field: 'rekening_provisi', caption: 'Rekening Provisi', size: '150px', sortable: false},
   		  { field: 'rekening_administrasi', caption: 'Rekening Administrasi', size: '150px', sortable: false},
   		  { field: 'rekening_materai', caption: 'Rekening Materai', size: '150px', sortable: false},
   		  { field: 'rekening_denda', caption: 'Rekening Denda', size: '150px', sortable: false},
@@ -167,6 +176,7 @@
 		this.obj.find("#keterangan").val("") ;
 		this.obj.find("#rekening_pokok").sval("") ;
 		this.obj.find("#rekening_bunga").sval("") ;
+		this.obj.find("#rekening_provisi").sval("") ;
 		this.obj.find("#rekening_administrasi").sval("") ;
 		this.obj.find("#rekening_materai").sval("") ;
 		this.obj.find("#rekening_denda").sval("") ;

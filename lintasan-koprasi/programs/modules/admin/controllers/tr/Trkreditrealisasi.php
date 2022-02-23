@@ -34,7 +34,7 @@ class Trkreditrealisasi extends Bismillah_Controller{
 												class="btn btn-default btn-grid">Koreksi</button>' ;
 			$vs['cmdedit']	   = html_entity_decode($vs['cmdedit']) ;
 
-			$vs['cmddelete']  = '<button type="button" onClick="bos.trkreditrealisasi.cmddelete(\''.$dbr['id'].'\')"
+			$vs['cmddelete']  = '<button type="button" onClick="bos.trkreditrealisasi.cmddelete(\''.$dbr['rekening'].'\')"
 												class="btn btn-danger btn-grid">Hapus</button>' ;
 			$vs['cmddelete']  = html_entity_decode($vs['cmddelete']) ;
 
@@ -83,9 +83,11 @@ class Trkreditrealisasi extends Bismillah_Controller{
 		$this->init_agunan() ;
 	}
 
-	public function deleting(){
+	public function deleting(){ 
 		$va 	= $this->input->post() ; 
 		$id 	= $va['id'] ;
+		$this->bdb->delete("kredit_agunan_tmp", "rekening = " . $this->bdb->escape($id)) ;
+		$this->bdb->delete("kredit_agunan", "rekening = " . $this->bdb->escape($id)) ;
 		$this->bdb->delete("kredit_rekening", "id = " . $this->bdb->escape($id)) ;
 		echo(' bos.trkreditrealisasi.grid1_reload() ; ') ;
 	}
@@ -116,8 +118,8 @@ class Trkreditrealisasi extends Bismillah_Controller{
 				$this->load_agunan($data_agunan) ;      
 			}
 
-			$this->getangsuran($d['caraperhitungan'],$d['plafond'],$d['sukubunga'],$d['lama'],$d['tgl']) ;  
-
+			$this->getangsuran($d['tgl'],$d['lama'],$d['plafond'],$d['sukubunga'],$d['caraperhitungan']) ;
+			
 			echo('   
 				with(bos.trkreditrealisasi.obj){
 					find("#tgl").val("'.$d['tgl'].'") ;
@@ -201,7 +203,7 @@ class Trkreditrealisasi extends Bismillah_Controller{
 				}
 				bos.trkreditrealisasi.loadmodelstock("hide");
 
-		 ') ;
+		 ') ; 
 		}
 	}
 
@@ -273,13 +275,13 @@ class Trkreditrealisasi extends Bismillah_Controller{
 		') ;  
 	}
 
-	public function getangsuran($cp,$plafond,$sukubunga,$lama,$tgl){  
-		$angsuran = $this->kredit_m->getangsuran($cp,$plafond,$sukubunga,$lama) ;
+	public function getangsuran($tgl,$lama,$plafond,$sukubunga,$caraperhitungan){  
+		$angsuran = $this->kredit_m->getangsuran($tgl,$lama,$plafond,$sukubunga,$caraperhitungan) ;
 		$html = "" ;
 		for($i=1;$i<=$lama;$i++){
 			$periode = date("d-m-Y",date_nextmonth(strtotime($tgl),$i)) ;
-			$pokok = $angsuran['pokok'] ; 
-			$bunga = $angsuran['bunga'] ; 
+			$pokok = $angsuran[$i]['pokok'] ; 
+			$bunga = $angsuran[$i]['bunga'] ; 
 			$total = $pokok + $bunga ;  
 			$html .= "<table><tr><td align='center' width='30px'>".$i."</td><td>" . $periode . "</td><td align='right' width='120px'>".string_2s($pokok)."</td><td align='right' width='120px'>".string_2s($bunga)."</td><td align='right' width='150px'>".string_2s($total)."</td></tr></table>" ;
 		} 

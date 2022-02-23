@@ -1,6 +1,6 @@
 <table class="osxtable form" border="0" width="100%">
 <tr>
-    <td width="15%"><label for="tgl">Tgl Pencairan</label> </td>
+    <td width="15%"><label for="tgl">Tgl Transaksi</label> </td>
     <td width="1%">:</td>
     <td> 
       <input style="width: 100px;" type="text" class="form-control date" id="tgl" name="tgl" required value=<?=date("d-m-Y")?> <?=date_set()?>> 
@@ -15,7 +15,7 @@
         <span class="input-group-btn">
           <button class="form-control btn btn-info" type="button" id="cmdanggota"><i class="fa fa-search"></i></button>
         </span> 
-      </div>                
+      </div>                 
     </td>    
   </tr> 
   <tr>
@@ -123,7 +123,7 @@
     <td><label for="nama">Tunggakan Denda</label> </td>
     <td width="1%">:</td>
     <td> 
-      <input disabled style="width:90%" type="text" id="materai" name="materai" class="form-control number" placeholder="0">
+      <input disabled style="width:90%" type="text" id="tdenda" name="tdenda" class="form-control number" placeholder="0">
     </td>
   </tr> 
   <tr>

@@ -109,7 +109,7 @@
     w2ui[this.id + '_grid1'].reload() ; 
   }
   bos.trkreditangsuran.grid1_destroy   = function(){
-    if(w2ui[this.id + '_grid1'] !== undefined){
+    if(w2ui[this.id + '_grid1'] !== undefined){ 
       w2ui[this.id + '_grid1'].destroy() ;
     }
   }
@@ -197,22 +197,20 @@
     this.obj.find("#nama").val("") ;
     this.obj.find("#alamat").val("") ;
     this.obj.find("#telepon").val("") ;
-    this.obj.find("#no_spk").val("") ;
-    this.obj.find("#golongan_tabungan").html("") ; 
-    this.obj.find("#plafond").val("") ;
-    this.obj.find("#sukubunga").val("") ;
+    this.obj.find("#kpokok").val("") ;
+    this.obj.find("#kbunga").val("") ;
+    this.obj.find("#denda").val("") ;
+    this.obj.find("#dtitipan").val("") ;
+    this.obj.find("#ktitipan").val("") ;
+    this.obj.find("#kelebihan").val("") ;
+    this.obj.find("#total_angsuran").val("") ;
+    this.obj.find("#tgl_realisasi").val("") ;
     this.obj.find("#lama").val("") ;
-    this.obj.find("#administrasi").val("") ;
-    this.obj.find("#provisi").val("") ;
-    this.obj.find("#materai").val("") ;
-    this.obj.find("#ao").html("") ;
-    this.obj.find("#caraperhitungan").html("") ;
-    this.obj.find("#tujuan_pembukaan").val("") ;
-    this.obj.find("#ahli_waris").val("") ;
-    this.obj.find("#jenis_agunan").html("") ;
-    this.obj.find("#nilai_agunan").val("") ;
-    this.obj.find("#data_agunan").val("") ;
-    this.obj.find("#image").val("") ;
+    this.obj.find("#jthtmp").val("") ;
+    this.obj.find("#bakidebet_awal").val("") ;
+    this.obj.find("#tpokok").val("") ;
+    this.obj.find("#tbunga").val("") ;
+    this.obj.find("#tdenda").val("") ;
     this.obj.find("#idlimage").html("") ;
     this.obj.find("#idimage").html("") ;
     bjs.ajax(this.url + "/init") ;

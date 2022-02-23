@@ -60,7 +60,7 @@
       </div>
   </div>
 </div> 
-
+ 
 
 <script type="text/javascript">
   <?=cekbosjs();?>
@@ -85,10 +85,16 @@
       columns: [
         { field: 'no', caption: 'No', size: '40px',style:'text-align:center', sortable: false},
         { field: 'datetime', caption: 'Datetime', size: '130px',style:'text-align:center', sortable: false},
-        { field: 'rekening', caption: 'No.Rekening',style:'text-align:center', size: '130px', sortable: false},
+        { field: 'rekening', caption: 'No.Rekening',style:'text-align:center', size: '120px', sortable: false},
         { field: 'nama', caption: 'Nama', size: '200px', sortable: false}, 
         { field: 'alamat', caption: 'Alamat', size: '350px', sortable: false},
+        { field: 'no_spk', caption: 'No SPK', size: '130px', sortable: false},
         { field: 'plafond', caption: 'Plafond', size: '130px',style:'text-align:right', sortable: false},
+        { field: 'tgl', caption: 'Tgl Realisasi',style:'text-align:center', size: '90px', sortable: false},
+        { field: 'lama', caption: 'Lama',style:'text-align:right', size: '80px', sortable: false},
+        { field: 'jthtmp', caption: 'JthTmp',style:'text-align:center', size: '90px', sortable: false},
+        { field: 'sukubunga', caption: 'SukuBunga', size: '80px',style:'text-align:right', sortable: false},
+        { field: 'ao', caption: 'AO', size: '80px', sortable: false},
         { field: 'cmdedit', caption: ' ', size: '80px', sortable: false },
         { field: 'cmddelete', caption: ' ', size: '80px', sortable: false },
         { field: 'cmdcetak', caption: ' ', size: '80px', sortable: false }

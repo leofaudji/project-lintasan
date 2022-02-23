@@ -37,56 +37,13 @@ class Trkreditpencairan_m extends Bismillah_Model{
 
    public function saving($va, $id){       
       $f    = $va ; 
-      $f['tgl']  = date_2s($f['tgl']) ; 
-
-      $id_kantor = getsession($this,"id_kantor")  ;
-
-      if($id == ""){       
-         $f['id_kantor']   = $id_kantor ;     
-         //$f['faktur']      = $this->getkode() ;    
-         $freq             = $this->getfrekuensi($f['id_kantor'],$f['kode_anggota'],$f['golongan_kredit']) ;    
-         $f['rekening']    = implode(".",array(getsession($this,"kode_kantor"),$f['golongan_kredit'],$f['kode_anggota'],$freq)) ; 
-         $f['datetime']    = date_now() ; 
-         $f['username']    = getsession($this, "username") ;  
-      } 
-      
-      // untuk data kredit
-      $data_kredit = $f ;
-      unset($data_kredit['jenis_agunan']);
-      unset($data_kredit['nilai_agunan']);
-      unset($data_kredit['data_agunan']); 
-
-      $w    = "id = " . $this->escape($id) ; 
-      $this->update("kredit_rekening", $data_kredit, $w) ; 
-  
-      
-      $n = 0 ;
-      $where = "id_kantor = '$id_kantor' and kode_anggota = '{$f['kode_anggota']}'" ;
-      $dba      = $this->select("kredit_agunan_tmp", "*", $where) ; 
-      while($dbra  = $this->getrow($dba)){
-         $data_agunan = array(
-            "id_kantor"    => $dbra['id_kantor'],
-            "kode_anggota" => $f['kode_anggota'],
-            "no_agunan"    => ++$n,      
-            "jenis_agunan" => $dbra['jenis_agunan'],
-            "nilai_agunan" => $dbra['nilai_agunan'],
-            "rekening"     => $f['rekening'],
-            "data_agunan"  => $dbra['data_agunan'],   
-            "username"     => $dbra['username'],
-            "datetime"     => $dbra['datetime'] 
-         ) ;   
- 
-         $w    = "id = " . $this->escape($id) ; 
-         $this->update("kredit_agunan", $data_agunan, $w) ;  
-         $this->removeagunan($dbra['id_key']) ;  
-      } 
-      
+      $this->kredit_m->setpencairan($f['rekening']);   
    }
 
    public function editing($id=''){
       $w    = "id = " . $this->escape($id) ;  
       $d    = $this->getval("*", $w, "kredit_rekening") ;
-      return !empty($d) ? $d : false ;
+      return !empty($d) ? $d : false ; 
    }
 
 }

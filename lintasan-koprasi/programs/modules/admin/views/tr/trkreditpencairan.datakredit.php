@@ -31,7 +31,7 @@
     <td>
       <input disabled style="width:50%" type="text" id="alamat" name="alamat" class="form-control" placeholder="Alamat" required> 
     </td> 
-  </tr>
+  </tr> 
   <tr>
     <td><label for="telepon">Telepon</label> </td>
     <td width="1%">:</td>

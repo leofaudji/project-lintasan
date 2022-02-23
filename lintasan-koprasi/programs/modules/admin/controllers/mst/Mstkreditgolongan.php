@@ -60,14 +60,16 @@ class Mstkreditgolongan extends Bismillah_Controller{
 			savesession($this, "ssmstkreditgolongan_id", $d['id']) ;  
 			$rekening_pokok[]   = array("id"=>$d['rekening_pokok'],"text"=>$d['rekening_pokok']);
 			$rekening_bunga[]   = array("id"=>$d['rekening_bunga'],"text"=>$d['rekening_bunga']);
-			$rekening_administrasi[]   = array("id"=>$d['rekening_bunga'],"text"=>$d['rekening_administrasi']);
-			$rekening_materai[]   = array("id"=>$d['rekening_bunga'],"text"=>$d['rekening_materai']);
-			$rekening_denda[]   = array("id"=>$d['rekening_bunga'],"text"=>$d['rekening_denda']);
+			$rekening_provisi[]   = array("id"=>$d['rekening_provisi'],"text"=>$d['rekening_administrasi']);
+			$rekening_administrasi[]   = array("id"=>$d['rekening_administrasi'],"text"=>$d['rekening_administrasi']);
+			$rekening_materai[]   = array("id"=>$d['rekening_materai'],"text"=>$d['rekening_materai']);
+			$rekening_denda[]   = array("id"=>$d['rekening_denda'],"text"=>$d['rekening_denda']);
 			echo('  
 				bos.mstkreditgolongan.obj.find("#kode").val("'.$d['kode'].'") ;      
 				bos.mstkreditgolongan.obj.find("#keterangan").val("'.$d['keterangan'].'") ;
 				bos.mstkreditgolongan.obj.find("#rekening_pokok").sval('.json_encode($rekening_pokok).') ;		 
 				bos.mstkreditgolongan.obj.find("#rekening_bunga").sval('.json_encode($rekening_bunga).') ;		 
+				bos.mstkreditgolongan.obj.find("#rekening_provisi").sval('.json_encode($rekening_provisi).') ;		 
 				bos.mstkreditgolongan.obj.find("#rekening_administrasi").sval('.json_encode($rekening_administrasi).') ;		 
 				bos.mstkreditgolongan.obj.find("#rekening_materai").sval('.json_encode($rekening_materai).') ;		 
 				bos.mstkreditgolongan.obj.find("#rekening_denda").sval('.json_encode($rekening_denda).') ;		 

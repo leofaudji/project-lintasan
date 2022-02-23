@@ -44,8 +44,9 @@ class Trkreditrealisasi_m extends Bismillah_Model{
       if($id == ""){       
          $f['id_kantor']   = $id_kantor ;     
          //$f['faktur']      = $this->getkode() ;    
-         $freq             = $this->getfrekuensi($f['id_kantor'],$f['kode_anggota'],$f['golongan_kredit']) ;    
-         $f['rekening']    = implode(".",array(getsession($this,"kode_kantor"),$f['golongan_kredit'],$f['kode_anggota'],$freq)) ; 
+         $freq             = $this->getfrekuensi($f['id_kantor'],$f['kode_anggota'],$f['golongan_kredit']) ; 
+         $kode_anggota     = explode(".",$f['kode_anggota']) ;    
+         $f['rekening']    = implode(".",array(getsession($this,"kode_kantor"),$f['golongan_kredit'],$kode_anggota[1],$freq)) ;  
          $f['datetime']    = date_now() ; 
          $f['username']    = getsession($this, "username") ;  
       } 
@@ -130,6 +131,6 @@ class Trkreditrealisasi_m extends Bismillah_Model{
          $data = $d;      
       }
       return $data ;
-   }
+   }  
 }
 ?>

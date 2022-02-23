@@ -27,47 +27,15 @@ class Trkreditangsuran_m extends Bismillah_Model{
 
    public function saving($va, $id){       
       $f    = $va ; 
-      $f['tgl']  = date_2s($f['tgl']) ; 
-
-      $id_kantor = getsession($this,"id_kantor")  ;
-
-      if($id == ""){       
-         $f['id_kantor']   = $id_kantor ;     
-         //$f['faktur']      = $this->getkode() ;    
-         $f['datetime']    = date_now() ; 
-         $f['username']    = getsession($this, "username") ;  
-      } 
-      
-      // untuk data kredit
-      $data_kredit = $f ;
-      unset($data_kredit['jenis_agunan']);
-      unset($data_kredit['nilai_agunan']);
-      unset($data_kredit['data_agunan']); 
-
-      $w    = "id = " . $this->escape($id) ; 
-      $this->update("kredit_rekening", $data_kredit, $w) ; 
-  
-      
-      $n = 0 ;
-      $where = "id_kantor = '$id_kantor' and kode_anggota = '{$f['kode_anggota']}'" ;
-      $dba      = $this->select("kredit_agunan_tmp", "*", $where) ; 
-      while($dbra  = $this->getrow($dba)){
-         $data_agunan = array(
-            "id_kantor"    => $dbra['id_kantor'],
-            "kode_anggota" => $f['kode_anggota'],
-            "no_agunan"    => ++$n,      
-            "jenis_agunan" => $dbra['jenis_agunan'],
-            "nilai_agunan" => $dbra['nilai_agunan'],
-            "rekening"     => $f['rekening'],
-            "data_agunan"  => $dbra['data_agunan'],   
-            "username"     => $dbra['username'],
-            "datetime"     => $dbra['datetime'] 
-         ) ;   
- 
-         $w    = "id = " . $this->escape($id) ; 
-         $this->update("kredit_agunan", $data_agunan, $w) ;   
-      } 
-      
+      $f['tgl']  = date_2s($f['tgl']) ;
+      $d   = array("id_kantor"=>getsession($this,"id_kantor"),"faktur"=>$this->kredit_m->getfaktur("AG"),"tgl"=>$f['tgl'],
+                    "rekening"=>$f['rekening'],"keterangan"=>$f['keterangan'],
+                    "dpokok"=>0,"kpokok"=>$f['kpokok'],"dbunga"=>0,
+                    "kbunga"=>$f['kbunga'],"kelebihan"=>$f['kelebihan'],"denda"=>$f['denda'],
+                    "dtitipan"=>$f['dtitipan'],"ktitipan"=>$f['ktitipan'],  
+                    "datetime"=>date_now(),"username"=>getsession($this,"username") 
+      ) ;
+      $this->kredit_m->setmutasi($d) ;            
    }
 
    public function editing($id=''){

@@ -30,6 +30,7 @@ class Trkreditpencairan extends Bismillah_Controller{
 			$vs['tgl'] = date_2d($vs['tgl']) ;
 			$vs['plafond'] =  string_2s($vs['plafond']) ;
 			$vs['lama'] =  $vs['lama'] . " Bulan" ;
+      $vs['jthtmp'] = date("d-m-Y",date_nextmonth(strtotime($dbr['tgl']),$dbr['lama'])) ; 
 			$vs['sukubunga'] =  $vs['sukubunga'] . " % p.a" ;
 			$vs['cmdedit']    = '<button type="button" onClick="bos.trkreditpencairan.cmdedit(\''.$dbr['id'].'\')"
 												class="btn btn-info btn-grid">Cair</button>' ;
@@ -75,7 +76,7 @@ class Trkreditpencairan extends Bismillah_Controller{
 					$url	= $dir;
 				} 
 			}
-		}  
+		}   
 		unset($va['image']) ;           
 		if($url <> "") $va['data_var']	= $url ;   
 

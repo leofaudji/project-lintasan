@@ -63,7 +63,7 @@ class Trkreditangsuran extends Bismillah_Controller{
 				if(@copy($img,$dir)){
 					@unlink($img) ;
 					@unlink($url) ;  
-					$url	= $dir;
+					$url	= $dir; 
 				} 
 			}
 		}  
@@ -83,9 +83,10 @@ class Trkreditangsuran extends Bismillah_Controller{
 
 	public function editing(){
 		$va 	= $this->input->post() ;
+		//print_r($va) ;
 		if($d = $this->bdb->editing($va['id'])){
 			savesession($this, "sstrkreditangsuran_id", $d['id']) ; 
-			$d['tgl'] 	= date_2d($d['tgl']) ;    
+			$d['tgl'] 	= $this->kredit_m->gettgltransaksi() ;      
 			$image = '<img src=\"./uploads/no-image.png\" class=\"img-responsive\"/><br>' ; ;
 			if(!empty($d['data_var'])){      
 				$image 	= '<img src=\"'.base_url($d['data_var']).'\" class=\"img-responsive\"/><br>' ;
@@ -98,13 +99,13 @@ class Trkreditangsuran extends Bismillah_Controller{
 			$telepon = $this->bdb->getval("telepon",$w, "mst_anggota") ; 
 			
 			$datakredit = $this->kredit_m->getdata_kredit($d['rekening']) ; 
+			$ke = $this->kredit_m->getke($datakredit['tgl'],$d['tgl'],$datakredit['lama']) ;  
 			$datakredit['lama'] .= " Bulan" ; 
-			$keterangan = "Angsuran ke 1 " . " [".$d['rekening']."] an. " . $nama ;
+			$keterangan = "Angsuran ke-" . $ke . " [".$d['rekening']."] an. " . $nama ;
 			$total_angsuran = $datakredit['kpokok'] + $datakredit['kbunga'] ; 
 
 			echo('   
 				with(bos.trkreditangsuran.obj){
-					find("#tgl").val("'.$d['tgl'].'") ;
 					find("#rekening").val("'.$d['rekening'].'") ;   
 					find("#s_rekening").val("'.$d['rekening'].'") ;
 					find("#nama").val("'.$nama.'") ;

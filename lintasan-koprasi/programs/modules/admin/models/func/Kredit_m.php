@@ -5,11 +5,11 @@ class Kredit_m extends Bismillah_Model{
    public function gettgltransaksi(){
       $tgl = date("Y-m-d") ;
       $tgl = date_2s($tgl) ;
-      return $tgl ; 
+      return $tgl ;  
    }
 
-   public function getfaktur($l=true){
-      $k       = "TB" . getsession($this,"kode_kantor") . date("ymd") ;          
+   public function getfaktur($f="AG",$l=true){
+      $k       = $f . getsession($this,"kode_kantor") . date("ymd") ;           
       return $k . $this->getincrement($k, $l, 6) ;    
    } 
 
@@ -68,60 +68,52 @@ class Kredit_m extends Bismillah_Model{
   }
 
 
-   public function setmutasi($f){ 
-      $customer = getsession($this,"customer") ;
-      $debet = $f['jumlah'] ;
-      $kredit = 0 ;
-      $dk = "D" ;
-
-      $w = "customer = '$customer' AND kode = '{$f['kode_transaksi']}'" ;
-      $db  = $this->select("tabungan_kodetransaksi", "dk", $w) ; 
-      if($dbr  = $this->getrow($db)){ 
-         $dk   = $dbr['dk'] ;     
-      }
-      
-      if($dk == "K"){
-         $debet = 0 ;
-         $kredit = $f['jumlah'] ; 
-      }
-
+   public function setmutasi($f){  
       $va   = array("id_kantor"=>$f['id_kantor'],"faktur"=>$f['faktur'],"tgl"=>$f['tgl'],
-                    "rekening"=>$f['rekening'],"kode_transaksi"=>$f['kode_transaksi'],
-                    "keterangan"=>$f['keterangan'],"debet"=>$debet,"kredit"=>$kredit, 
+                    "rekening"=>$f['rekening'],"keterangan"=>$f['keterangan'],
+                    "dpokok"=>string_2n($f['dpokok']),"kpokok"=>string_2n($f['kpokok']),"dbunga"=>string_2n($f['dbunga']),
+                    "kbunga"=>string_2n($f['kbunga']),"kelebihan"=>string_2n($f['kelebihan']),"denda"=>string_2n($f['denda']),
+                    "dtitipan"=>string_2n($f['dtitipan']),"ktitipan"=>string_2n($f['ktitipan']),  
                     "datetime"=>$f['datetime'],"username"=>$f['username']) ; 
-      $this->insert("tabungan_mutasi", $va) ;  
+      $this->insert("kredit_angsuran", $va) ;  
       $this->setmutasi_bukubesar($f['faktur']) ;
    }
 
    public function setmutasi_bukubesar($faktur){
       $id_kantor = getsession($this,"id_kantor") ;
       $customer  = getsession($this,"customer") ;  
-      $f = "tm.*,tg.rekening rekeninggolongan,tk.rekening rekeningkodetransaksi,tk.dk" ;    
-      $w = "tm.id_kantor = '$id_kantor' AND tm.faktur = '$faktur'" ;  
-      $join = "left join kredit_rekening tr on tr.id_kantor = tm.id_kantor AND tr.rekening = tm.rekening
-               left join tabungan_golongan tg on tg.kode = tr.golongan_tabungan AND tg.customer = '$customer'
-               left join tabungan_kodetransaksi tk on tk.kode = tm.kode_transaksi AND tk.customer = '$customer'" ;  
-      $db  = $this->select("tabungan_mutasi tm", $f, $w,$join) ;  
+      $f = "a.*,k.provisi,k.administrasi,k.materai,g.rekening_pokok,g.rekening_bunga,g.rekening_provisi,g.rekening_administrasi,rekening_materai,g.rekening_denda" ;    
+      $w = "a.id_kantor = '$id_kantor' AND a.faktur = '$faktur'" ;  
+      $join = "left join kredit_rekening k on k.id_kantor = a.id_kantor AND k.rekening = a.rekening
+               left join kredit_golongan g on g.kode = k.golongan_kredit AND g.customer = '$customer'" ;   
+      $db  = $this->select("kredit_angsuran a", $f, $w,$join) ;  
       if($row  = $this->getrow($db)){  
          $tgl  = $row['tgl']  ;      
-         $dk   = $row['dk'] ;
-         $rekening   = $row['rekening'] ;
-         $debet      = $row['debet'] ;
-         $kredit     = $row['kredit'] ;
-         $keterangan = $row['keterangan']  ;
-         $datetime   = date_now() ; 
-         $username   = $row['username'] ;
          
-         $rekeningkas = getsession($this,"rekening_kas") ; 
-         $rekeninggol = $row['rekeninggolongan'] ;
-         $rekeningkt  = $row['rekeningkodetransaksi'] ;
+         $angsuran      = $row['kpokok'] + $row['kbunga'] + $row['kelebihan'] + $row['denda'] + $row['ktitipan'] ;
+         $rekeningkas   = getsession($this,"rekening_kas") ; 
+         $keterangan    = $row['keterangan'] ;	
+         $datetime      = date_now() ; 
+         $username      = $row['username'] ;
 
-         if($dk == "K"){
-            $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeningkas,$keterangan,$kredit,0,$datetime,$username) ;
-               $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeninggol,$keterangan,0,$kredit,$datetime,$username) ;
-         }else{ 
-            $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeninggol,$keterangan,$debet,0,$datetime,$username) ;
-               $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeningkas,$keterangan,0,$debet,$datetime,$username) ;
+         if(substr($row['faktur'],0,2) == "R0"){ // Jika Pencairan Realisasi   
+            $this->setbukubesar($id_kantor,$faktur,$tgl,$row['rekening_pokok'],$keterangan,$row['dpokok'],0,$datetime,$username) ;
+               $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeningkas,$keterangan,0,$row['dpokok'],$datetime,$username) ;
+         
+            $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeningkas,$keterangan,$row['provisi'],0,$datetime,$username) ;
+               $this->setbukubesar($id_kantor,$faktur,$tgl,$row['rekening_provisi'],"By. Provisi " . $keterangan,0,$row['provisi'],$datetime,$username) ;
+
+            $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeningkas,$keterangan,$row['administrasi'],0,$datetime,$username) ;
+               $this->setbukubesar($id_kantor,$faktur,$tgl,$row['rekening_administrasi'],"By. Administrasi " . $keterangan,0,$row['administrasi'],$datetime,$username) ;
+
+            $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeningkas,$keterangan,$row['materai'],0,$datetime,$username) ;
+               $this->setbukubesar($id_kantor,$faktur,$tgl,$row['rekening_materai'],"By. Materai " . $keterangan,0,$row['materai'],$datetime,$username) ;
+
+         }else{ // Jika Trx Angsuran 
+            $this->setbukubesar($id_kantor,$faktur,$tgl,$rekeningkas,$keterangan,$angsuran,0,$datetime,$username) ; 
+            $this->setbukubesar($id_kantor,$faktur,$tgl,$row['rekening_pokok'],"Pokok " . $keterangan,0,$row['kpokok'],$datetime,$username) ;
+            $this->setbukubesar($id_kantor,$faktur,$tgl,$row['rekening_bunga'],"Bunga " . $keterangan,0,$row['kbunga'],$datetime,$username) ;
+               $this->setbukubesar($id_kantor,$faktur,$tgl,$row['rekening_denda'],"Denda " . $keterangan,0,$row['denda'],$datetime,$username) ;
          }
          
       }
@@ -137,23 +129,50 @@ class Kredit_m extends Bismillah_Model{
       }
    }
 
-   public function getangsuran($cp,$plafond,$sukubunga,$lama,$musiman=1){
-      $va = array("pokok" => 0,"bunga" => 0) ;
-      if($plafond > 0 AND $lama > 0 AND $sukubunga > 0){ 
-         if($cp == "1"){ //flat
-            $va['pokok'] = $plafond / $lama ;
-            $va['bunga'] = ($plafond * $sukubunga / 100) / $lama ;
-         }else if($cp == "3"){ //flat
-            $va['pokok'] = $plafond / $lama ;
-            $va['bunga'] = ($plafond * $sukubunga / 100) / $lama ;
-         }else if($cp == "10"){ //flat
-            $va['pokok'] = $plafond / $lama ;
-            $va['bunga'] = ($plafond * $sukubunga / 100) / $lama ;
-         }     
+   public function getke($tglrealisasi,$tgl,$lama){
+      $tglrealisasi = date_2d($tglrealisasi); 
+      $tgl = date_2d($tgl);
+      //print($tglrealisasi . " - " . $tgl) ; 
+      $ntglrealisasi = strtotime($tglrealisasi) ;
+      $ntgl = strtotime($tgl) ; 
+      $ke = 0 ;
+      $x = 0 ;
+      while($x <= $ntgl){
+        $ke ++ ;
+        $x = date_nextmonth($ntglrealisasi,$ke) ; 
       }
+      //$ke -- ; 
+      return min($ke,$lama) ; 
+    }
 
-      return $va ; 
-   }
+   public function getangsuran($dTgl,$nLama,$nPlafond,$nSukuBunga,$cCaraPerhitungan){
+
+      $vaArray[]  = array("Ke"=>0,"Pokok"=>0,"Bunga"=>0,"BakiDebet"=>0);
+      $nPlafond   = $nPlafond; 
+      $nBakiDebet = $nPlafond;
+      $nBunga	  = 0;
+      $nPokok	  = 0;
+      
+      
+      $nPokok = $nPlafond/$nLama;
+      $nBunga = $nPlafond * $nSukuBunga / 100 / 12;
+      
+      for($n=1;$n<=$nLama;$n++){
+       if($cCaraPerhitungan == 1){ //flat
+          $nBakiDebet -= $nPokok ;
+       }else if($cCaraPerhitungan == 3){ //reguler / sliding
+          $nPokok = 0 ;
+          if($n == $nLama) $nPokok = $nPlafond;
+          $nBakiDebet -= $nPokok ;
+       }else if($cCaraPerhitungan == 3){ //flat menurun
+          $nBunga      = (($nBakiDebet * $nSukuBunga)/100/12)/$nLama ;
+          $nBakiDebet -= $nPokok ;
+          $nPlafond   -= $nPokok;
+       }
+       $vaArray[$n] = array("pokok"=>$nPokok,"bunga"=>$nBunga,"ke"=>$n,"bakidebet"=>$nBakiDebet);
+      }
+      return $vaArray;
+    }
 
    public function getbakidebet($tgl,$rekening){
       $saldo      = 0 ;
@@ -178,9 +197,9 @@ class Kredit_m extends Bismillah_Model{
          $dbr['tgl'] = date_2d($dbr['tgl']) ; 
          $dbr['jthtmp'] = date("d-m-Y",date_nextmonth(strtotime($dbr['tgl']),$dbr['lama'])) ;      
          $dbr['bakidebet'] = $this->getbakidebet($tgl,$rekening) ;
-         $angsuran = $this->getangsuran($dbr['caraperhitungan'],$dbr['plafond'],$dbr['sukubunga'],$dbr['lama'],1) ;    
-         $dbr['kpokok'] = $angsuran['pokok'] ;
-         $dbr['kbunga'] = $angsuran['bunga'] ;        
+         $angsuran = $this->getangsuran($tgl,$dbr['lama'],$dbr['plafond'],$dbr['sukubunga'],$dbr['caraperhitungan']) ;
+         $dbr['kpokok'] = $angsuran[1]['pokok'] ;
+         $dbr['kbunga'] = $angsuran[1]['bunga'] ;        
          $data = $dbr;  
       }
       return $data ;       
@@ -214,6 +233,29 @@ class Kredit_m extends Bismillah_Model{
    }
    return $vaArray;
  }
+
+ public function setpencairan($rekening){
+   $data = array() ;
+   $id_kantor   = getsession($this,"id_kantor") ; 
+   $where = "t.id_kantor = '$id_kantor' AND t.rekening = " . $this->escape($rekening);
+   $join = "LEFT JOIN mst_anggota m on m.kode = t.kode_anggota AND m.id_kantor = t.id_kantor" ; 
+   $db =  $this->select("kredit_rekening t", "t.*", $where,$join) ;  
+   if($dbr  = $this->getrow($db)){
+      $faktur = $this->getfaktur("R0") ; 
+
+      // edit status_cair debitur
+      $this->update("kredit_rekening",array("faktur"=>$faktur,"status_cair"=>"1"),"id_kantor = '$id_kantor' AND rekening = " . $this->escape($rekening));
+
+      $dbunga = ($dbr['plafond'] * $dbr['sukubunga'] / 100 / 12) * $dbr['lama'] ; 
+
+      // insert angsuran
+      $f = array("id_kantor"=>$id_kantor,"faktur"=>$faktur,"tgl"=>$dbr['tgl'],"rekening"=>$rekening,"keterangan"=>"Realisasi Kredit",
+               "dpokok"=>$dbr['plafond'],"kpokok"=>0,"dbunga"=>$dbunga,"kbunga"=>0,"kelebihan"=>0,"denda"=>0,"dtitipan"=>0,"ktitipan"=>0,  
+               "datetime"=>date_now(),"username"=>getsession($this,"username")
+            ) ; 
+      $this->setmutasi($f) ;
+   }
+ } 
 
 }
 ?>
