@@ -129,51 +129,6 @@ class Kredit_m extends Bismillah_Model{
       }
    }
 
-   public function getke($tglrealisasi,$tgl,$lama){
-      $tglrealisasi = date_2d($tglrealisasi); 
-      $tgl = date_2d($tgl);
-      //print($tglrealisasi . " - " . $tgl) ; 
-      $ntglrealisasi = strtotime($tglrealisasi) ;
-      $ntgl = strtotime($tgl) ; 
-      $ke = 0 ;
-      $x = 0 ;
-      while($x <= $ntgl){
-        $ke ++ ;
-        $x = date_nextmonth($ntglrealisasi,$ke) ; 
-      }
-      //$ke -- ; 
-      return min($ke,$lama) ; 
-    }
-
-   public function getangsuran($dTgl,$nLama,$nPlafond,$nSukuBunga,$cCaraPerhitungan){
-
-      $vaArray[]  = array("Ke"=>0,"Pokok"=>0,"Bunga"=>0,"BakiDebet"=>0);
-      $nPlafond   = $nPlafond; 
-      $nBakiDebet = $nPlafond;
-      $nBunga	  = 0;
-      $nPokok	  = 0;
-      
-      
-      $nPokok = $nPlafond/$nLama;
-      $nBunga = $nPlafond * $nSukuBunga / 100 / 12;
-      
-      for($n=1;$n<=$nLama;$n++){
-       if($cCaraPerhitungan == 1){ //flat
-          $nBakiDebet -= $nPokok ;
-       }else if($cCaraPerhitungan == 3){ //reguler / sliding
-          $nPokok = 0 ;
-          if($n == $nLama) $nPokok = $nPlafond;
-          $nBakiDebet -= $nPokok ;
-       }else if($cCaraPerhitungan == 3){ //flat menurun
-          $nBunga      = (($nBakiDebet * $nSukuBunga)/100/12)/$nLama ;
-          $nBakiDebet -= $nPokok ;
-          $nPlafond   -= $nPokok;
-       }
-       $vaArray[$n] = array("pokok"=>$nPokok,"bunga"=>$nBunga,"ke"=>$n,"bakidebet"=>$nBakiDebet);
-      }
-      return $vaArray;
-    }
-
    public function getbakidebet($tgl,$rekening){
       $saldo      = 0 ;
       $tgl        = date_2s($tgl) ;
@@ -187,19 +142,118 @@ class Kredit_m extends Bismillah_Model{
       return $saldo ;     
    }
 
-   public function getdata_kredit($rekening){
+    public function getke($tglrealisasi,$tgl,$lama){
+      $nKe      = 0;
+      $tglrealisasi = date_2s($tglrealisasi);
+      $dTgl     = date_2s($tgl);
+      for($n=0;$n<=$lama;$n++){
+        $nTglReal  = strtotime($tglrealisasi);
+        $dJTHTMP   = Date("Y-m-d",date_nextmonth($nTglReal,$n));
+        $vaTgl[$n] = array("Ke"=>$n,"JTHTMP"=>$dJTHTMP);
+      }
+      if($dTgl < $vaTgl[1]['JTHTMP']){
+        $nKe = 0;
+      }else if($dTgl >= $vaTgl[$lama]['JTHTMP']){
+        $nKe = $lama;
+      }else{
+        foreach($vaTgl as $key=>$value){
+          if($dTgl >= $value['JTHTMP']){
+            $nKe = $key;
+          }
+        }
+      }
+      return $nKe ;
+    }
+
+   public function getangsuran($dTgl,$nLama,$nPlafond,$nSukuBunga,$cCaraPerhitungan){
+
+      $va[]  = array("ke"=>0,"pokok"=>0,"bunga"=>0,"angsuran"=>0,"bakidebet"=>0,"kewajibanpokok"=>0,"kewajibanbunga"=>0,"kewajibantotal"=>0,"fr"=>0,"kol"=>0) ;
+      $nPlafond   = $nPlafond; 
+      $nBakiDebet = $nPlafond;
+      $nBunga	  = 0;
+      $nPokok	  = 0;
+      
+      $kewajibanpokok = 0 ;
+      $kewajibanbunga = 0 ;
+      $kewajibantotal = 0 ;
+      
+      
+      $nPokok = $nPlafond/$nLama;
+      $nBunga = $nPlafond * $nSukuBunga / 100 / 12;
+      
+      for($n=1;$n<=$nLama;$n++){
+       if($cCaraPerhitungan == 1){ //flat
+          $nBakiDebet -= $nPokok ;
+       }else if($cCaraPerhitungan == 3){ //reguler / sliding
+          $nPokok = 0 ;
+          if($n == $nLama) $nPokok = $nPlafond;
+          $nBakiDebet -= $nPokok ;
+       }else if($cCaraPerhitungan == 6){ //flat menurun
+          $nBunga      = (($nBakiDebet * $nSukuBunga)/100/12)/$nLama ;
+          $nBakiDebet -= $nPokok ;
+          $nPlafond   -= $nPokok;
+       }
+
+       $kewajibanpokok += $nPokok ;
+       $kewajibanbunga += $nBunga ;
+       $kewajibantotal += ($nPokok + $nBunga) ; 
+
+       $va[$n] = array("pokok"=>$nPokok,"bunga"=>$nBunga,"angsuran"=>$nPokok+$nBunga,"ke"=>$n,"bakidebet"=>$nBakiDebet,
+                       "kewajibanpokok"=>$kewajibanpokok,"kewajibanbunga"=>$kewajibanbunga,"kewajibantotal"=>$kewajibantotal,
+                       "fr"=>0,"kol"=>0) ;
+      }
+      return $va;
+    }
+
+   public function getpembayaran($tgl,$rekening){
+      $va         = array("pokok"=>0,"bunga"=>0,"total"=>0,"denda"=>0) ;	
+      $tgl        = date_2s($tgl) ;
+      $id_kantor  = getsession($this,"id_kantor") ; 
+      $where      = "id_kantor = '$id_kantor' AND tgl <= '$tgl' AND rekening = " . $this->escape($rekening);
+
+      $db =  $this->select("kredit_angsuran", "sum(kpokok) totalpokok,sum(kbunga) totalbunga,sum(denda) totaldenda", $where) ;
+      if($dbr  = $this->getrow($db)){
+         $va = array("pokok"=>$dbr['totalpokok'],"bunga"=>$dbr['totalbunga'],"total"=>$dbr['totalpokok']+$dbr['totalbunga'],"denda"=>$dbr['totaldenda']) ;  
+      }  
+      return $va ;     
+   }
+
+   public function getdata_kredit($rekening,$tgl=""){ 
       $data = array() ;
       $id_kantor   = getsession($this,"id_kantor") ; 
       $where = "id_kantor = '$id_kantor' AND rekening = " . $this->escape($rekening);
-      $tgl = $this->gettgltransaksi() ; 
+      if($tgl == "") $tgl = $this->gettgltransaksi() ;  
       $db =  $this->select("kredit_rekening", "*", $where) ;
       if($dbr  = $this->getrow($db)){
          $dbr['tgl'] = date_2d($dbr['tgl']) ; 
          $dbr['jthtmp'] = date("d-m-Y",date_nextmonth(strtotime($dbr['tgl']),$dbr['lama'])) ;      
          $dbr['bakidebet'] = $this->getbakidebet($tgl,$rekening) ;
+         $ke = $this->getke($dbr['tgl'],$tgl,$dbr['lama']) ;  
+         $pembayaran = $this->getpembayaran($tgl,$rekening) ;
          $angsuran = $this->getangsuran($tgl,$dbr['lama'],$dbr['plafond'],$dbr['sukubunga'],$dbr['caraperhitungan']) ;
-         $dbr['kpokok'] = $angsuran[1]['pokok'] ;
-         $dbr['kbunga'] = $angsuran[1]['bunga'] ;        
+         $dbr['kpokok']    = $angsuran[$ke]['pokok'] ;     
+         $dbr['kbunga']    = $angsuran[$ke]['bunga'] ;    
+         $dbr['angsuran']  = $angsuran[$ke]['angsuran'] ;
+         
+         $dbr['tpokok']    = max($angsuran[$ke]['kewajibanpokok'] - $pembayaran['pokok'],0) ;      
+         $dbr['tbunga']    = max($angsuran[$ke]['kewajibanbunga'] - $pembayaran['bunga'],0) ;    
+         $dbr['ttotal']    = max($angsuran[$ke]['kewajibantotal'] - $pembayaran['total'],0) ;     
+         
+         $dbr['fr']        = 0 ;         
+         if($dbr['ttotal'] > 0 AND $dbr['angsuran'] > 0){
+            $dbr['fr']     = ceil($dbr['ttotal']/$dbr['angsuran']) ;     
+         }
+         
+         if($dbr['fr'] >= 12){
+            $dbr['kol']    = 4 ;
+         }else if ($dbr['fr'] >= 6){
+            $dbr['kol']    = 3 ;
+         }else if ($dbr['fr'] >= 3){
+            $dbr['kol']    = 2 ;
+         }else{
+            $dbr['kol']    = 1 ;
+         }
+         
          $data = $dbr;  
       }
       return $data ;       

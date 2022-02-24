@@ -118,6 +118,8 @@ class Trkreditangsuran extends Bismillah_Controller{
 					find("#kpokok").val("'.string_2s($datakredit['kpokok']).'") ;
 					find("#kbunga").val("'.string_2s($datakredit['kbunga']).'") ;
 					find("#total_angsuran").val("'.string_2s($total_angsuran).'") ;		
+					find("#tpokok").val("'.string_2s($datakredit['tpokok']).'") ;		
+					find("#tbunga").val("'.string_2s($datakredit['tbunga']).'") ;		
 					find("#keterangan").val("'.$keterangan.'") ;
 
 					find("#foto").html("'.$image.'") ;
