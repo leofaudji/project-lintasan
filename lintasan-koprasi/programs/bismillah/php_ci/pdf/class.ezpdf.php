@@ -227,10 +227,8 @@ function __construct($paper='LETTER',$orientation='portrait',$export=0,$vaopt=ar
   $this->ezSetCmMargins($nTopMargin,$nBottomMargin,$nLeftMargin,$nRightMargin) ;
   if ($lpagenumber){
     $this->ezPageNumber() ;
-  }
-
-
-
+  } 
+  
 }
 
 function ezSetCmMargins($top,$bottom,$left,$right){
@@ -1752,7 +1750,7 @@ function ezPageNumber(){
   $nLeft  = $this->ez['pageWidth'] - $this->ez['rightMargin'] ;
   $nTop   = $this->ez['pageHeight'] - 20 ;
   $this->ezStartPageNumbers($nLeft,$nTop,8,'left','Hal : {PAGENUM} / {TOTALPAGENUM} ',1) ;
-  $this->ezStartPageNumbers($nLeft,$nTop-8,8,'left',date("d-m-Y H:i:s ") . GetSession("cSession_UserName") ) ;
+  $this->ezStartPageNumbers($nLeft,$nTop-8,8,'left',date("d-m-Y H:i:s ") . getsession($this,"username") ) ;
 }
 
 function ezLogoHeaderPage($cLoc,$nLeft=0,$nTop=0,$nWidth=0,$nHeight=0){

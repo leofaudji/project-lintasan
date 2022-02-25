@@ -1,5 +1,5 @@
 <?php
-include_once('class.pdf.php');
+include_once('class.pdf.php'); 
 
 class Cezpdf extends Cpdf {
   //==============================================================================
@@ -91,7 +91,7 @@ function CreateFileExport($cExtention = '.csv', $export_name=""){
   if(is_file($this->cfileexport)) unlink($this->cfileexport) ;
 }
 
-function __construct($paper='LETTER',$orientation='portrait',$export=0,$vaopt=array(),$lpagenumber=FALSE,$nPaperIncWidth=0,$nPaperIncHeight=0){
+function __construct($paper='LETTER',$orientation='portrait',$export=0,$vaopt=array(),$lpagenumber=TRUE,$nPaperIncWidth=0,$nPaperIncHeight=0){
   // Assuming that people don't want to specify the paper size using the absolute coordinates
   // allow a couple of options:
   // orientation can be 'portrait' or 'landscape'
@@ -225,11 +225,9 @@ function __construct($paper='LETTER',$orientation='portrait',$export=0,$vaopt=ar
   // Default Setting
   $this->selectFont(__DIR__. '/font/Helvetica.afm');
   $this->ezSetCmMargins($nTopMargin,$nBottomMargin,$nLeftMargin,$nRightMargin) ;
-  if ($lpagenumber){
-    $this->ezPageNumber() ;
-  }
-
-
+  if ($lpagenumber){ 
+    $this->ezPageNumber() ; 
+  } 
 
 }
 
@@ -1755,7 +1753,7 @@ function ezHeader($cText,$vaOption = ''){
 function ezPageNumber(){
   $nLeft  = $this->ez['pageWidth'] - $this->ez['rightMargin'] ;
   $nTop   = $this->ez['pageHeight'] - 20 ;
-  $this->ezStartPageNumbers($nLeft,$nTop,8,'left','Hal : {PAGENUM} / {TOTALPAGENUM} ',1) ;
+  $this->ezStartPageNumbers($nLeft,$nTop,8,'left','Hal : {PAGENUM} / {TOTALPAGENUM} ',1) ; 
   $this->ezStartPageNumbers($nLeft,$nTop-8,8,'left',date("d-m-Y H:i:s ") . getsession($this, "username") ) ;
 }
 
