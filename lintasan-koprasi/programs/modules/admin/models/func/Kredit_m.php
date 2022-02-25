@@ -243,6 +243,18 @@ class Kredit_m extends Bismillah_Model{
          if($dbr['ttotal'] > 0 AND $dbr['angsuran'] > 0){
             $dbr['fr']     = ceil($dbr['ttotal']/$dbr['angsuran']) ;     
          }
+
+         // Kredit Lunas
+         if($dbr['bakidebet'] <= 0){
+            $dbr['fr']        = 0 ;
+            $dbr['kol']       = 1 ;
+            $dbr['kpokok']    = 0 ;     
+            $dbr['kbunga']    = 0 ;    
+            $dbr['angsuran']  = 0 ;            
+            $dbr['tpokok']    = 0 ;      
+            $dbr['tbunga']    = 0 ;    
+            $dbr['ttotal']    = 0 ;   
+         }
          
          if($dbr['fr'] >= 12){
             $dbr['kol']    = 4 ;

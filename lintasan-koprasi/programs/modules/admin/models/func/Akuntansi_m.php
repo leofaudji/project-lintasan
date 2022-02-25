@@ -51,6 +51,8 @@ class Akuntansi_m extends Bismillah_Model{
       } 
       return $saldo ;      
    }   
+
+   
   
 
 }
