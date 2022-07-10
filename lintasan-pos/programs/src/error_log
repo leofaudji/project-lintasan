@@ -1,0 +1,16 @@
+[05-Nov-2020 02:36:51 Asia/Jakarta] PHP Warning:  file(./security/whitelist.dat): failed to open stream: No such file or directory in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 93
+[05-Nov-2020 02:36:51 Asia/Jakarta] PHP Warning:  Invalid argument supplied for foreach() in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 30
+[05-Nov-2020 02:36:51 Asia/Jakarta] PHP Warning:  file(./security/onetime.dat): failed to open stream: No such file or directory in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 93
+[05-Nov-2020 02:36:51 Asia/Jakarta] PHP Warning:  Invalid argument supplied for foreach() in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 30
+[05-Nov-2020 02:38:24 Asia/Jakarta] PHP Warning:  file(./security/whitelist.dat): failed to open stream: No such file or directory in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 93
+[05-Nov-2020 02:38:24 Asia/Jakarta] PHP Warning:  Invalid argument supplied for foreach() in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 30
+[05-Nov-2020 02:38:24 Asia/Jakarta] PHP Warning:  file(./security/onetime.dat): failed to open stream: No such file or directory in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 93
+[05-Nov-2020 02:38:24 Asia/Jakarta] PHP Warning:  Invalid argument supplied for foreach() in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 30
+[05-Nov-2020 02:38:26 Asia/Jakarta] PHP Warning:  file(./security/whitelist.dat): failed to open stream: No such file or directory in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 93
+[05-Nov-2020 02:38:26 Asia/Jakarta] PHP Warning:  Invalid argument supplied for foreach() in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 30
+[05-Nov-2020 02:38:26 Asia/Jakarta] PHP Warning:  file(./security/onetime.dat): failed to open stream: No such file or directory in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 93
+[05-Nov-2020 02:38:26 Asia/Jakarta] PHP Warning:  Invalid argument supplied for foreach() in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 30
+[05-Nov-2020 02:38:31 Asia/Jakarta] PHP Warning:  file(./security/whitelist.dat): failed to open stream: No such file or directory in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 93
+[05-Nov-2020 02:38:31 Asia/Jakarta] PHP Warning:  Invalid argument supplied for foreach() in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 30
+[05-Nov-2020 02:38:31 Asia/Jakarta] PHP Warning:  file(./security/onetime.dat): failed to open stream: No such file or directory in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 93
+[05-Nov-2020 02:38:31 Asia/Jakarta] PHP Warning:  Invalid argument supplied for foreach() in /home/kerjapan/public_html/mdt/pos/src/onetime.php on line 30

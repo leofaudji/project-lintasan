@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="36px" viewBox="0 0 32 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>01.10</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-40.9%" y="-19.2%" width="181.8%" height="169.2%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="4" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.12 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <path d="M11,26 C18.3333333,20.1979248 22,15.2455439 22,11.1428571 C22,4.98882707 17.0751322,0 11,0 C4.92486775,0 0,4.98882707 0,11.1428571 C0,15.2455439 3.66666667,20.1979248 11,26 Z" id="path-2"></path>
+    </defs>
+    <g id="Icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-384.000000, -366.000000)">
+        <g id="01.10" filter="url(#filter-1)" transform="translate(389.000000, 367.000000)">
+            <mask id="mask-3" fill="white">
+                <use xlink:href="#path-2"></use>
+            </mask>
+            <use id="Combined-Shape" stroke="#393939" fill="#019101" stroke-linecap="round" stroke-linejoin="round" xlink:href="#path-2"></use>
+            <rect id="Rectangle-2" stroke="#393939" fill="#FFFFFF" mask="url(#mask-3)" x="5" y="7" width="12" height="6"></rect>
+        </g>
+    </g>
+</svg>

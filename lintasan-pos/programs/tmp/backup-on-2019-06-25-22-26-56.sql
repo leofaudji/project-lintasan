@@ -1,0 +1,2711 @@
+DROP TABLE IF EXISTS `armada`;
+
+CREATE TABLE `armada` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `kode` varchar(10) DEFAULT NULL,
+  `keterangan` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `kode` (`kode`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `aset`;
+
+CREATE TABLE `aset` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `kode` varchar(10) NOT NULL,
+  `cabang` varchar(3) NOT NULL,
+  `keterangan` varchar(50) NOT NULL,
+  `tglperolehan` date NOT NULL DEFAULT '0000-00-00',
+  `golongan` varchar(4) NOT NULL,
+  `lama` double(16,0) NOT NULL DEFAULT '0',
+  `hargaperolehan` double(16,2) NOT NULL DEFAULT '0.00',
+  `unit` double(16,2) NOT NULL DEFAULT '0.00',
+  `status` char(1) NOT NULL DEFAULT '0',
+  `jenispenyusutan` char(1) NOT NULL DEFAULT '0',
+  `tarifpenyusutan` double(5,2) NOT NULL DEFAULT '0.00',
+  `residu` double(16,2) NOT NULL DEFAULT '0.00',
+  `penyusutanperbulan` double(16,2) NOT NULL DEFAULT '0.00',
+  `tglhabis` date NOT NULL DEFAULT '0000-00-00',
+  `fakturhabis` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `aset_golongan`;
+
+CREATE TABLE `aset_golongan` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `kode` varchar(4) NOT NULL,
+  `keterangan` varchar(50) NOT NULL,
+  `rekakmpeny` varchar(20) NOT NULL,
+  `rekbypeny` varchar(20) NOT NULL,
+  `jenis` char(1) DEFAULT 'A',
+  PRIMARY KEY (`id`),
+  KEY `kode` (`kode`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `bank`;
+
+CREATE TABLE `bank` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `kode` varchar(16) NOT NULL,
+  `keterangan` varchar(50) NOT NULL,
+  `rekening` varchar(20) DEFAULT '',
+  `datetime_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `datetime_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `username` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `inik` (`kode`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+DROP TABLE IF EXISTS `cabang`;
+
+CREATE TABLE `cabang` (
+  `id` int(8) NOT NULL,
+  `kode` varchar(16) NOT NULL,
+  `keterangan` varchar(50) NOT NULL,
+  `datetime_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `datetime_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `username` varchar(20) NOT NULL,
+  `alamat` varchar(100) DEFAULT '',
+  `telp` varchar(50) DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `inik` (`kode`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+DROP TABLE IF EXISTS `coa`;
+
+CREATE TABLE `coa` (
+  `kode` varchar(11) DEFAULT NULL,
+  `keterangan` varchar(58) DEFAULT NULL,
+  `jenis` varchar(5) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+DROP TABLE IF EXISTS `customer`;
+
+CREATE TABLE `customer` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `kode` char(5) DEFAULT NULL,
+  `nama` varchar(50) NOT NULL DEFAULT '',
+  `notelepon` varchar(30) DEFAULT '',
+  `email` varchar(255) DEFAULT '',
+  `alamat` text,
+  `golongan` char(5) DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `kode` (`kode`),
+  KEY `kodeid` (`kode`,`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `customer_golongan`;
+
+CREATE TABLE `customer_golongan` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `kode` char(5) NOT NULL DEFAULT '',
+  `keterangan` varchar(50) NOT NULL DEFAULT '',
+  `rekpj` varchar(50) NOT NULL DEFAULT '',
+  `rekrj` varchar(50) NOT NULL DEFAULT '',
+  `rekdisc` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `kode` (`kode`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `do_detail`;
+
+CREATE TABLE `do_detail` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `stock` varchar(15) DEFAULT NULL,
+  `qty` double(16,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `stock` (`stock`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `do_total`;
+
+CREATE TABLE `do_total` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `tgl` date DEFAULT '0000-00-00',
+  `cabang` char(4) DEFAULT NULL,
+  `customer` char(10) DEFAULT NULL,
+  `status` char(1) DEFAULT '1',
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `tglstatus` (`tgl`,`status`),
+  KEY `cabtglstatus` (`cabang`,`tgl`,`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `gudang`;
+
+CREATE TABLE `gudang` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `kode` varchar(16) NOT NULL,
+  `keterangan` varchar(50) NOT NULL,
+  `datetime_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `datetime_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `username` varchar(20) NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+INSERT INTO `gudang` VALUES("1","01","GUDANG TOKO","0000-00-00 00:00:00","2019-06-25 19:52:45","");
+
+
+
+DROP TABLE IF EXISTS `hutang_kartu`;
+
+CREATE TABLE `hutang_kartu` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `fkt` char(20) DEFAULT NULL,
+  `tgl` date DEFAULT '0000-00-00',
+  `cabang` varchar(15) DEFAULT NULL,
+  `supplier` varchar(15) DEFAULT NULL,
+  `keterangan` varchar(50) NOT NULL,
+  `debet` double(16,2) DEFAULT '0.00',
+  `kredit` double(16,2) DEFAULT '0.00',
+  `jenis` char(1) DEFAULT 'H',
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `fkttgl` (`fkt`,`tgl`),
+  KEY `tglcabang` (`tgl`,`cabang`),
+  KEY `tglcabangsupplier` (`tgl`,`cabang`,`supplier`),
+  KEY `tglsupplier` (`tgl`,`supplier`)
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+INSERT INTO `hutang_kartu` VALUES("4","PB19062500001","PB19062500001","2019-06-24","","00001","Hut Pembelian [PB19062500001] an Supplier 1","36964900.00","0.00","H","iniad","2019-06-25 20:13:15");
+
+
+
+DROP TABLE IF EXISTS `hutang_pelunasan_detail`;
+
+CREATE TABLE `hutang_pelunasan_detail` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `fkt` char(20) DEFAULT NULL,
+  `jumlah` double(16,2) DEFAULT '0.00',
+  `jenis` varchar(20) DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `fkt` (`fkt`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `hutang_pelunasan_total`;
+
+CREATE TABLE `hutang_pelunasan_total` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `tgl` date DEFAULT '0000-00-00',
+  `cabang` varchar(15) DEFAULT NULL,
+  `supplier` varchar(15) DEFAULT NULL,
+  `pembelian` double(16,2) DEFAULT '0.00',
+  `retur` double(16,2) DEFAULT '0.00',
+  `subtotal` double(16,2) DEFAULT '0.00',
+  `diskon` double(16,2) DEFAULT '0.00',
+  `pembulatan` double(16,2) DEFAULT '0.00',
+  `total` double(16,2) DEFAULT '0.00',
+  `persekot` double(16,2) DEFAULT '0.00',
+  `kasbank` double(16,2) DEFAULT '0.00',
+  `kdtrpersekot` varchar(10) DEFAULT '',
+  `rekkasbank` varchar(20) DEFAULT '',
+  `status` char(1) NOT NULL DEFAULT '1',
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `tgl` (`tgl`),
+  KEY `status` (`status`),
+  KEY `tglstt` (`tgl`,`status`),
+  KEY `tglcabang` (`tgl`,`cabang`),
+  KEY `tglcabangsupplier` (`tgl`,`cabang`,`supplier`),
+  KEY `tglsupplier` (`tgl`,`supplier`),
+  KEY `tglcabangstatus` (`tgl`,`cabang`,`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `kas_mutasi_detail`;
+
+CREATE TABLE `kas_mutasi_detail` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(20) NOT NULL DEFAULT '',
+  `rekening` varchar(20) NOT NULL DEFAULT '',
+  `keterangan` varchar(50) NOT NULL DEFAULT '',
+  `debet` double(16,2) DEFAULT '0.00',
+  `kredit` double(16,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `kas_mutasi_total`;
+
+CREATE TABLE `kas_mutasi_total` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(20) NOT NULL DEFAULT '',
+  `tgl` date DEFAULT '0000-00-00',
+  `cabang` varchar(3) NOT NULL DEFAULT '',
+  `status` char(1) NOT NULL DEFAULT '',
+  `rekening` varchar(20) NOT NULL DEFAULT '',
+  `keterangan` varchar(50) NOT NULL DEFAULT '',
+  `diberiterima` varchar(50) NOT NULL DEFAULT '',
+  `debet` double(16,2) DEFAULT '0.00',
+  `kredit` double(16,2) DEFAULT '0.00',
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `kas_opname_detail`;
+
+CREATE TABLE `kas_opname_detail` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(20) NOT NULL DEFAULT '',
+  `kode` varchar(20) NOT NULL DEFAULT '',
+  `qty` double(16,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `kode` (`kode`),
+  KEY `faktur` (`faktur`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `kas_opname_total`;
+
+CREATE TABLE `kas_opname_total` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(20) NOT NULL DEFAULT '',
+  `cabang` varchar(3) NOT NULL DEFAULT '',
+  `rekkas` varchar(20) NOT NULL DEFAULT '',
+  `tgl` date DEFAULT '0000-00-00',
+  `nominal` double(16,2) DEFAULT '0.00',
+  `status` char(1) NOT NULL DEFAULT '',
+  `username` varchar(20) NOT NULL DEFAULT '',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `tglcabangstatus` (`tgl`,`cabang`,`status`),
+  KEY `tglstatus` (`tgl`,`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `keuangan_bukubesar`;
+
+CREATE TABLE `keuangan_bukubesar` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `cabang` char(3) NOT NULL,
+  `tgl` date DEFAULT NULL,
+  `rekening` char(20) DEFAULT NULL,
+  `keterangan` char(100) DEFAULT NULL,
+  `debet` double(16,2) DEFAULT '0.00',
+  `kredit` double(16,2) DEFAULT '0.00',
+  `datetime` datetime DEFAULT '0000-00-00 00:00:00',
+  `username` char(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `tgl` (`tgl`),
+  KEY `rekening` (`rekening`),
+  KEY `idfakturtgl` (`id`,`faktur`,`tgl`),
+  KEY `idtglrekening` (`id`,`tgl`,`rekening`),
+  KEY `fakturtglrekening` (`faktur`,`tgl`,`rekening`),
+  KEY `username` (`username`),
+  KEY `tglrekcab` (`tgl`,`rekening`,`cabang`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `keuangan_jurnal`;
+
+CREATE TABLE `keuangan_jurnal` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `cabang` char(3) NOT NULL,
+  `tgl` date DEFAULT NULL,
+  `rekening` char(20) DEFAULT NULL,
+  `keterangan` char(100) DEFAULT NULL,
+  `debet` double(16,2) DEFAULT '0.00',
+  `kredit` double(16,2) DEFAULT '0.00',
+  `datetime` datetime DEFAULT '0000-00-00 00:00:00',
+  `username` char(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `idfakturtgl` (`id`,`faktur`,`tgl`),
+  KEY `idtglrekening` (`id`,`tgl`,`rekening`),
+  KEY `fakturtglrekening` (`faktur`,`tgl`,`rekening`),
+  KEY `username` (`username`),
+  KEY `tgl` (`tgl`,`cabang`) USING BTREE,
+  KEY `rekening` (`rekening`,`cabang`) USING BTREE,
+  KEY `tglrekcab` (`tgl`,`rekening`,`cabang`),
+  KEY `tglcabang` (`tgl`,`cabang`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `keuangan_jurnal_tmp`;
+
+CREATE TABLE `keuangan_jurnal_tmp` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `tgl` date DEFAULT NULL,
+  `rekening` char(20) DEFAULT NULL,
+  `keterangan` char(100) DEFAULT NULL,
+  `debet` double(16,2) DEFAULT '0.00',
+  `kredit` double(16,2) DEFAULT '0.00',
+  `datetime` datetime DEFAULT '0000-00-00 00:00:00',
+  `username` char(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `tgl` (`tgl`),
+  KEY `rekening` (`rekening`),
+  KEY `idfakturtgl` (`id`,`faktur`,`tgl`),
+  KEY `idtglrekening` (`id`,`tgl`,`rekening`),
+  KEY `fakturtglrekening` (`faktur`,`tgl`,`rekening`),
+  KEY `username` (`username`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `keuangan_rekening`;
+
+CREATE TABLE `keuangan_rekening` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `kode` char(20) DEFAULT NULL,
+  `keterangan` char(50) DEFAULT NULL,
+  `jenis` char(1) DEFAULT NULL,
+  `aruskas` char(1) DEFAULT 'o',
+  PRIMARY KEY (`id`),
+  KEY `kode` (`kode`),
+  KEY `kodeid` (`id`,`kode`),
+  KEY `jenis` (`jenis`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `mutasi_stock`;
+
+CREATE TABLE `mutasi_stock` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `tgl` date DEFAULT '0000-00-00',
+  `gudangfrom` char(4) DEFAULT NULL,
+  `stockfrom` varchar(20) DEFAULT NULL,
+  `qtyfrom` double(16,2) DEFAULT '0.00',
+  `hpfrom` double(16,2) DEFAULT '0.00',
+  `gudangto` char(4) DEFAULT NULL,
+  `stockto` varchar(20) DEFAULT NULL,
+  `qtyto` double(16,2) DEFAULT '0.00',
+  `hpto` double(16,2) DEFAULT '0.00',
+  `status` char(1) DEFAULT '1',
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `fakturstatus` (`faktur`,`status`),
+  KEY `tglstatus` (`tgl`,`status`),
+  KEY `tglstatusstockfrom` (`tgl`,`status`,`stockfrom`),
+  KEY `tglstatusstockto` (`tgl`,`status`,`stockto`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `mytable`;
+
+CREATE TABLE `mytable` (
+  `No` int(11) NOT NULL,
+  `Barcode` varchar(50) DEFAULT NULL,
+  `Stok` varchar(39) NOT NULL,
+  `Satuan` varchar(4) NOT NULL,
+  `Harga_Beli` varchar(11) NOT NULL,
+  `Harga_Jual` int(11) NOT NULL,
+  `Saldo` int(11) NOT NULL,
+  PRIMARY KEY (`No`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `mytable` VALUES("1","8993988310037","ALAT PELUBANG JOYCO 30","PCS","11000","12000","36"),
+("2","8993988310020","ALAT PELUBANG JOYCO 40","PCS","22500","23000","24"),
+("3","","AMPLOP EXSEKUTIF E310 E","PACK","8500","10000","6"),
+("4","","AMPLOP KYOTO","PACK","11000","13000","6"),
+("5","8991389247068","AMPLOP PAPERLINE 104 APS","PACK","12000","13000","25"),
+("6","8991389247037","AMPLOP PAPERLINE 104 PPS","PACK","11600","13000","25"),
+("7","8991389217382","AMPLOP PAPERLINE MINI","PACK","7600","8000","15"),
+("8","","BAJU PRAMUKA SD LK 2","PCS","70000","72000","6"),
+("9","","BAJU PRAMUKA SD LK 3","PCS","72000","74000","6"),
+("10","","BAJU PRAMUKA SD LK 4","PCS","76000","78000","6"),
+("11","","BAJU PRAMUKA SD PANJANG 2","PCS","78000","80000","6"),
+("12","","BAJU PRAMUKA SD PANJANG 3","PCS","81000","83000","6"),
+("13","","BAJU PRAMUKA SD PANJANG 4","PCS","84000","86000","6"),
+("14","","BAJU PUTIH SD PANJANG 2","PCS","68000","70000","6"),
+("15","","BAJU PUTIH SD PANJANG 3","PCS","71000","73000","6"),
+("16","","BAJU PUTIH SD PANJANG 4","PCS","74000","76000","6"),
+("17","","BAJU PUTIH SD PENDEK 2","PCS","63000","65000","6"),
+("18","","BAJU PUTIH SD PENDEK 3","PCS","64000","66000","6"),
+("19","","BAJU PUTIH SD PENDEK 4","PCS","66000","68000","6"),
+("20","8991389231012","BG DODO A4","PCS","1800","2500","50"),
+("21","8991389221037","BG SIDU A4","PCS","2600","3000","50"),
+("22","8219930309158","BINDER CAMPUS ESELON","PCS","13500","14000","28"),
+("23","8219930309264","BINDER CAMPUS ESELON FANCY","PCS","13500","14000","2"),
+("24","2006201432211","BINDER FANCY","PCS","13500","14000","3"),
+("25","8995757009609","BINDER KIKI FANCY","PCS","13500","14000","1"),
+("26","","BOLPEN ALOI","PCS","1125","1500","24"),
+("27","","BOLPEN FANCY 7562","PCS","2000","2500","12"),
+("28","","BOLPEN FANCY LAMPU","PCS","3750","4500","12"),
+("29","8991615000313","BOLPEN GM SONIC","PCS","625","1000","24"),
+("30","8991615000412","BOLPEN GM SPIN","PCS","500","1000","24"),
+("31","6970873897653","BOLPEN HY Q6042","PCS","1350","2000","12"),
+("32","6970873897813","BOLPEN HY Q6048","PCS","1350","2000","12"),
+("33","6970873897943","BOLPEN HY Q6049","PCS","1350","2000","12"),
+("34","6970873897868","BOLPEN HY Q6051","PCS","1350","2000","12"),
+("35","6970873898070","BOLPEN HY Q6058","PCS","1350","2000","12"),
+("36","6970873898155","BOLPEN HY Q6062","PCS","1350","2000","12"),
+("37","4970129733010","BOLPEN SNOWMAN V1","PCS","1458,333333","2000","24"),
+("38","4970129760016","BOLPEN SNOWMAN V1R","PCS","1458,333333","2000","24"),
+("39","4970129734017","BOLPEN SNOWMAN V2","PCS","1500","2000","24"),
+("40","4970129745013","BOLPEN SNOWMAN V5","PCS","2250","2500","24"),
+("41","1100120010473","BOLPEN STANDARD AE7","PCS","1350","2000","24"),
+("42","8802219085050","BOLPEN XDATA M1","PCS","625","1000","24"),
+("43","8936665568888","BOLPEN XDATA M2","PCS","625","1000","24"),
+("44","","BUFALLO CROWN","PACK","24000","25000","4"),
+("45","8993282819373","BUFALLO SIDU","PACK","24000","25000","5"),
+("46","8991389230008","BUKU BOXY BIG BOSS","PCS","3583,333333","4000","30"),
+("47","8995757026224","BUKU BOXY KIKY 34","PCS","4200","5000","50"),
+("48","8991389300121","BUKU HALUS SIDU 38","PCS","2300","3000","60"),
+("49","8991389300934","BUKU KOTAK SIDU 1K","PCS","2300","3000","60"),
+("50","8991389220009","BUKU SIDU 32","PCS","2000","2500","30"),
+("51","8991389220016","BUKU SIDU 38","PCS","2200","3500","50"),
+("52","8991389220054","BUKU SIDU 58","PCS","3300","4000","50"),
+("53","8991389220061","BUKU SIDU 78","PCS","4400","5000","10"),
+("54","8991389300114","BUKU STRIMIN SIDU","PCS","2300","3000","60"),
+("55","8995757023872","BUKU YOU 30","PCS","1175","1500","100"),
+("56","8995757020345","BUKU YOU 38","PCS","1400","2000","50"),
+("57","8995757024053","BUKU YOU 58","PCS","2000","2500","50"),
+("58","","CELANA PANJANG SD MERAH 19","PCS","117000","119000","6"),
+("59","","CELANA PANJANG SD MERAH 20","PCS","117000","119000","6"),
+("60","","CELANA PANJANG SD MERAH 21","PCS","117000","119000","6"),
+("61","","CELANA PANJANG SD PRAMUKA 19","PCS","117000","119000","6"),
+("62","","CELANA PANJANG SD PRAMUKA 20","PCS","117000","119000","6"),
+("63","","CELANA PANJANG SD PRAMUKA 21","PCS","117000","119000","6"),
+("64","8997013533408","CLIP BIG 105","PCS","614,5833333","1000","144"),
+("65","8997013533415","CLIP BIG 107","PCS","2800","3500","24"),
+("66","8997013533446","CLIP BIG 200","PCS","833,3333333","1000","144"),
+("67","899889020300155","CLIP BORNEO 155","PCS","541,6666667","1000","144"),
+("68","899889020300260","CLIP BORNEO 260","PCS","1208,333333","1500","60"),
+("69","6932124703250","CLIP VIS-1","PCS","4350","5000","10"),
+("70","9840321000003","CRAYON FANCY PUTAR B","PCS","17500","19000","6"),
+("71","6975189850309","CRAYON FANCY PUTAR K","PCS","16500","18000","12"),
+("72","7899210968124","CRAYON MOUSE BOY OIL PASTEL K","PCS","5500","6500","12"),
+("73","","CRAYON OBAMA","PCS","7000","8000","12"),
+("74","8801076190082","CRAYON TITI OIL PASTEL B","PCS","14000","15000","12"),
+("75","8801076300214","CRAYON TITI PUTAR 12 B","PCS","26500","27000","6"),
+("76","8801076910765","CRAYON TITI PUTAR 12 K","PCS","22500","24000","12"),
+("77","8993988060062","CUTTER JOYKO L500","PCS","11500","12000","24"),
+("78","8998838060032","CUTTER KENKO A300","PCS","4500","5000","36"),
+("79","","CUTTER TACO B","PCS","2500","3000","24"),
+("80","","CUTTER TACO K","PCS","1875","2500","24"),
+("81","","DASI SD LK KARET","PCS","6000","7000","6"),
+("82","","DASI SD LK PEREKAT","PCS","11000","12000","20"),
+("83","","DASI SD PR KARET","PCS","6000","7000","6"),
+("84","8997777070218","DOUBLE TAPE NACHI 12MM","PCS","2500","3000","24"),
+("85","8997777070225","DOUBLE TAPE NACHI 24MM","PCS","4500","5000","12"),
+("86","","GUNTING EKSIS","PCS","2500","3000","36"),
+("87","","GUNTING GUNINDO","PCS","4500","5000","24"),
+("88","","ISOLASI BENING NACHI","PCS","1000","1500","60"),
+("89","","ISOLASI HITAM GOLDTAPE","PCS","650","1000","60"),
+("90","","ISOLASI KERTAS BERRY","PCS","1800","2000","60"),
+("91","","ISOLASI KERTAS GOLDTAPE","PCS","650","1000","100"),
+("92","8998002225410","ISOLASI LISTRIK OLEAN CITY","PCS","5000","7000","24"),
+("93","6923363000019","JANGKA COMBO","PCS","7500","8000","24"),
+("94","","JANGKA COMPAS","PCS","8000","8500","12"),
+("95","","KAOS KAKI HITAM KAOXIN","PCS","3500","4000","24"),
+("96","","KAOS KAKI HITAM SCHOOL SMA","PCS","5000","5500","24"),
+("97","","KAOS KAKI HITAM SCHOOL SMP","PCS","5000","5500","24"),
+("98","","KAOS KAKI HITAM STUDENT","PCS","9000","9500","15"),
+("99","","KAOS KAKI PUTIH COMPUTERS","PCS","5500","6000","12"),
+("100","","KAOS KAKI PUTIH DMD SD","PCS","3500","4000","12"),
+("101","","KAOS KAKI PUTIH DMD SMA","PCS","4000","4500","12"),
+("102","","KAOS KAKI PUTIH DMD SMP","PCS","4500","5000","24"),
+("103","","KAOS KAKI PUTIH NEVADA","PCS","5500","6000","12"),
+("104","","KAOS KAKI PUTIH STUDENT","PCS","9000","9500","11"),
+("105","","KERTAS ASTURO PELANGI","PCS","1600","2000","20"),
+("106","","KERTAS ASTURO POLOS","PCS","1500","2000","50"),
+("107","8995757821706","KERTAS KADO KIKI K","PCS","640","1000","150"),
+("108","","KERTAS LIPAT 24","PCS","2000","2500","120"),
+("109","","KERTAS LIPAT 27","PCS","2250","2500","120"),
+("110","","KERTAS PIAGAM","PACK","36000","37000","3"),
+("111","","KERTAS SUKU","PCS","850","1000","20"),
+("112","","KERUDUNG SD COKLAT POLOS","PCS","27500","28500","6"),
+("113","","KERUDUNG SD MERAH POLOS","PCS","27500","28500","6"),
+("114","","KERUDUNG SD PUTIH MERAH","PCS","27500","28500","6"),
+("115","6956282262668","KOTAK PENSIL 108","PCS","9000","10000","6"),
+("116","6970116403979","KOTAK PENSIL 132","PCS","11000","12000","6"),
+("117","6970116405058","KOTAK PENSIL 150","PCS","12500","14000","6"),
+("118","6936624817691","KOTAK PENSIL 162","PCS","13500","14000","6"),
+("119","8927827660250","KOTAK PENSIL 168","PCS","14000","15000","6"),
+("120","6922468650471","KOTAK PENSIL 180","PCS","15000","16000","12"),
+("121","6922468224922","KOTAK PENSIL 192","PCS","16000","17000","6"),
+("122","6979945600221","KOTAK PENSIL 228","PCS","19000","20000","6"),
+("123","6985715497939","KOTAK PENSIL 240","PCS","20000","21000","6"),
+("124","6985715497960","KOTAK PENSIL 252","PCS","21000","22000","3"),
+("125","8991389308219","KWITANSI SIDU BESAR","PCS","3400","4000","30"),
+("126","8991389308226","KWITANSI SIDU KECIL","PCS","2800","3500","30"),
+("127","","LAKBAN BENING BORNEO","PCS","7166,666667","7500","36"),
+("128","","LAKBAN COKLAT","PCS","8166,666667","9000","18"),
+("129","","LAKBAN HITAM BORNEO 48MM","PCS","11500","12500","24"),
+("130","8997223620011","LEM CASTOL B","PCS","9000","10000","24"),
+("131","8997223620028","LEM CASTOL K","PCS","5000","6000","24"),
+("132","","LEM G","PCS","3500","4000","50"),
+("133","","LEM GIAKOL B","PCS","1166,666667","1500","12"),
+("134","","LEM GIAKOL K","PCS","395,8333333","500","24"),
+("135","","LEM LILIN B","PCS","1666,666667","2000","36"),
+("136","","LEM LILIN K","PCS","1000","1500","60"),
+("137","","LEM POVINAL BESAR","PCS","3166,666667","3500","12"),
+("138","","LEM POVINAL KECIL","PCS","1583,333333","2000","24"),
+("139","8991389232019","LOOSE LEAF BIGBOSS","PCS","4800","5500","40"),
+("140","","MAP KERTAS","PCS","360","500","600"),
+("141","9000701166686","MAP MIKA JENIA","PCS","2250","3000","144"),
+("142","8993265400536","MAP MIKA JUNKO","PCS","2250","3000","72"),
+("143","","MAP MIKA KANCING","PCS","2000","2500","36"),
+("144","","MIKA FILM PUTIH","PCS","22000","23000","5"),
+("145","8991389248058","NOTA PAPERLINE 3PLY","PCS","3250","4000","60"),
+("146","","NOTE PRAMUKA","PCS","540","1000","300"),
+("147","8990365005555","ODNER FOLIO POP","PCS","18000","20000","24"),
+("148","7781990200009","PENGGARIS BESI 30","PCS","2750","3500","24"),
+("149","","PENGGARIS BUTTERFLY 30","PCS","1833,333333","2500","36"),
+("150","6951234515010","PENGGARIS SAFARI BOX","PCS","4500","5000","40"),
+("151","","PENGGARIS VIS","PCS","875","1000","72"),
+("152","6952158821072","PENITIK SWAN","PCS","1375","1500","48"),
+("153","8997013530285","PENSIL BIG 933","PCS","1000","1500","36"),
+("154","","PENSIL JOYKO P100","PCS","1000","1500","36"),
+("155","8993988286462","PENSIL JOYKO P114","PCS","1250","1500","72"),
+("156","","PENSIL JOYKO P93","PCS","1000","1500","144"),
+("157","","PENSIL JOYKO P96","PCS","1000","1500","36"),
+("158","","PENSIL JOYKO P99","PCS","1250","1500","72"),
+("159","","PENSIL M2000","PCS","437,5","1000","144"),
+("160","8993988048053","PG JOYKO B","PCS","9900","11000","24"),
+("161","8993988048138","PG JOYKO K","PCS","7000","8000","24"),
+("162","8998838360163","PG KENKO B","PCS","10500","12000","12"),
+("163","8998838361078","PG KENKO K","PCS","6500","8000","24"),
+("164","","PLASTIK ROLL FOTOCOPY","ROLL","115000","120000","6"),
+("165","","POTONG KUKU 24","PCS","2000","2500","30"),
+("166","","POTONG KUKU 48","PCS","4000","5000","18"),
+("167","","POTONG KUKU 54","PCS","4500","5000","18"),
+("168","8993988060048","REFILL CUTTER JOYCO A100","PCS","2000","2500","36"),
+("169","8993988060055","REFILL CUTTER JOYCO L150","PCS","4000","4500","36"),
+("170","4970129732518","REFILL SPIDOL SNOWMAN HITAM BOARD MAKER","PCS","13333,33333","14000","24"),
+("171","4970129731511","REFILL SPIDOL SNOWMAN HITAM PERMANEN","PCS","9333,333333","10000","24"),
+("172","8901057524421","REFILL STAPLES KANGARO BESAR","PCS","3150","3500","40"),
+("173","8901057510028","REFILL STAPLES KANGARO KECIL","PCS","1475","2000","40"),
+("174","","ROK PRAMUKA SD 1","PCS","107000","109000","6"),
+("175","","ROK PRAMUKA SD 2","PCS","109000","111000","6"),
+("176","","ROK PRAMUKA SD 3","PCS","112000","114000","6"),
+("177","","ROK SD MERAH 1","PCS","107000","109000","6"),
+("178","","ROK SD MERAH 2","PCS","109000","111000","6"),
+("179","","ROK SD MERAH 3","PCS","112000","114000","6"),
+("180","","SABUK 14K","PCS","13000","14000","6"),
+("181","","SABUK 10K","PCS","9000","10000","6"),
+("182","","SABUK 11K A","PCS","10000","11000","6"),
+("183","","SABUK 12K A","PCS","11000","12000","6"),
+("184","","SABUK 12K B","PCS","11000","12000","6"),
+("185","","SABUK 11K B","PCS","10000","11000","6"),
+("186","","SAMPUL BOXY","PACK","12000","13000","10"),
+("187","","SAMPUL FANCY WARNA","PACK","8000","9000","20"),
+("188","","SAMPUL KERTAS COKLAT","PACK","12000","13000","5"),
+("189","","SAMPUL KWARTO","PACK","8000","9000","10"),
+("190","6970620570198","SLEVER 27","PCS","2250","3000","12"),
+("191","8430540411691","SLEVER 27 ORANG","PCS","2250","3000","12"),
+("192","6985369579388","SLEVER 27 SEPOR","PCS","2250","3000","12"),
+("193","6950513260559","SLEVER 30","PCS","2500","3000","12"),
+("194","6954725630377","SLEVER 33","PCS","2750","3000","12"),
+("195","6970817539892","SLEVER 39","PCS","3250","3500","12"),
+("196","8997013537406","SLEVER BOX 210","PCS","17500","19000","6"),
+("197","8997013534795","SLEVER BOX 216","PCS","18000","19000","6"),
+("198","4627101379284","SLEVER TOPLES 162","PCS","1125","1500","12"),
+("199","6958412346466","SLEVER TOPLES 210","PCS","1458,333333","2000","12"),
+("200","","SPIDOL LEPASAN HITAM","PCS","1916,666667","2500","36"),
+("201","4970129724483","SPIDOL SNOWMAN 12 WARNA","PCS","11500","12500","6"),
+("202","4970129727019","SPIDOL SNOWMAN HITAM BOARD MARKER","PCS","6250","7000","48"),
+("203","4970129726012","SPIDOL SNOWMAN HITAM PERMANEN","PCS","5416,666667","6000","24"),
+("204","6940328714606","STAMPAD HERO B","PCS","9000","10000","12"),
+("205","","STAMPAD HERO K","PCS","6000","7000","12"),
+("206","8901057310062","STAPLES KANGARO HD10","PCS","10500","11500","20"),
+("207","8901057335768","STAPLES KANGARO HS45P","PCS","30000","32500","20"),
+("208","4902870775711","STAPLES MAX HD10","PCS","13000","15000","30"),
+("209","8997013532197","STIP BIG BLACK","PCS","475","1000","40"),
+("210","8997013531718","STIP BIG COLOR","PCS","475","1000","40"),
+("211","8997013531657","STIP BIG WHITE","PCS","475","1000","40"),
+("212","","TAS 1020","PCS","85000","87500","4"),
+("213","","TAS 1080","PCS","90000","92500","1"),
+("214","","TAS 270","PCS","22500","25000","10"),
+("215","","TAS 420","PCS","35000","40000","1"),
+("216","","TAS 450","PCS","37500","40000","3"),
+("217","","TAS 510","PCS","42500","45000","6"),
+("218","","TAS FANCY 1020","PCS","85000","90000","1"),
+("219","","TAS FANCY 1080","PCS","90000","92500","2"),
+("220","","TAS FANCY 1380","PCS","115000","120000","3"),
+("221","","TAS FANCY 600","PCS","50000","55000","3"),
+("222","","TAS FANCY 720","PCS","60000","65000","3"),
+("223","8998838050002","TIPE X KENKO B","PCS","3833,333333","4500","12"),
+("224","8994311101285","TIPE X KENKO BESI","PCS","4500","5000","12"),
+("225","8994311118108","TIPE X KENKO K","PCS","3500","4000","12"),
+("226","6939300800291","TIPE X SAFARI","PCS","2000","2500","12"),
+("227","","TOPI SD","PCS","15000","16000","20");
+
+
+
+DROP TABLE IF EXISTS `pembelian_detail`;
+
+CREATE TABLE `pembelian_detail` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(20) NOT NULL,
+  `stock` varchar(20) NOT NULL,
+  `harga` double(16,2) NOT NULL DEFAULT '0.00',
+  `qty` double(16,2) NOT NULL DEFAULT '0.00',
+  `diskonqty` double(16,2) NOT NULL DEFAULT '0.00',
+  `jumlah` double(16,2) NOT NULL DEFAULT '0.00',
+  `diskonitem` double(16,2) NOT NULL DEFAULT '0.00',
+  `totalitem` double(16,2) NOT NULL DEFAULT '0.00',
+  `datetime_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `datetime_update` timestamp NULL DEFAULT '0000-00-00 00:00:00',
+  `username` varchar(50) NOT NULL,
+  `hp` double(16,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `stock` (`stock`),
+  KEY `fktstock` (`faktur`,`stock`)
+) ENGINE=MyISAM AUTO_INCREMENT=228 DEFAULT CHARSET=latin1;
+
+INSERT INTO `pembelian_detail` VALUES("1","PB19062500001","1906000001","11000.00","36.00","0.00","396000.00","0.00","396000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","11000.00"),
+("2","PB19062500001","1906000002","22500.00","24.00","0.00","540000.00","0.00","540000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","22500.00"),
+("3","PB19062500001","1906000003","8500.00","6.00","0.00","51000.00","0.00","51000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","8500.00"),
+("4","PB19062500001","1906000004","11000.00","6.00","0.00","66000.00","0.00","66000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","11000.00"),
+("5","PB19062500001","1906000005","12000.00","25.00","0.00","300000.00","0.00","300000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","12000.00"),
+("6","PB19062500001","1906000006","11600.00","25.00","0.00","290000.00","0.00","290000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","11600.00"),
+("7","PB19062500001","1906000007","7600.00","15.00","0.00","114000.00","0.00","114000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","7600.00"),
+("8","PB19062500001","1906000008","70000.00","6.00","0.00","420000.00","0.00","420000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","70000.00"),
+("9","PB19062500001","1906000009","72000.00","6.00","0.00","432000.00","0.00","432000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","72000.00"),
+("10","PB19062500001","1906000010","76000.00","6.00","0.00","456000.00","0.00","456000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","76000.00"),
+("11","PB19062500001","1906000011","78000.00","6.00","0.00","468000.00","0.00","468000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","78000.00"),
+("12","PB19062500001","1906000012","81000.00","6.00","0.00","486000.00","0.00","486000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","81000.00"),
+("13","PB19062500001","1906000013","84000.00","6.00","0.00","504000.00","0.00","504000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","84000.00"),
+("14","PB19062500001","1906000014","68000.00","6.00","0.00","408000.00","0.00","408000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","68000.00"),
+("15","PB19062500001","1906000015","71000.00","6.00","0.00","426000.00","0.00","426000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","71000.00"),
+("16","PB19062500001","1906000016","74000.00","6.00","0.00","444000.00","0.00","444000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","74000.00"),
+("17","PB19062500001","1906000017","63000.00","6.00","0.00","378000.00","0.00","378000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","63000.00"),
+("18","PB19062500001","1906000018","64000.00","6.00","0.00","384000.00","0.00","384000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","64000.00"),
+("19","PB19062500001","1906000019","66000.00","6.00","0.00","396000.00","0.00","396000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","66000.00"),
+("20","PB19062500001","1906000020","1800.00","50.00","0.00","90000.00","0.00","90000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1800.00"),
+("21","PB19062500001","1906000021","2600.00","50.00","0.00","130000.00","0.00","130000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2600.00"),
+("22","PB19062500001","1906000022","13500.00","28.00","0.00","378000.00","0.00","378000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","13500.00"),
+("23","PB19062500001","1906000023","13500.00","2.00","0.00","27000.00","0.00","27000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","13500.00"),
+("24","PB19062500001","1906000024","13500.00","3.00","0.00","40500.00","0.00","40500.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","13500.00"),
+("25","PB19062500001","1906000025","13500.00","1.00","0.00","13500.00","0.00","13500.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","13500.00"),
+("26","PB19062500001","1906000026","1125.00","24.00","0.00","27000.00","0.00","27000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1125.00"),
+("27","PB19062500001","1906000027","2000.00","12.00","0.00","24000.00","0.00","24000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2000.00"),
+("28","PB19062500001","1906000028","3750.00","12.00","0.00","45000.00","0.00","45000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","3750.00"),
+("29","PB19062500001","1906000029","625.00","24.00","0.00","15000.00","0.00","15000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","625.00"),
+("30","PB19062500001","1906000030","500.00","24.00","0.00","12000.00","0.00","12000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","500.00"),
+("31","PB19062500001","1906000031","1350.00","12.00","0.00","16200.00","0.00","16200.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1350.00"),
+("32","PB19062500001","1906000032","1350.00","12.00","0.00","16200.00","0.00","16200.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1350.00"),
+("33","PB19062500001","1906000033","1350.00","12.00","0.00","16200.00","0.00","16200.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1350.00"),
+("34","PB19062500001","1906000034","1350.00","12.00","0.00","16200.00","0.00","16200.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1350.00"),
+("35","PB19062500001","1906000035","1350.00","12.00","0.00","16200.00","0.00","16200.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1350.00"),
+("36","PB19062500001","1906000036","1350.00","12.00","0.00","16200.00","0.00","16200.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1350.00"),
+("37","PB19062500001","1906000037","1458.33","24.00","0.00","35000.00","0.00","35000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1458.33"),
+("38","PB19062500001","1906000038","1458.33","24.00","0.00","35000.00","0.00","35000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1458.33"),
+("39","PB19062500001","1906000039","1500.00","24.00","0.00","36000.00","0.00","36000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1500.00"),
+("40","PB19062500001","1906000040","2250.00","24.00","0.00","54000.00","0.00","54000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2250.00"),
+("41","PB19062500001","1906000041","1350.00","24.00","0.00","32400.00","0.00","32400.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1350.00"),
+("42","PB19062500001","1906000042","625.00","24.00","0.00","15000.00","0.00","15000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","625.00"),
+("43","PB19062500001","1906000043","625.00","24.00","0.00","15000.00","0.00","15000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","625.00"),
+("44","PB19062500001","1906000044","24000.00","4.00","0.00","96000.00","0.00","96000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","24000.00"),
+("45","PB19062500001","1906000045","24000.00","5.00","0.00","120000.00","0.00","120000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","24000.00"),
+("46","PB19062500001","1906000046","3583.33","30.00","0.00","107500.00","0.00","107500.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","3583.33"),
+("47","PB19062500001","1906000047","4200.00","50.00","0.00","210000.00","0.00","210000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","4200.00"),
+("48","PB19062500001","1906000048","2300.00","60.00","0.00","138000.00","0.00","138000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2300.00"),
+("49","PB19062500001","1906000049","2300.00","60.00","0.00","138000.00","0.00","138000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2300.00"),
+("50","PB19062500001","1906000050","2000.00","30.00","0.00","60000.00","0.00","60000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2000.00"),
+("51","PB19062500001","1906000051","2200.00","50.00","0.00","110000.00","0.00","110000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2200.00"),
+("52","PB19062500001","1906000052","3300.00","50.00","0.00","165000.00","0.00","165000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","3300.00"),
+("53","PB19062500001","1906000053","4400.00","10.00","0.00","44000.00","0.00","44000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","4400.00"),
+("54","PB19062500001","1906000054","2300.00","60.00","0.00","138000.00","0.00","138000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2300.00"),
+("55","PB19062500001","1906000055","1175.00","100.00","0.00","117500.00","0.00","117500.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1175.00"),
+("56","PB19062500001","1906000056","1400.00","50.00","0.00","70000.00","0.00","70000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1400.00"),
+("57","PB19062500001","1906000057","2000.00","50.00","0.00","100000.00","0.00","100000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2000.00"),
+("58","PB19062500001","1906000058","117000.00","6.00","0.00","702000.00","0.00","702000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","117000.00"),
+("59","PB19062500001","1906000059","117000.00","6.00","0.00","702000.00","0.00","702000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","117000.00"),
+("60","PB19062500001","1906000060","117000.00","6.00","0.00","702000.00","0.00","702000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","117000.00"),
+("61","PB19062500001","1906000061","117000.00","6.00","0.00","702000.00","0.00","702000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","117000.00"),
+("62","PB19062500001","1906000062","117000.00","6.00","0.00","702000.00","0.00","702000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","117000.00"),
+("63","PB19062500001","1906000063","117000.00","6.00","0.00","702000.00","0.00","702000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","117000.00"),
+("64","PB19062500001","1906000064","614.58","144.00","0.00","88500.00","0.00","88500.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","614.58"),
+("65","PB19062500001","1906000065","2800.00","24.00","0.00","67200.00","0.00","67200.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2800.00"),
+("66","PB19062500001","1906000066","833.33","144.00","0.00","120000.00","0.00","120000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","833.33"),
+("67","PB19062500001","1906000067","541.67","144.00","0.00","78000.00","0.00","78000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","541.67"),
+("68","PB19062500001","1906000068","1208.33","60.00","0.00","72500.00","0.00","72500.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1208.33"),
+("69","PB19062500001","1906000069","4350.00","10.00","0.00","43500.00","0.00","43500.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","4350.00"),
+("70","PB19062500001","1906000070","17500.00","6.00","0.00","105000.00","0.00","105000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","17500.00"),
+("71","PB19062500001","1906000071","16500.00","12.00","0.00","198000.00","0.00","198000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","16500.00"),
+("72","PB19062500001","1906000072","5500.00","12.00","0.00","66000.00","0.00","66000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","5500.00"),
+("73","PB19062500001","1906000073","7000.00","12.00","0.00","84000.00","0.00","84000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","7000.00"),
+("74","PB19062500001","1906000074","14000.00","12.00","0.00","168000.00","0.00","168000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","14000.00"),
+("75","PB19062500001","1906000075","26500.00","6.00","0.00","159000.00","0.00","159000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","26500.00"),
+("76","PB19062500001","1906000076","22500.00","12.00","0.00","270000.00","0.00","270000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","22500.00"),
+("77","PB19062500001","1906000077","11500.00","24.00","0.00","276000.00","0.00","276000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","11500.00"),
+("78","PB19062500001","1906000078","4500.00","36.00","0.00","162000.00","0.00","162000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","4500.00"),
+("79","PB19062500001","1906000079","2500.00","24.00","0.00","60000.00","0.00","60000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2500.00"),
+("80","PB19062500001","1906000080","1875.00","24.00","0.00","45000.00","0.00","45000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1875.00"),
+("81","PB19062500001","1906000081","6000.00","6.00","0.00","36000.00","0.00","36000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","6000.00"),
+("82","PB19062500001","1906000082","11000.00","20.00","0.00","220000.00","0.00","220000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","11000.00"),
+("83","PB19062500001","1906000083","6000.00","6.00","0.00","36000.00","0.00","36000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","6000.00"),
+("84","PB19062500001","1906000084","2500.00","24.00","0.00","60000.00","0.00","60000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2500.00"),
+("85","PB19062500001","1906000085","4500.00","12.00","0.00","54000.00","0.00","54000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","4500.00"),
+("86","PB19062500001","1906000086","2500.00","36.00","0.00","90000.00","0.00","90000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2500.00"),
+("87","PB19062500001","1906000087","4500.00","24.00","0.00","108000.00","0.00","108000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","4500.00"),
+("88","PB19062500001","1906000088","1000.00","60.00","0.00","60000.00","0.00","60000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1000.00"),
+("89","PB19062500001","1906000089","650.00","60.00","0.00","39000.00","0.00","39000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","650.00"),
+("90","PB19062500001","1906000090","1800.00","60.00","0.00","108000.00","0.00","108000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1800.00"),
+("91","PB19062500001","1906000091","650.00","100.00","0.00","65000.00","0.00","65000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","650.00"),
+("92","PB19062500001","1906000092","5000.00","24.00","0.00","120000.00","0.00","120000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","5000.00"),
+("93","PB19062500001","1906000093","7500.00","24.00","0.00","180000.00","0.00","180000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","7500.00"),
+("94","PB19062500001","1906000094","8000.00","12.00","0.00","96000.00","0.00","96000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","8000.00"),
+("95","PB19062500001","1906000095","3500.00","24.00","0.00","84000.00","0.00","84000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","3500.00"),
+("96","PB19062500001","1906000096","5000.00","24.00","0.00","120000.00","0.00","120000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","5000.00"),
+("97","PB19062500001","1906000097","5000.00","24.00","0.00","120000.00","0.00","120000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","5000.00"),
+("98","PB19062500001","1906000098","9000.00","15.00","0.00","135000.00","0.00","135000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","9000.00"),
+("99","PB19062500001","1906000099","5500.00","12.00","0.00","66000.00","0.00","66000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","5500.00"),
+("100","PB19062500001","1906000100","3500.00","12.00","0.00","42000.00","0.00","42000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","3500.00"),
+("101","PB19062500001","1906000101","4000.00","12.00","0.00","48000.00","0.00","48000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","4000.00"),
+("102","PB19062500001","1906000102","4500.00","24.00","0.00","108000.00","0.00","108000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","4500.00"),
+("103","PB19062500001","1906000103","5500.00","12.00","0.00","66000.00","0.00","66000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","5500.00"),
+("104","PB19062500001","1906000104","9000.00","11.00","0.00","99000.00","0.00","99000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","9000.00"),
+("105","PB19062500001","1906000105","1600.00","20.00","0.00","32000.00","0.00","32000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1600.00"),
+("106","PB19062500001","1906000106","1500.00","50.00","0.00","75000.00","0.00","75000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1500.00"),
+("107","PB19062500001","1906000107","640.00","150.00","0.00","96000.00","0.00","96000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","640.00"),
+("108","PB19062500001","1906000108","2000.00","120.00","0.00","240000.00","0.00","240000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2000.00"),
+("109","PB19062500001","1906000109","2250.00","120.00","0.00","270000.00","0.00","270000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2250.00"),
+("110","PB19062500001","1906000110","36000.00","3.00","0.00","108000.00","0.00","108000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","36000.00"),
+("111","PB19062500001","1906000111","850.00","20.00","0.00","17000.00","0.00","17000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","850.00"),
+("112","PB19062500001","1906000112","27500.00","6.00","0.00","165000.00","0.00","165000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","27500.00"),
+("113","PB19062500001","1906000113","27500.00","6.00","0.00","165000.00","0.00","165000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","27500.00"),
+("114","PB19062500001","1906000114","27500.00","6.00","0.00","165000.00","0.00","165000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","27500.00"),
+("115","PB19062500001","1906000115","9000.00","6.00","0.00","54000.00","0.00","54000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","9000.00"),
+("116","PB19062500001","1906000116","11000.00","6.00","0.00","66000.00","0.00","66000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","11000.00"),
+("117","PB19062500001","1906000117","12500.00","6.00","0.00","75000.00","0.00","75000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","12500.00"),
+("118","PB19062500001","1906000118","13500.00","6.00","0.00","81000.00","0.00","81000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","13500.00"),
+("119","PB19062500001","1906000119","14000.00","6.00","0.00","84000.00","0.00","84000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","14000.00"),
+("120","PB19062500001","1906000120","15000.00","12.00","0.00","180000.00","0.00","180000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","15000.00"),
+("121","PB19062500001","1906000121","16000.00","6.00","0.00","96000.00","0.00","96000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","16000.00"),
+("122","PB19062500001","1906000122","19000.00","6.00","0.00","114000.00","0.00","114000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","19000.00"),
+("123","PB19062500001","1906000123","20000.00","6.00","0.00","120000.00","0.00","120000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","20000.00"),
+("124","PB19062500001","1906000124","21000.00","3.00","0.00","63000.00","0.00","63000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","21000.00"),
+("125","PB19062500001","1906000125","3400.00","30.00","0.00","102000.00","0.00","102000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","3400.00"),
+("126","PB19062500001","1906000126","2800.00","30.00","0.00","84000.00","0.00","84000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2800.00"),
+("127","PB19062500001","1906000127","7166.67","36.00","0.00","258000.00","0.00","258000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","7166.67"),
+("128","PB19062500001","1906000128","8166.67","18.00","0.00","147000.00","0.00","147000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","8166.67"),
+("129","PB19062500001","1906000129","11500.00","24.00","0.00","276000.00","0.00","276000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","11500.00"),
+("130","PB19062500001","1906000130","9000.00","24.00","0.00","216000.00","0.00","216000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","9000.00"),
+("131","PB19062500001","1906000131","5000.00","24.00","0.00","120000.00","0.00","120000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","5000.00"),
+("132","PB19062500001","1906000132","3500.00","50.00","0.00","175000.00","0.00","175000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","3500.00"),
+("133","PB19062500001","1906000133","1166.67","12.00","0.00","14000.00","0.00","14000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1166.67"),
+("134","PB19062500001","1906000134","395.83","24.00","0.00","9500.00","0.00","9500.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","395.83"),
+("135","PB19062500001","1906000135","1666.67","36.00","0.00","60000.00","0.00","60000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1666.67"),
+("136","PB19062500001","1906000136","1000.00","60.00","0.00","60000.00","0.00","60000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1000.00"),
+("137","PB19062500001","1906000137","3166.67","12.00","0.00","38000.00","0.00","38000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","3166.67"),
+("138","PB19062500001","1906000138","1583.33","24.00","0.00","38000.00","0.00","38000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1583.33"),
+("139","PB19062500001","1906000139","4800.00","40.00","0.00","192000.00","0.00","192000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","4800.00"),
+("140","PB19062500001","1906000140","360.00","600.00","0.00","216000.00","0.00","216000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","360.00"),
+("141","PB19062500001","1906000141","2250.00","144.00","0.00","324000.00","0.00","324000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2250.00"),
+("142","PB19062500001","1906000142","2250.00","72.00","0.00","162000.00","0.00","162000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2250.00"),
+("143","PB19062500001","1906000143","2000.00","36.00","0.00","72000.00","0.00","72000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2000.00"),
+("144","PB19062500001","1906000144","22000.00","5.00","0.00","110000.00","0.00","110000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","22000.00"),
+("145","PB19062500001","1906000145","3250.00","60.00","0.00","195000.00","0.00","195000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","3250.00"),
+("146","PB19062500001","1906000146","540.00","300.00","0.00","162000.00","0.00","162000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","540.00"),
+("147","PB19062500001","1906000147","18000.00","24.00","0.00","432000.00","0.00","432000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","18000.00"),
+("148","PB19062500001","1906000148","2750.00","24.00","0.00","66000.00","0.00","66000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2750.00"),
+("149","PB19062500001","1906000149","1833.33","36.00","0.00","66000.00","0.00","66000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1833.33"),
+("150","PB19062500001","1906000150","4500.00","40.00","0.00","180000.00","0.00","180000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","4500.00"),
+("151","PB19062500001","1906000151","875.00","72.00","0.00","63000.00","0.00","63000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","875.00"),
+("152","PB19062500001","1906000152","1375.00","48.00","0.00","66000.00","0.00","66000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1375.00"),
+("153","PB19062500001","1906000153","1000.00","36.00","0.00","36000.00","0.00","36000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1000.00"),
+("154","PB19062500001","1906000154","1000.00","36.00","0.00","36000.00","0.00","36000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1000.00"),
+("155","PB19062500001","1906000155","1250.00","72.00","0.00","90000.00","0.00","90000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1250.00"),
+("156","PB19062500001","1906000156","1000.00","144.00","0.00","144000.00","0.00","144000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1000.00"),
+("157","PB19062500001","1906000157","1000.00","36.00","0.00","36000.00","0.00","36000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1000.00"),
+("158","PB19062500001","1906000158","1250.00","72.00","0.00","90000.00","0.00","90000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1250.00"),
+("159","PB19062500001","1906000159","437.50","144.00","0.00","63000.00","0.00","63000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","437.50"),
+("160","PB19062500001","1906000160","9900.00","24.00","0.00","237600.00","0.00","237600.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","9900.00"),
+("161","PB19062500001","1906000161","7000.00","24.00","0.00","168000.00","0.00","168000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","7000.00"),
+("162","PB19062500001","1906000162","10500.00","12.00","0.00","126000.00","0.00","126000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","10500.00"),
+("163","PB19062500001","1906000163","6500.00","24.00","0.00","156000.00","0.00","156000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","6500.00"),
+("164","PB19062500001","1906000164","115000.00","6.00","0.00","690000.00","0.00","690000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","115000.00"),
+("165","PB19062500001","1906000165","2000.00","30.00","0.00","60000.00","0.00","60000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2000.00"),
+("166","PB19062500001","1906000166","4000.00","18.00","0.00","72000.00","0.00","72000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","4000.00"),
+("167","PB19062500001","1906000167","4500.00","18.00","0.00","81000.00","0.00","81000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","4500.00"),
+("168","PB19062500001","1906000168","2000.00","36.00","0.00","72000.00","0.00","72000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2000.00"),
+("169","PB19062500001","1906000169","4000.00","36.00","0.00","144000.00","0.00","144000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","4000.00"),
+("170","PB19062500001","1906000170","13333.33","24.00","0.00","320000.00","0.00","320000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","13333.33"),
+("171","PB19062500001","1906000171","9333.33","24.00","0.00","224000.00","0.00","224000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","9333.33"),
+("172","PB19062500001","1906000172","3150.00","40.00","0.00","126000.00","0.00","126000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","3150.00"),
+("173","PB19062500001","1906000173","1475.00","40.00","0.00","59000.00","0.00","59000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1475.00"),
+("174","PB19062500001","1906000174","107000.00","6.00","0.00","642000.00","0.00","642000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","107000.00"),
+("175","PB19062500001","1906000175","109000.00","6.00","0.00","654000.00","0.00","654000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","109000.00"),
+("176","PB19062500001","1906000176","112000.00","6.00","0.00","672000.00","0.00","672000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","112000.00"),
+("177","PB19062500001","1906000177","107000.00","6.00","0.00","642000.00","0.00","642000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","107000.00"),
+("178","PB19062500001","1906000178","109000.00","6.00","0.00","654000.00","0.00","654000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","109000.00"),
+("179","PB19062500001","1906000179","112000.00","6.00","0.00","672000.00","0.00","672000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","112000.00"),
+("180","PB19062500001","1906000180","13000.00","6.00","0.00","78000.00","0.00","78000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","13000.00"),
+("181","PB19062500001","1906000181","9000.00","6.00","0.00","54000.00","0.00","54000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","9000.00"),
+("182","PB19062500001","1906000182","10000.00","6.00","0.00","60000.00","0.00","60000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","10000.00"),
+("183","PB19062500001","1906000183","11000.00","6.00","0.00","66000.00","0.00","66000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","11000.00"),
+("184","PB19062500001","1906000184","11000.00","6.00","0.00","66000.00","0.00","66000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","11000.00"),
+("185","PB19062500001","1906000185","10000.00","6.00","0.00","60000.00","0.00","60000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","10000.00"),
+("186","PB19062500001","1906000186","12000.00","10.00","0.00","120000.00","0.00","120000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","12000.00"),
+("187","PB19062500001","1906000187","8000.00","20.00","0.00","160000.00","0.00","160000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","8000.00"),
+("188","PB19062500001","1906000188","12000.00","5.00","0.00","60000.00","0.00","60000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","12000.00"),
+("189","PB19062500001","1906000189","8000.00","10.00","0.00","80000.00","0.00","80000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","8000.00"),
+("190","PB19062500001","1906000190","2250.00","12.00","0.00","27000.00","0.00","27000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2250.00"),
+("191","PB19062500001","1906000191","2250.00","12.00","0.00","27000.00","0.00","27000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2250.00"),
+("192","PB19062500001","1906000192","2250.00","12.00","0.00","27000.00","0.00","27000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2250.00"),
+("193","PB19062500001","1906000193","2500.00","12.00","0.00","30000.00","0.00","30000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2500.00"),
+("194","PB19062500001","1906000194","2750.00","12.00","0.00","33000.00","0.00","33000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2750.00"),
+("195","PB19062500001","1906000195","3250.00","12.00","0.00","39000.00","0.00","39000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","3250.00"),
+("196","PB19062500001","1906000196","17500.00","6.00","0.00","105000.00","0.00","105000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","17500.00"),
+("197","PB19062500001","1906000197","18000.00","6.00","0.00","108000.00","0.00","108000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","18000.00"),
+("198","PB19062500001","1906000198","1125.00","12.00","0.00","13500.00","0.00","13500.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1125.00"),
+("199","PB19062500001","1906000199","1458.33","12.00","0.00","17500.00","0.00","17500.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1458.33"),
+("200","PB19062500001","1906000200","1916.67","36.00","0.00","69000.00","0.00","69000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","1916.67"),
+("201","PB19062500001","1906000201","11500.00","6.00","0.00","69000.00","0.00","69000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","11500.00"),
+("202","PB19062500001","1906000202","6250.00","48.00","0.00","300000.00","0.00","300000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","6250.00"),
+("203","PB19062500001","1906000203","5416.67","24.00","0.00","130000.00","0.00","130000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","5416.67"),
+("204","PB19062500001","1906000204","9000.00","12.00","0.00","108000.00","0.00","108000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","9000.00"),
+("205","PB19062500001","1906000205","6000.00","12.00","0.00","72000.00","0.00","72000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","6000.00"),
+("206","PB19062500001","1906000206","10500.00","20.00","0.00","210000.00","0.00","210000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","10500.00"),
+("207","PB19062500001","1906000207","30000.00","20.00","0.00","600000.00","0.00","600000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","30000.00"),
+("208","PB19062500001","1906000208","13000.00","30.00","0.00","390000.00","0.00","390000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","13000.00"),
+("209","PB19062500001","1906000209","475.00","40.00","0.00","19000.00","0.00","19000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","475.00"),
+("210","PB19062500001","1906000210","475.00","40.00","0.00","19000.00","0.00","19000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","475.00"),
+("211","PB19062500001","1906000211","475.00","40.00","0.00","19000.00","0.00","19000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","475.00"),
+("212","PB19062500001","1906000212","85000.00","4.00","0.00","340000.00","0.00","340000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","85000.00"),
+("213","PB19062500001","1906000213","90000.00","1.00","0.00","90000.00","0.00","90000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","90000.00"),
+("214","PB19062500001","1906000214","22500.00","10.00","0.00","225000.00","0.00","225000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","22500.00"),
+("215","PB19062500001","1906000215","35000.00","1.00","0.00","35000.00","0.00","35000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","35000.00"),
+("216","PB19062500001","1906000216","37500.00","3.00","0.00","112500.00","0.00","112500.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","37500.00"),
+("217","PB19062500001","1906000217","42500.00","6.00","0.00","255000.00","0.00","255000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","42500.00"),
+("218","PB19062500001","1906000218","85000.00","1.00","0.00","85000.00","0.00","85000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","85000.00"),
+("219","PB19062500001","1906000219","90000.00","2.00","0.00","180000.00","0.00","180000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","90000.00"),
+("220","PB19062500001","1906000220","115000.00","3.00","0.00","345000.00","0.00","345000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","115000.00"),
+("221","PB19062500001","1906000221","50000.00","3.00","0.00","150000.00","0.00","150000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","50000.00"),
+("222","PB19062500001","1906000222","60000.00","3.00","0.00","180000.00","0.00","180000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","60000.00"),
+("223","PB19062500001","1906000223","3833.33","12.00","0.00","46000.00","0.00","46000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","3833.33"),
+("224","PB19062500001","1906000224","4500.00","12.00","0.00","54000.00","0.00","54000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","4500.00"),
+("225","PB19062500001","1906000225","3500.00","12.00","0.00","42000.00","0.00","42000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","3500.00"),
+("226","PB19062500001","1906000226","2000.00","12.00","0.00","24000.00","0.00","24000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","2000.00"),
+("227","PB19062500001","1906000227","15000.00","20.00","0.00","300000.00","0.00","300000.00","0000-00-00 00:00:00","0000-00-00 00:00:00","iniad","15000.00");
+
+
+
+DROP TABLE IF EXISTS `pembelian_retur_detail`;
+
+CREATE TABLE `pembelian_retur_detail` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `stock` char(10) DEFAULT NULL,
+  `harga` double(16,2) DEFAULT '0.00',
+  `qty` double(16,2) DEFAULT '0.00',
+  `jumlah` double(16,2) DEFAULT '0.00',
+  `totalitem` double(16,2) DEFAULT '0.00',
+  `hp` double(16,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `stock` (`stock`),
+  KEY `faktur` (`faktur`),
+  KEY `fktstock` (`faktur`,`stock`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `pembelian_retur_total`;
+
+CREATE TABLE `pembelian_retur_total` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `tgl` date DEFAULT '0000-00-00',
+  `cabang` char(3) DEFAULT NULL,
+  `gudang` char(3) DEFAULT NULL,
+  `supplier` char(10) DEFAULT NULL,
+  `subtotal` double(16,2) DEFAULT '0.00',
+  `total` double(16,2) DEFAULT '0.00',
+  `kas` double(16,2) NOT NULL DEFAULT '0.00',
+  `status` char(1) DEFAULT '0',
+  `username` varchar(50) DEFAULT '',
+  `datetime` datetime DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `tgl` (`tgl`),
+  KEY `faktur` (`faktur`),
+  KEY `cabang` (`cabang`),
+  KEY `gudang` (`gudang`),
+  KEY `supplier` (`supplier`),
+  KEY `fkttgl` (`faktur`,`tgl`),
+  KEY `fktsupplier` (`faktur`,`supplier`),
+  KEY `tglcabangstatus` (`tgl`,`cabang`,`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `pembelian_total`;
+
+CREATE TABLE `pembelian_total` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(20) NOT NULL,
+  `tgl` date NOT NULL DEFAULT '0000-00-00',
+  `fktpo` varchar(20) DEFAULT '',
+  `cabang` varchar(10) NOT NULL,
+  `gudang` varchar(10) NOT NULL,
+  `supplier` varchar(5) DEFAULT '',
+  `subtotal` double(16,2) NOT NULL DEFAULT '0.00',
+  `diskon` double(16,2) NOT NULL DEFAULT '0.00',
+  `pembulatan` double(16,2) DEFAULT '0.00',
+  `persppn` double(10,2) DEFAULT '0.00',
+  `ppn` double(16,2) NOT NULL DEFAULT '0.00',
+  `total` double(16,2) NOT NULL DEFAULT '0.00',
+  `hutang` double(16,2) NOT NULL DEFAULT '0.00',
+  `kas` double(16,2) NOT NULL DEFAULT '0.00',
+  `status` varchar(2) NOT NULL DEFAULT '0',
+  `datetime_insert` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `datetime_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `username` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`) USING BTREE,
+  KEY `tgl` (`tgl`),
+  KEY `tglcabangstatus` (`tgl`,`cabang`,`status`)
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+INSERT INTO `pembelian_total` VALUES("5","PB19062500001","2019-06-24","","","01","00001","36964900.00","0.00","0.00","0.00","0.00","36964900.00","36964900.00","0.00","1","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad");
+
+
+
+DROP TABLE IF EXISTS `penjualan_detail`;
+
+CREATE TABLE `penjualan_detail` (
+  `id` int(20) NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(20) NOT NULL,
+  `stock` varchar(20) NOT NULL,
+  `harga` double(16,2) NOT NULL DEFAULT '0.00',
+  `diskonqty` double(16,2) NOT NULL DEFAULT '0.00',
+  `qty` double(16,2) NOT NULL DEFAULT '0.00',
+  `jumlah` double(16,2) NOT NULL DEFAULT '0.00',
+  `diskonitem` double(16,2) NOT NULL DEFAULT '0.00',
+  `totalitem` double(16,2) NOT NULL DEFAULT '0.00',
+  `hp` double(16,2) DEFAULT '0.00',
+  `datetime_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `datetime_update` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `username` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `stock` (`stock`),
+  KEY `fktstock` (`faktur`,`stock`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `penjualan_retur_detail`;
+
+CREATE TABLE `penjualan_retur_detail` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `stock` varchar(15) DEFAULT NULL,
+  `harga` double(16,2) DEFAULT '0.00',
+  `qty` double(16,2) DEFAULT '0.00',
+  `jumlah` double(16,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `stock` (`stock`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `penjualan_retur_total`;
+
+CREATE TABLE `penjualan_retur_total` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `tgl` date DEFAULT '0000-00-00',
+  `cabang` char(4) DEFAULT NULL,
+  `gudang` char(4) DEFAULT NULL,
+  `customer` char(10) DEFAULT NULL,
+  `subtotal` double(16,2) DEFAULT '0.00',
+  `total` double(16,2) DEFAULT '0.00',
+  `status` char(1) DEFAULT '1',
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `tglstatus` (`tgl`,`status`),
+  KEY `cabtglstatus` (`cabang`,`tgl`,`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `penjualan_total`;
+
+CREATE TABLE `penjualan_total` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(20) NOT NULL,
+  `tgl` date NOT NULL DEFAULT '0000-00-00',
+  `sj` varchar(20) DEFAULT '',
+  `cabang` varchar(20) NOT NULL,
+  `gudang` varchar(20) NOT NULL,
+  `customer` varchar(20) NOT NULL,
+  `subtotal` double(16,2) NOT NULL DEFAULT '0.00',
+  `diskon` double(16,2) NOT NULL DEFAULT '0.00',
+  `komplimen` double(16,2) DEFAULT '0.00',
+  `persppn` double(10,2) DEFAULT '0.00',
+  `ppn` double(16,2) NOT NULL DEFAULT '0.00',
+  `total` double(16,2) NOT NULL DEFAULT '0.00',
+  `piutang` double(16,2) NOT NULL DEFAULT '0.00',
+  `kas` double(16,2) NOT NULL DEFAULT '0.00',
+  `status` varchar(2) NOT NULL,
+  `datetime_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `datetime_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `username` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `tgl` (`tgl`),
+  KEY `fkttgl` (`faktur`,`tgl`),
+  KEY `tglcabangstatus` (`tgl`,`cabang`,`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+DROP TABLE IF EXISTS `piutang_kartu`;
+
+CREATE TABLE `piutang_kartu` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `fkt` char(20) DEFAULT NULL,
+  `tgl` date DEFAULT '0000-00-00',
+  `cabang` varchar(15) DEFAULT NULL,
+  `customer` varchar(15) DEFAULT NULL,
+  `keterangan` varchar(50) DEFAULT NULL,
+  `debet` double(16,2) DEFAULT '0.00',
+  `kredit` double(16,2) DEFAULT '0.00',
+  `jenis` char(1) DEFAULT 'P',
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `fkttgl` (`fkt`,`tgl`),
+  KEY `tglcabang` (`tgl`,`cabang`),
+  KEY `tglcabangcustomer` (`tgl`,`cabang`,`customer`),
+  KEY `tglcustomer` (`tgl`,`customer`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `piutang_pelunasan_detail`;
+
+CREATE TABLE `piutang_pelunasan_detail` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `fkt` char(20) DEFAULT NULL,
+  `jumlah` double(16,2) DEFAULT '0.00',
+  `jenis` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `fkt` (`fkt`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `piutang_pelunasan_total`;
+
+CREATE TABLE `piutang_pelunasan_total` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `tgl` date DEFAULT '0000-00-00',
+  `cabang` varchar(15) DEFAULT NULL,
+  `customer` varchar(15) DEFAULT NULL,
+  `penjualan` double(16,2) DEFAULT '0.00',
+  `retur` double(16,2) DEFAULT '0.00',
+  `subtotal` double(16,2) DEFAULT '0.00',
+  `kasbank` double(16,2) DEFAULT '0.00',
+  `uangmuka` double(16,2) DEFAULT '0.00',
+  `kdtruangmuka` varchar(10) DEFAULT '',
+  `rekkasbank` varchar(50) NOT NULL DEFAULT '',
+  `diskon` double(16,2) DEFAULT '0.00',
+  `pembulatan` double(16,2) DEFAULT '0.00',
+  `status` char(1) NOT NULL DEFAULT '1',
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `tgl` (`tgl`),
+  KEY `status` (`status`),
+  KEY `tglstt` (`tgl`,`status`),
+  KEY `tglcabang` (`tgl`,`cabang`),
+  KEY `tglcabangcustomer` (`tgl`,`cabang`,`customer`),
+  KEY `tglcustomer` (`tgl`,`customer`),
+  KEY `tglcabangstatus` (`tgl`,`cabang`,`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `po_detail`;
+
+CREATE TABLE `po_detail` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `stock` varchar(15) DEFAULT NULL,
+  `spesifikasi` varchar(50) DEFAULT '',
+  `harga` double(16,2) DEFAULT '0.00',
+  `qty` double(16,2) DEFAULT '0.00',
+  `jumlah` double(16,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `stock` (`stock`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `po_total`;
+
+CREATE TABLE `po_total` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `fktpr` varchar(100) DEFAULT '',
+  `tgl` date DEFAULT '0000-00-00',
+  `cabang` char(4) DEFAULT NULL,
+  `gudang` char(4) DEFAULT NULL,
+  `supplier` char(10) DEFAULT NULL,
+  `total` double(16,2) DEFAULT '0.00',
+  `status` char(1) DEFAULT '1',
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `tglstatus` (`tgl`,`status`),
+  KEY `cabtglstatus` (`cabang`,`tgl`,`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `pr_detail`;
+
+CREATE TABLE `pr_detail` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `stock` varchar(15) DEFAULT NULL,
+  `qty` double(16,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `stock` (`stock`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `pr_total`;
+
+CREATE TABLE `pr_total` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `tgl` date DEFAULT '0000-00-00',
+  `cabang` char(4) DEFAULT NULL,
+  `gudang` char(4) DEFAULT NULL,
+  `status` char(1) DEFAULT '1',
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `tglstatus` (`tgl`,`status`),
+  KEY `cabtglstatus` (`cabang`,`tgl`,`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `satuan`;
+
+CREATE TABLE `satuan` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `kode` varchar(16) NOT NULL,
+  `keterangan` varchar(50) NOT NULL,
+  `datetime_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `datetime_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `username` varchar(20) NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+INSERT INTO `satuan` VALUES("1","PCS","PCS","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("2","PACK","PACK","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("3","ROLL","ROLL","0000-00-00 00:00:00","2019-06-25 20:13:14","");
+
+
+
+DROP TABLE IF EXISTS `sj_detail`;
+
+CREATE TABLE `sj_detail` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `stock` varchar(15) DEFAULT NULL,
+  `qty` double(16,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `stock` (`stock`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `sj_total`;
+
+CREATE TABLE `sj_total` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` char(20) DEFAULT NULL,
+  `tgl` date DEFAULT '0000-00-00',
+  `do` char(20) DEFAULT NULL,
+  `cabang` char(4) DEFAULT NULL,
+  `customer` char(10) DEFAULT NULL,
+  `petugaspengirim` varchar(100) DEFAULT '',
+  `kernet` varchar(100) DEFAULT '',
+  `nopol` varchar(100) DEFAULT '',
+  `status` char(1) DEFAULT '1',
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `tglstatus` (`tgl`,`status`),
+  KEY `cabtglstatus` (`cabang`,`tgl`,`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `stock`;
+
+CREATE TABLE `stock` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `kode` varchar(16) NOT NULL,
+  `barcode` varchar(30) NOT NULL,
+  `keterangan` varchar(50) NOT NULL,
+  `satuan` varchar(20) NOT NULL DEFAULT '',
+  `stock_group` varchar(16) NOT NULL,
+  `jenis` char(1) DEFAULT 'B',
+  `hargajual` double(16,2) NOT NULL DEFAULT '0.00',
+  `btkl` double(16,2) DEFAULT '0.00',
+  `bop` double(16,2) DEFAULT '0.00',
+  `datetime_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `datetime_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `username` varchar(20) NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=228 DEFAULT CHARSET=utf8;
+
+INSERT INTO `stock` VALUES("1","1906000001","8993988310037","ALAT PELUBANG JOYCO 30","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("2","1906000002","8993988310020","ALAT PELUBANG JOYCO 40","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("3","1906000003","","AMPLOP EXSEKUTIF E310 E","PACK","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("4","1906000004","","AMPLOP KYOTO","PACK","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("5","1906000005","8991389247068","AMPLOP PAPERLINE 104 APS","PACK","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("6","1906000006","8991389247037","AMPLOP PAPERLINE 104 PPS","PACK","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("7","1906000007","8991389217382","AMPLOP PAPERLINE MINI","PACK","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("8","1906000008","","BAJU PRAMUKA SD LK 2","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("9","1906000009","","BAJU PRAMUKA SD LK 3","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("10","1906000010","","BAJU PRAMUKA SD LK 4","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("11","1906000011","","BAJU PRAMUKA SD PANJANG 2","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("12","1906000012","","BAJU PRAMUKA SD PANJANG 3","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("13","1906000013","","BAJU PRAMUKA SD PANJANG 4","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("14","1906000014","","BAJU PUTIH SD PANJANG 2","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("15","1906000015","","BAJU PUTIH SD PANJANG 3","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("16","1906000016","","BAJU PUTIH SD PANJANG 4","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("17","1906000017","","BAJU PUTIH SD PENDEK 2","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("18","1906000018","","BAJU PUTIH SD PENDEK 3","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("19","1906000019","","BAJU PUTIH SD PENDEK 4","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("20","1906000020","8991389231012","BG DODO A4","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("21","1906000021","8991389221037","BG SIDU A4","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("22","1906000022","8219930309158","BINDER CAMPUS ESELON","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("23","1906000023","8219930309264","BINDER CAMPUS ESELON FANCY","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("24","1906000024","2006201432211","BINDER FANCY","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("25","1906000025","8995757009609","BINDER KIKI FANCY","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("26","1906000026","","BOLPEN ALOI","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("27","1906000027","","BOLPEN FANCY 7562","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("28","1906000028","","BOLPEN FANCY LAMPU","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("29","1906000029","8991615000313","BOLPEN GM SONIC","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("30","1906000030","8991615000412","BOLPEN GM SPIN","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("31","1906000031","6970873897653","BOLPEN HY Q6042","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("32","1906000032","6970873897813","BOLPEN HY Q6048","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("33","1906000033","6970873897943","BOLPEN HY Q6049","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("34","1906000034","6970873897868","BOLPEN HY Q6051","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("35","1906000035","6970873898070","BOLPEN HY Q6058","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("36","1906000036","6970873898155","BOLPEN HY Q6062","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("37","1906000037","4970129733010","BOLPEN SNOWMAN V1","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("38","1906000038","4970129760016","BOLPEN SNOWMAN V1R","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("39","1906000039","4970129734017","BOLPEN SNOWMAN V2","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("40","1906000040","4970129745013","BOLPEN SNOWMAN V5","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("41","1906000041","1100120010473","BOLPEN STANDARD AE7","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("42","1906000042","8802219085050","BOLPEN XDATA M1","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("43","1906000043","8936665568888","BOLPEN XDATA M2","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("44","1906000044","","BUFALLO CROWN","PACK","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("45","1906000045","8993282819373","BUFALLO SIDU","PACK","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("46","1906000046","8991389230008","BUKU BOXY BIG BOSS","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("47","1906000047","8995757026224","BUKU BOXY KIKY 34","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("48","1906000048","8991389300121","BUKU HALUS SIDU 38","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("49","1906000049","8991389300934","BUKU KOTAK SIDU 1K","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("50","1906000050","8991389220009","BUKU SIDU 32","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("51","1906000051","8991389220016","BUKU SIDU 38","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("52","1906000052","8991389220054","BUKU SIDU 58","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("53","1906000053","8991389220061","BUKU SIDU 78","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("54","1906000054","8991389300114","BUKU STRIMIN SIDU","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("55","1906000055","8995757023872","BUKU YOU 30","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:13",""),
+("56","1906000056","8995757020345","BUKU YOU 38","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("57","1906000057","8995757024053","BUKU YOU 58","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("58","1906000058","","CELANA PANJANG SD MERAH 19","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("59","1906000059","","CELANA PANJANG SD MERAH 20","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("60","1906000060","","CELANA PANJANG SD MERAH 21","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("61","1906000061","","CELANA PANJANG SD PRAMUKA 19","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("62","1906000062","","CELANA PANJANG SD PRAMUKA 20","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("63","1906000063","","CELANA PANJANG SD PRAMUKA 21","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("64","1906000064","8997013533408","CLIP BIG 105","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("65","1906000065","8997013533415","CLIP BIG 107","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("66","1906000066","8997013533446","CLIP BIG 200","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("67","1906000067","899889020300155","CLIP BORNEO 155","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("68","1906000068","899889020300260","CLIP BORNEO 260","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("69","1906000069","6932124703250","CLIP VIS-1","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("70","1906000070","9840321000003","CRAYON FANCY PUTAR B","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("71","1906000071","6975189850309","CRAYON FANCY PUTAR K","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("72","1906000072","7899210968124","CRAYON MOUSE BOY OIL PASTEL K","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("73","1906000073","","CRAYON OBAMA","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("74","1906000074","8801076190082","CRAYON TITI OIL PASTEL B","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("75","1906000075","8801076300214","CRAYON TITI PUTAR 12 B","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("76","1906000076","8801076910765","CRAYON TITI PUTAR 12 K","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("77","1906000077","8993988060062","CUTTER JOYKO L500","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("78","1906000078","8998838060032","CUTTER KENKO A300","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("79","1906000079","","CUTTER TACO B","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("80","1906000080","","CUTTER TACO K","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("81","1906000081","","DASI SD LK KARET","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("82","1906000082","","DASI SD LK PEREKAT","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("83","1906000083","","DASI SD PR KARET","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("84","1906000084","8997777070218","DOUBLE TAPE NACHI 12MM","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("85","1906000085","8997777070225","DOUBLE TAPE NACHI 24MM","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("86","1906000086","","GUNTING EKSIS","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("87","1906000087","","GUNTING GUNINDO","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("88","1906000088","","ISOLASI BENING NACHI","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("89","1906000089","","ISOLASI HITAM GOLDTAPE","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("90","1906000090","","ISOLASI KERTAS BERRY","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("91","1906000091","","ISOLASI KERTAS GOLDTAPE","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("92","1906000092","8998002225410","ISOLASI LISTRIK OLEAN CITY","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("93","1906000093","6923363000019","JANGKA COMBO","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("94","1906000094","","JANGKA COMPAS","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("95","1906000095","","KAOS KAKI HITAM KAOXIN","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("96","1906000096","","KAOS KAKI HITAM SCHOOL SMA","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("97","1906000097","","KAOS KAKI HITAM SCHOOL SMP","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("98","1906000098","","KAOS KAKI HITAM STUDENT","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("99","1906000099","","KAOS KAKI PUTIH COMPUTERS","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("100","1906000100","","KAOS KAKI PUTIH DMD SD","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("101","1906000101","","KAOS KAKI PUTIH DMD SMA","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("102","1906000102","","KAOS KAKI PUTIH DMD SMP","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("103","1906000103","","KAOS KAKI PUTIH NEVADA","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("104","1906000104","","KAOS KAKI PUTIH STUDENT","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("105","1906000105","","KERTAS ASTURO PELANGI","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("106","1906000106","","KERTAS ASTURO POLOS","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("107","1906000107","8995757821706","KERTAS KADO KIKI K","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("108","1906000108","","KERTAS LIPAT 24","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("109","1906000109","","KERTAS LIPAT 27","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("110","1906000110","","KERTAS PIAGAM","PACK","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("111","1906000111","","KERTAS SUKU","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("112","1906000112","","KERUDUNG SD COKLAT POLOS","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("113","1906000113","","KERUDUNG SD MERAH POLOS","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("114","1906000114","","KERUDUNG SD PUTIH MERAH","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("115","1906000115","6956282262668","KOTAK PENSIL 108","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("116","1906000116","6970116403979","KOTAK PENSIL 132","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("117","1906000117","6970116405058","KOTAK PENSIL 150","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("118","1906000118","6936624817691","KOTAK PENSIL 162","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("119","1906000119","8927827660250","KOTAK PENSIL 168","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("120","1906000120","6922468650471","KOTAK PENSIL 180","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("121","1906000121","6922468224922","KOTAK PENSIL 192","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("122","1906000122","6979945600221","KOTAK PENSIL 228","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("123","1906000123","6985715497939","KOTAK PENSIL 240","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("124","1906000124","6985715497960","KOTAK PENSIL 252","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("125","1906000125","8991389308219","KWITANSI SIDU BESAR","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("126","1906000126","8991389308226","KWITANSI SIDU KECIL","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("127","1906000127","","LAKBAN BENING BORNEO","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("128","1906000128","","LAKBAN COKLAT","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("129","1906000129","","LAKBAN HITAM BORNEO 48MM","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("130","1906000130","8997223620011","LEM CASTOL B","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("131","1906000131","8997223620028","LEM CASTOL K","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("132","1906000132","","LEM G","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("133","1906000133","","LEM GIAKOL B","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("134","1906000134","","LEM GIAKOL K","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("135","1906000135","","LEM LILIN B","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("136","1906000136","","LEM LILIN K","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("137","1906000137","","LEM POVINAL BESAR","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("138","1906000138","","LEM POVINAL KECIL","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("139","1906000139","8991389232019","LOOSE LEAF BIGBOSS","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("140","1906000140","","MAP KERTAS","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("141","1906000141","9000701166686","MAP MIKA JENIA","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("142","1906000142","8993265400536","MAP MIKA JUNKO","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("143","1906000143","","MAP MIKA KANCING","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("144","1906000144","","MIKA FILM PUTIH","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("145","1906000145","8991389248058","NOTA PAPERLINE 3PLY","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("146","1906000146","","NOTE PRAMUKA","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("147","1906000147","8990365005555","ODNER FOLIO POP","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("148","1906000148","7781990200009","PENGGARIS BESI 30","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("149","1906000149","","PENGGARIS BUTTERFLY 30","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("150","1906000150","6951234515010","PENGGARIS SAFARI BOX","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("151","1906000151","","PENGGARIS VIS","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("152","1906000152","6952158821072","PENITIK SWAN","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("153","1906000153","8997013530285","PENSIL BIG 933","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("154","1906000154","","PENSIL JOYKO P100","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("155","1906000155","8993988286462","PENSIL JOYKO P114","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("156","1906000156","","PENSIL JOYKO P93","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("157","1906000157","","PENSIL JOYKO P96","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("158","1906000158","","PENSIL JOYKO P99","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("159","1906000159","","PENSIL M2000","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("160","1906000160","8993988048053","PG JOYKO B","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("161","1906000161","8993988048138","PG JOYKO K","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("162","1906000162","8998838360163","PG KENKO B","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("163","1906000163","8998838361078","PG KENKO K","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("164","1906000164","","PLASTIK ROLL FOTOCOPY","ROLL","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("165","1906000165","","POTONG KUKU 24","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("166","1906000166","","POTONG KUKU 48","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("167","1906000167","","POTONG KUKU 54","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("168","1906000168","8993988060048","REFILL CUTTER JOYCO A100","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("169","1906000169","8993988060055","REFILL CUTTER JOYCO L150","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("170","1906000170","4970129732518","REFILL SPIDOL SNOWMAN HITAM BOARD MAKER","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("171","1906000171","4970129731511","REFILL SPIDOL SNOWMAN HITAM PERMANEN","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("172","1906000172","8901057524421","REFILL STAPLES KANGARO BESAR","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("173","1906000173","8901057510028","REFILL STAPLES KANGARO KECIL","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("174","1906000174","","ROK PRAMUKA SD 1","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("175","1906000175","","ROK PRAMUKA SD 2","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("176","1906000176","","ROK PRAMUKA SD 3","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("177","1906000177","","ROK SD MERAH 1","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("178","1906000178","","ROK SD MERAH 2","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("179","1906000179","","ROK SD MERAH 3","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("180","1906000180","","SABUK 14K","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("181","1906000181","","SABUK 10K","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("182","1906000182","","SABUK 11K A","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("183","1906000183","","SABUK 12K A","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("184","1906000184","","SABUK 12K B","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("185","1906000185","","SABUK 11K B","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("186","1906000186","","SAMPUL BOXY","PACK","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("187","1906000187","","SAMPUL FANCY WARNA","PACK","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("188","1906000188","","SAMPUL KERTAS COKLAT","PACK","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("189","1906000189","","SAMPUL KWARTO","PACK","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("190","1906000190","6970620570198","SLEVER 27","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("191","1906000191","8430540411691","SLEVER 27 ORANG","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("192","1906000192","6985369579388","SLEVER 27 SEPOR","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("193","1906000193","6950513260559","SLEVER 30","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("194","1906000194","6954725630377","SLEVER 33","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("195","1906000195","6970817539892","SLEVER 39","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("196","1906000196","8997013537406","SLEVER BOX 210","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("197","1906000197","8997013534795","SLEVER BOX 216","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("198","1906000198","4627101379284","SLEVER TOPLES 162","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("199","1906000199","6958412346466","SLEVER TOPLES 210","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("200","1906000200","","SPIDOL LEPASAN HITAM","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("201","1906000201","4970129724483","SPIDOL SNOWMAN 12 WARNA","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("202","1906000202","4970129727019","SPIDOL SNOWMAN HITAM BOARD MARKER","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("203","1906000203","4970129726012","SPIDOL SNOWMAN HITAM PERMANEN","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("204","1906000204","6940328714606","STAMPAD HERO B","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("205","1906000205","","STAMPAD HERO K","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("206","1906000206","8901057310062","STAPLES KANGARO HD10","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("207","1906000207","8901057335768","STAPLES KANGARO HS45P","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("208","1906000208","4902870775711","STAPLES MAX HD10","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:14",""),
+("209","1906000209","8997013532197","STIP BIG BLACK","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("210","1906000210","8997013531718","STIP BIG COLOR","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("211","1906000211","8997013531657","STIP BIG WHITE","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("212","1906000212","","TAS 1020","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("213","1906000213","","TAS 1080","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("214","1906000214","","TAS 270","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("215","1906000215","","TAS 420","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("216","1906000216","","TAS 450","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("217","1906000217","","TAS 510","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("218","1906000218","","TAS FANCY 1020","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("219","1906000219","","TAS FANCY 1080","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("220","1906000220","","TAS FANCY 1380","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("221","1906000221","","TAS FANCY 600","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("222","1906000222","","TAS FANCY 720","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("223","1906000223","8998838050002","TIPE X KENKO B","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("224","1906000224","8994311101285","TIPE X KENKO BESI","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("225","1906000225","8994311118108","TIPE X KENKO K","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("226","1906000226","6939300800291","TIPE X SAFARI","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15",""),
+("227","1906000227","","TOPI SD","PCS","001","p","0.00","0.00","0.00","0000-00-00 00:00:00","2019-06-25 20:13:15","");
+
+
+
+DROP TABLE IF EXISTS `stock_group`;
+
+CREATE TABLE `stock_group` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `kode` varchar(16) NOT NULL,
+  `keterangan` varchar(50) NOT NULL,
+  `rekpersd` varchar(30) NOT NULL,
+  `rekpj` varchar(30) NOT NULL,
+  `rekhpp` varchar(30) NOT NULL,
+  `datetime_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `datetime_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `username` varchar(20) NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+INSERT INTO `stock_group` VALUES("1","001","ATK, PER. SEKOLAH, RETAIL DAN GROSIR","","","","2019-06-25 00:00:00","2019-06-25 18:27:25","");
+
+
+
+DROP TABLE IF EXISTS `stock_hj`;
+
+CREATE TABLE `stock_hj` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `kode` char(10) DEFAULT NULL,
+  `cabang` char(3) DEFAULT NULL,
+  `qty` double(16,2) DEFAULT '0.00',
+  `hj` double(16,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `kode` (`kode`),
+  KEY `cabang` (`cabang`),
+  KEY `kodecabang` (`kode`,`cabang`)
+) ENGINE=MyISAM AUTO_INCREMENT=228 DEFAULT CHARSET=latin1;
+
+INSERT INTO `stock_hj` VALUES("1","1906000001","","999999.00","12000.00"),
+("2","1906000002","","999999.00","23000.00"),
+("3","1906000003","","999999.00","10000.00"),
+("4","1906000004","","999999.00","13000.00"),
+("5","1906000005","","999999.00","13000.00"),
+("6","1906000006","","999999.00","13000.00"),
+("7","1906000007","","999999.00","8000.00"),
+("8","1906000008","","999999.00","72000.00"),
+("9","1906000009","","999999.00","74000.00"),
+("10","1906000010","","999999.00","78000.00"),
+("11","1906000011","","999999.00","80000.00"),
+("12","1906000012","","999999.00","83000.00"),
+("13","1906000013","","999999.00","86000.00"),
+("14","1906000014","","999999.00","70000.00"),
+("15","1906000015","","999999.00","73000.00"),
+("16","1906000016","","999999.00","76000.00"),
+("17","1906000017","","999999.00","65000.00"),
+("18","1906000018","","999999.00","66000.00"),
+("19","1906000019","","999999.00","68000.00"),
+("20","1906000020","","999999.00","2500.00"),
+("21","1906000021","","999999.00","3000.00"),
+("22","1906000022","","999999.00","14000.00"),
+("23","1906000023","","999999.00","14000.00"),
+("24","1906000024","","999999.00","14000.00"),
+("25","1906000025","","999999.00","14000.00"),
+("26","1906000026","","999999.00","1500.00"),
+("27","1906000027","","999999.00","2500.00"),
+("28","1906000028","","999999.00","4500.00"),
+("29","1906000029","","999999.00","1000.00"),
+("30","1906000030","","999999.00","1000.00"),
+("31","1906000031","","999999.00","2000.00"),
+("32","1906000032","","999999.00","2000.00"),
+("33","1906000033","","999999.00","2000.00"),
+("34","1906000034","","999999.00","2000.00"),
+("35","1906000035","","999999.00","2000.00"),
+("36","1906000036","","999999.00","2000.00"),
+("37","1906000037","","999999.00","2000.00"),
+("38","1906000038","","999999.00","2000.00"),
+("39","1906000039","","999999.00","2000.00"),
+("40","1906000040","","999999.00","2500.00"),
+("41","1906000041","","999999.00","2000.00"),
+("42","1906000042","","999999.00","1000.00"),
+("43","1906000043","","999999.00","1000.00"),
+("44","1906000044","","999999.00","25000.00"),
+("45","1906000045","","999999.00","25000.00"),
+("46","1906000046","","999999.00","4000.00"),
+("47","1906000047","","999999.00","5000.00"),
+("48","1906000048","","999999.00","3000.00"),
+("49","1906000049","","999999.00","3000.00"),
+("50","1906000050","","999999.00","2500.00"),
+("51","1906000051","","999999.00","3500.00"),
+("52","1906000052","","999999.00","4000.00"),
+("53","1906000053","","999999.00","5000.00"),
+("54","1906000054","","999999.00","3000.00"),
+("55","1906000055","","999999.00","1500.00"),
+("56","1906000056","","999999.00","2000.00"),
+("57","1906000057","","999999.00","2500.00"),
+("58","1906000058","","999999.00","119000.00"),
+("59","1906000059","","999999.00","119000.00"),
+("60","1906000060","","999999.00","119000.00"),
+("61","1906000061","","999999.00","119000.00"),
+("62","1906000062","","999999.00","119000.00"),
+("63","1906000063","","999999.00","119000.00"),
+("64","1906000064","","999999.00","1000.00"),
+("65","1906000065","","999999.00","3500.00"),
+("66","1906000066","","999999.00","1000.00"),
+("67","1906000067","","999999.00","1000.00"),
+("68","1906000068","","999999.00","1500.00"),
+("69","1906000069","","999999.00","5000.00"),
+("70","1906000070","","999999.00","19000.00"),
+("71","1906000071","","999999.00","18000.00"),
+("72","1906000072","","999999.00","6500.00"),
+("73","1906000073","","999999.00","8000.00"),
+("74","1906000074","","999999.00","15000.00"),
+("75","1906000075","","999999.00","27000.00"),
+("76","1906000076","","999999.00","24000.00"),
+("77","1906000077","","999999.00","12000.00"),
+("78","1906000078","","999999.00","5000.00"),
+("79","1906000079","","999999.00","3000.00"),
+("80","1906000080","","999999.00","2500.00"),
+("81","1906000081","","999999.00","7000.00"),
+("82","1906000082","","999999.00","12000.00"),
+("83","1906000083","","999999.00","7000.00"),
+("84","1906000084","","999999.00","3000.00"),
+("85","1906000085","","999999.00","5000.00"),
+("86","1906000086","","999999.00","3000.00"),
+("87","1906000087","","999999.00","5000.00"),
+("88","1906000088","","999999.00","1500.00"),
+("89","1906000089","","999999.00","1000.00"),
+("90","1906000090","","999999.00","2000.00"),
+("91","1906000091","","999999.00","1000.00"),
+("92","1906000092","","999999.00","7000.00"),
+("93","1906000093","","999999.00","8000.00"),
+("94","1906000094","","999999.00","8500.00"),
+("95","1906000095","","999999.00","4000.00"),
+("96","1906000096","","999999.00","5500.00"),
+("97","1906000097","","999999.00","5500.00"),
+("98","1906000098","","999999.00","9500.00"),
+("99","1906000099","","999999.00","6000.00"),
+("100","1906000100","","999999.00","4000.00"),
+("101","1906000101","","999999.00","4500.00"),
+("102","1906000102","","999999.00","5000.00"),
+("103","1906000103","","999999.00","6000.00"),
+("104","1906000104","","999999.00","9500.00"),
+("105","1906000105","","999999.00","2000.00"),
+("106","1906000106","","999999.00","2000.00"),
+("107","1906000107","","999999.00","1000.00"),
+("108","1906000108","","999999.00","2500.00"),
+("109","1906000109","","999999.00","2500.00"),
+("110","1906000110","","999999.00","37000.00"),
+("111","1906000111","","999999.00","1000.00"),
+("112","1906000112","","999999.00","28500.00"),
+("113","1906000113","","999999.00","28500.00"),
+("114","1906000114","","999999.00","28500.00"),
+("115","1906000115","","999999.00","10000.00"),
+("116","1906000116","","999999.00","12000.00"),
+("117","1906000117","","999999.00","14000.00"),
+("118","1906000118","","999999.00","14000.00"),
+("119","1906000119","","999999.00","15000.00"),
+("120","1906000120","","999999.00","16000.00"),
+("121","1906000121","","999999.00","17000.00"),
+("122","1906000122","","999999.00","20000.00"),
+("123","1906000123","","999999.00","21000.00"),
+("124","1906000124","","999999.00","22000.00"),
+("125","1906000125","","999999.00","4000.00"),
+("126","1906000126","","999999.00","3500.00"),
+("127","1906000127","","999999.00","7500.00"),
+("128","1906000128","","999999.00","9000.00"),
+("129","1906000129","","999999.00","12500.00"),
+("130","1906000130","","999999.00","10000.00"),
+("131","1906000131","","999999.00","6000.00"),
+("132","1906000132","","999999.00","4000.00"),
+("133","1906000133","","999999.00","1500.00"),
+("134","1906000134","","999999.00","500.00"),
+("135","1906000135","","999999.00","2000.00"),
+("136","1906000136","","999999.00","1500.00"),
+("137","1906000137","","999999.00","3500.00"),
+("138","1906000138","","999999.00","2000.00"),
+("139","1906000139","","999999.00","5500.00"),
+("140","1906000140","","999999.00","500.00"),
+("141","1906000141","","999999.00","3000.00"),
+("142","1906000142","","999999.00","3000.00"),
+("143","1906000143","","999999.00","2500.00"),
+("144","1906000144","","999999.00","23000.00"),
+("145","1906000145","","999999.00","4000.00"),
+("146","1906000146","","999999.00","1000.00"),
+("147","1906000147","","999999.00","20000.00"),
+("148","1906000148","","999999.00","3500.00"),
+("149","1906000149","","999999.00","2500.00"),
+("150","1906000150","","999999.00","5000.00"),
+("151","1906000151","","999999.00","1000.00"),
+("152","1906000152","","999999.00","1500.00"),
+("153","1906000153","","999999.00","1500.00"),
+("154","1906000154","","999999.00","1500.00"),
+("155","1906000155","","999999.00","1500.00"),
+("156","1906000156","","999999.00","1500.00"),
+("157","1906000157","","999999.00","1500.00"),
+("158","1906000158","","999999.00","1500.00"),
+("159","1906000159","","999999.00","1000.00"),
+("160","1906000160","","999999.00","11000.00"),
+("161","1906000161","","999999.00","8000.00"),
+("162","1906000162","","999999.00","12000.00"),
+("163","1906000163","","999999.00","8000.00"),
+("164","1906000164","","999999.00","120000.00"),
+("165","1906000165","","999999.00","2500.00"),
+("166","1906000166","","999999.00","5000.00"),
+("167","1906000167","","999999.00","5000.00"),
+("168","1906000168","","999999.00","2500.00"),
+("169","1906000169","","999999.00","4500.00"),
+("170","1906000170","","999999.00","14000.00"),
+("171","1906000171","","999999.00","10000.00"),
+("172","1906000172","","999999.00","3500.00"),
+("173","1906000173","","999999.00","2000.00"),
+("174","1906000174","","999999.00","109000.00"),
+("175","1906000175","","999999.00","111000.00"),
+("176","1906000176","","999999.00","114000.00"),
+("177","1906000177","","999999.00","109000.00"),
+("178","1906000178","","999999.00","111000.00"),
+("179","1906000179","","999999.00","114000.00"),
+("180","1906000180","","999999.00","14000.00"),
+("181","1906000181","","999999.00","10000.00"),
+("182","1906000182","","999999.00","11000.00"),
+("183","1906000183","","999999.00","12000.00"),
+("184","1906000184","","999999.00","12000.00"),
+("185","1906000185","","999999.00","11000.00"),
+("186","1906000186","","999999.00","13000.00"),
+("187","1906000187","","999999.00","9000.00"),
+("188","1906000188","","999999.00","13000.00"),
+("189","1906000189","","999999.00","9000.00"),
+("190","1906000190","","999999.00","3000.00"),
+("191","1906000191","","999999.00","3000.00"),
+("192","1906000192","","999999.00","3000.00"),
+("193","1906000193","","999999.00","3000.00"),
+("194","1906000194","","999999.00","3000.00"),
+("195","1906000195","","999999.00","3500.00"),
+("196","1906000196","","999999.00","19000.00"),
+("197","1906000197","","999999.00","19000.00"),
+("198","1906000198","","999999.00","1500.00"),
+("199","1906000199","","999999.00","2000.00"),
+("200","1906000200","","999999.00","2500.00"),
+("201","1906000201","","999999.00","12500.00"),
+("202","1906000202","","999999.00","7000.00"),
+("203","1906000203","","999999.00","6000.00"),
+("204","1906000204","","999999.00","10000.00"),
+("205","1906000205","","999999.00","7000.00"),
+("206","1906000206","","999999.00","11500.00"),
+("207","1906000207","","999999.00","32500.00"),
+("208","1906000208","","999999.00","15000.00"),
+("209","1906000209","","999999.00","1000.00"),
+("210","1906000210","","999999.00","1000.00"),
+("211","1906000211","","999999.00","1000.00"),
+("212","1906000212","","999999.00","87500.00"),
+("213","1906000213","","999999.00","92500.00"),
+("214","1906000214","","999999.00","25000.00"),
+("215","1906000215","","999999.00","40000.00"),
+("216","1906000216","","999999.00","40000.00"),
+("217","1906000217","","999999.00","45000.00"),
+("218","1906000218","","999999.00","90000.00"),
+("219","1906000219","","999999.00","92500.00"),
+("220","1906000220","","999999.00","120000.00"),
+("221","1906000221","","999999.00","55000.00"),
+("222","1906000222","","999999.00","65000.00"),
+("223","1906000223","","999999.00","4500.00"),
+("224","1906000224","","999999.00","5000.00"),
+("225","1906000225","","999999.00","4000.00"),
+("226","1906000226","","999999.00","2500.00"),
+("227","1906000227","","999999.00","16000.00");
+
+
+
+DROP TABLE IF EXISTS `stock_hp`;
+
+CREATE TABLE `stock_hp` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(20) NOT NULL DEFAULT '',
+  `tgl` date DEFAULT '0000-00-00',
+  `kode` char(10) DEFAULT NULL,
+  `cabang` char(3) DEFAULT NULL,
+  `qty` double(16,2) NOT NULL DEFAULT '0.00',
+  `hp` double(16,2) DEFAULT '0.00',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `kode` (`kode`),
+  KEY `cabang` (`cabang`),
+  KEY `kodecabang` (`kode`,`cabang`),
+  KEY `kodetgl` (`kode`,`tgl`)
+) ENGINE=MyISAM AUTO_INCREMENT=228 DEFAULT CHARSET=latin1;
+
+INSERT INTO `stock_hp` VALUES("1","","2019-06-24","1906000001","","36.00","11000.00","2019-06-25 20:13:15"),
+("2","","2019-06-24","1906000002","","24.00","22500.00","2019-06-25 20:13:15"),
+("3","","2019-06-24","1906000003","","6.00","8500.00","2019-06-25 20:13:15"),
+("4","","2019-06-24","1906000004","","6.00","11000.00","2019-06-25 20:13:15"),
+("5","","2019-06-24","1906000005","","25.00","12000.00","2019-06-25 20:13:15"),
+("6","","2019-06-24","1906000006","","25.00","11600.00","2019-06-25 20:13:15"),
+("7","","2019-06-24","1906000007","","15.00","7600.00","2019-06-25 20:13:15"),
+("8","","2019-06-24","1906000008","","6.00","70000.00","2019-06-25 20:13:15"),
+("9","","2019-06-24","1906000009","","6.00","72000.00","2019-06-25 20:13:15"),
+("10","","2019-06-24","1906000010","","6.00","76000.00","2019-06-25 20:13:15"),
+("11","","2019-06-24","1906000011","","6.00","78000.00","2019-06-25 20:13:15"),
+("12","","2019-06-24","1906000012","","6.00","81000.00","2019-06-25 20:13:15"),
+("13","","2019-06-24","1906000013","","6.00","84000.00","2019-06-25 20:13:15"),
+("14","","2019-06-24","1906000014","","6.00","68000.00","2019-06-25 20:13:15"),
+("15","","2019-06-24","1906000015","","6.00","71000.00","2019-06-25 20:13:15"),
+("16","","2019-06-24","1906000016","","6.00","74000.00","2019-06-25 20:13:15"),
+("17","","2019-06-24","1906000017","","6.00","63000.00","2019-06-25 20:13:15"),
+("18","","2019-06-24","1906000018","","6.00","64000.00","2019-06-25 20:13:15"),
+("19","","2019-06-24","1906000019","","6.00","66000.00","2019-06-25 20:13:15"),
+("20","","2019-06-24","1906000020","","50.00","1800.00","2019-06-25 20:13:15"),
+("21","","2019-06-24","1906000021","","50.00","2600.00","2019-06-25 20:13:15"),
+("22","","2019-06-24","1906000022","","28.00","13500.00","2019-06-25 20:13:15"),
+("23","","2019-06-24","1906000023","","2.00","13500.00","2019-06-25 20:13:15"),
+("24","","2019-06-24","1906000024","","3.00","13500.00","2019-06-25 20:13:15"),
+("25","","2019-06-24","1906000025","","1.00","13500.00","2019-06-25 20:13:15"),
+("26","","2019-06-24","1906000026","","24.00","1125.00","2019-06-25 20:13:15"),
+("27","","2019-06-24","1906000027","","12.00","2000.00","2019-06-25 20:13:15"),
+("28","","2019-06-24","1906000028","","12.00","3750.00","2019-06-25 20:13:15"),
+("29","","2019-06-24","1906000029","","24.00","625.00","2019-06-25 20:13:15"),
+("30","","2019-06-24","1906000030","","24.00","500.00","2019-06-25 20:13:15"),
+("31","","2019-06-24","1906000031","","12.00","1350.00","2019-06-25 20:13:15"),
+("32","","2019-06-24","1906000032","","12.00","1350.00","2019-06-25 20:13:15"),
+("33","","2019-06-24","1906000033","","12.00","1350.00","2019-06-25 20:13:15"),
+("34","","2019-06-24","1906000034","","12.00","1350.00","2019-06-25 20:13:15"),
+("35","","2019-06-24","1906000035","","12.00","1350.00","2019-06-25 20:13:15"),
+("36","","2019-06-24","1906000036","","12.00","1350.00","2019-06-25 20:13:15"),
+("37","","2019-06-24","1906000037","","24.00","1458.33","2019-06-25 20:13:15"),
+("38","","2019-06-24","1906000038","","24.00","1458.33","2019-06-25 20:13:15"),
+("39","","2019-06-24","1906000039","","24.00","1500.00","2019-06-25 20:13:15"),
+("40","","2019-06-24","1906000040","","24.00","2250.00","2019-06-25 20:13:15"),
+("41","","2019-06-24","1906000041","","24.00","1350.00","2019-06-25 20:13:15"),
+("42","","2019-06-24","1906000042","","24.00","625.00","2019-06-25 20:13:15"),
+("43","","2019-06-24","1906000043","","24.00","625.00","2019-06-25 20:13:15"),
+("44","","2019-06-24","1906000044","","4.00","24000.00","2019-06-25 20:13:15"),
+("45","","2019-06-24","1906000045","","5.00","24000.00","2019-06-25 20:13:15"),
+("46","","2019-06-24","1906000046","","30.00","3583.33","2019-06-25 20:13:15"),
+("47","","2019-06-24","1906000047","","50.00","4200.00","2019-06-25 20:13:15"),
+("48","","2019-06-24","1906000048","","60.00","2300.00","2019-06-25 20:13:15"),
+("49","","2019-06-24","1906000049","","60.00","2300.00","2019-06-25 20:13:15"),
+("50","","2019-06-24","1906000050","","30.00","2000.00","2019-06-25 20:13:15"),
+("51","","2019-06-24","1906000051","","50.00","2200.00","2019-06-25 20:13:15"),
+("52","","2019-06-24","1906000052","","50.00","3300.00","2019-06-25 20:13:15"),
+("53","","2019-06-24","1906000053","","10.00","4400.00","2019-06-25 20:13:15"),
+("54","","2019-06-24","1906000054","","60.00","2300.00","2019-06-25 20:13:15"),
+("55","","2019-06-24","1906000055","","100.00","1175.00","2019-06-25 20:13:15"),
+("56","","2019-06-24","1906000056","","50.00","1400.00","2019-06-25 20:13:15"),
+("57","","2019-06-24","1906000057","","50.00","2000.00","2019-06-25 20:13:15"),
+("58","","2019-06-24","1906000058","","6.00","117000.00","2019-06-25 20:13:15"),
+("59","","2019-06-24","1906000059","","6.00","117000.00","2019-06-25 20:13:15"),
+("60","","2019-06-24","1906000060","","6.00","117000.00","2019-06-25 20:13:15"),
+("61","","2019-06-24","1906000061","","6.00","117000.00","2019-06-25 20:13:15"),
+("62","","2019-06-24","1906000062","","6.00","117000.00","2019-06-25 20:13:15"),
+("63","","2019-06-24","1906000063","","6.00","117000.00","2019-06-25 20:13:15"),
+("64","","2019-06-24","1906000064","","144.00","614.58","2019-06-25 20:13:15"),
+("65","","2019-06-24","1906000065","","24.00","2800.00","2019-06-25 20:13:15"),
+("66","","2019-06-24","1906000066","","144.00","833.33","2019-06-25 20:13:15"),
+("67","","2019-06-24","1906000067","","144.00","541.67","2019-06-25 20:13:15"),
+("68","","2019-06-24","1906000068","","60.00","1208.33","2019-06-25 20:13:15"),
+("69","","2019-06-24","1906000069","","10.00","4350.00","2019-06-25 20:13:15"),
+("70","","2019-06-24","1906000070","","6.00","17500.00","2019-06-25 20:13:15"),
+("71","","2019-06-24","1906000071","","12.00","16500.00","2019-06-25 20:13:15"),
+("72","","2019-06-24","1906000072","","12.00","5500.00","2019-06-25 20:13:15"),
+("73","","2019-06-24","1906000073","","12.00","7000.00","2019-06-25 20:13:15"),
+("74","","2019-06-24","1906000074","","12.00","14000.00","2019-06-25 20:13:15"),
+("75","","2019-06-24","1906000075","","6.00","26500.00","2019-06-25 20:13:15"),
+("76","","2019-06-24","1906000076","","12.00","22500.00","2019-06-25 20:13:15"),
+("77","","2019-06-24","1906000077","","24.00","11500.00","2019-06-25 20:13:15"),
+("78","","2019-06-24","1906000078","","36.00","4500.00","2019-06-25 20:13:15"),
+("79","","2019-06-24","1906000079","","24.00","2500.00","2019-06-25 20:13:15"),
+("80","","2019-06-24","1906000080","","24.00","1875.00","2019-06-25 20:13:15"),
+("81","","2019-06-24","1906000081","","6.00","6000.00","2019-06-25 20:13:15"),
+("82","","2019-06-24","1906000082","","20.00","11000.00","2019-06-25 20:13:15"),
+("83","","2019-06-24","1906000083","","6.00","6000.00","2019-06-25 20:13:15"),
+("84","","2019-06-24","1906000084","","24.00","2500.00","2019-06-25 20:13:15"),
+("85","","2019-06-24","1906000085","","12.00","4500.00","2019-06-25 20:13:15"),
+("86","","2019-06-24","1906000086","","36.00","2500.00","2019-06-25 20:13:15"),
+("87","","2019-06-24","1906000087","","24.00","4500.00","2019-06-25 20:13:15"),
+("88","","2019-06-24","1906000088","","60.00","1000.00","2019-06-25 20:13:15"),
+("89","","2019-06-24","1906000089","","60.00","650.00","2019-06-25 20:13:15"),
+("90","","2019-06-24","1906000090","","60.00","1800.00","2019-06-25 20:13:15"),
+("91","","2019-06-24","1906000091","","100.00","650.00","2019-06-25 20:13:15"),
+("92","","2019-06-24","1906000092","","24.00","5000.00","2019-06-25 20:13:15"),
+("93","","2019-06-24","1906000093","","24.00","7500.00","2019-06-25 20:13:15"),
+("94","","2019-06-24","1906000094","","12.00","8000.00","2019-06-25 20:13:15"),
+("95","","2019-06-24","1906000095","","24.00","3500.00","2019-06-25 20:13:15"),
+("96","","2019-06-24","1906000096","","24.00","5000.00","2019-06-25 20:13:15"),
+("97","","2019-06-24","1906000097","","24.00","5000.00","2019-06-25 20:13:15"),
+("98","","2019-06-24","1906000098","","15.00","9000.00","2019-06-25 20:13:15"),
+("99","","2019-06-24","1906000099","","12.00","5500.00","2019-06-25 20:13:15"),
+("100","","2019-06-24","1906000100","","12.00","3500.00","2019-06-25 20:13:15"),
+("101","","2019-06-24","1906000101","","12.00","4000.00","2019-06-25 20:13:15"),
+("102","","2019-06-24","1906000102","","24.00","4500.00","2019-06-25 20:13:15"),
+("103","","2019-06-24","1906000103","","12.00","5500.00","2019-06-25 20:13:15"),
+("104","","2019-06-24","1906000104","","11.00","9000.00","2019-06-25 20:13:15"),
+("105","","2019-06-24","1906000105","","20.00","1600.00","2019-06-25 20:13:15"),
+("106","","2019-06-24","1906000106","","50.00","1500.00","2019-06-25 20:13:15"),
+("107","","2019-06-24","1906000107","","150.00","640.00","2019-06-25 20:13:15"),
+("108","","2019-06-24","1906000108","","120.00","2000.00","2019-06-25 20:13:15"),
+("109","","2019-06-24","1906000109","","120.00","2250.00","2019-06-25 20:13:15"),
+("110","","2019-06-24","1906000110","","3.00","36000.00","2019-06-25 20:13:15"),
+("111","","2019-06-24","1906000111","","20.00","850.00","2019-06-25 20:13:15"),
+("112","","2019-06-24","1906000112","","6.00","27500.00","2019-06-25 20:13:15"),
+("113","","2019-06-24","1906000113","","6.00","27500.00","2019-06-25 20:13:15"),
+("114","","2019-06-24","1906000114","","6.00","27500.00","2019-06-25 20:13:15"),
+("115","","2019-06-24","1906000115","","6.00","9000.00","2019-06-25 20:13:15"),
+("116","","2019-06-24","1906000116","","6.00","11000.00","2019-06-25 20:13:15"),
+("117","","2019-06-24","1906000117","","6.00","12500.00","2019-06-25 20:13:15"),
+("118","","2019-06-24","1906000118","","6.00","13500.00","2019-06-25 20:13:15"),
+("119","","2019-06-24","1906000119","","6.00","14000.00","2019-06-25 20:13:15"),
+("120","","2019-06-24","1906000120","","12.00","15000.00","2019-06-25 20:13:15"),
+("121","","2019-06-24","1906000121","","6.00","16000.00","2019-06-25 20:13:15"),
+("122","","2019-06-24","1906000122","","6.00","19000.00","2019-06-25 20:13:15"),
+("123","","2019-06-24","1906000123","","6.00","20000.00","2019-06-25 20:13:15"),
+("124","","2019-06-24","1906000124","","3.00","21000.00","2019-06-25 20:13:15"),
+("125","","2019-06-24","1906000125","","30.00","3400.00","2019-06-25 20:13:15"),
+("126","","2019-06-24","1906000126","","30.00","2800.00","2019-06-25 20:13:15"),
+("127","","2019-06-24","1906000127","","36.00","7166.67","2019-06-25 20:13:15"),
+("128","","2019-06-24","1906000128","","18.00","8166.67","2019-06-25 20:13:15"),
+("129","","2019-06-24","1906000129","","24.00","11500.00","2019-06-25 20:13:15"),
+("130","","2019-06-24","1906000130","","24.00","9000.00","2019-06-25 20:13:15"),
+("131","","2019-06-24","1906000131","","24.00","5000.00","2019-06-25 20:13:15"),
+("132","","2019-06-24","1906000132","","50.00","3500.00","2019-06-25 20:13:15"),
+("133","","2019-06-24","1906000133","","12.00","1166.67","2019-06-25 20:13:15"),
+("134","","2019-06-24","1906000134","","24.00","395.83","2019-06-25 20:13:15"),
+("135","","2019-06-24","1906000135","","36.00","1666.67","2019-06-25 20:13:15"),
+("136","","2019-06-24","1906000136","","60.00","1000.00","2019-06-25 20:13:15"),
+("137","","2019-06-24","1906000137","","12.00","3166.67","2019-06-25 20:13:15"),
+("138","","2019-06-24","1906000138","","24.00","1583.33","2019-06-25 20:13:15"),
+("139","","2019-06-24","1906000139","","40.00","4800.00","2019-06-25 20:13:15"),
+("140","","2019-06-24","1906000140","","600.00","360.00","2019-06-25 20:13:15"),
+("141","","2019-06-24","1906000141","","144.00","2250.00","2019-06-25 20:13:15"),
+("142","","2019-06-24","1906000142","","72.00","2250.00","2019-06-25 20:13:15"),
+("143","","2019-06-24","1906000143","","36.00","2000.00","2019-06-25 20:13:15"),
+("144","","2019-06-24","1906000144","","5.00","22000.00","2019-06-25 20:13:15"),
+("145","","2019-06-24","1906000145","","60.00","3250.00","2019-06-25 20:13:15"),
+("146","","2019-06-24","1906000146","","300.00","540.00","2019-06-25 20:13:15"),
+("147","","2019-06-24","1906000147","","24.00","18000.00","2019-06-25 20:13:15"),
+("148","","2019-06-24","1906000148","","24.00","2750.00","2019-06-25 20:13:15"),
+("149","","2019-06-24","1906000149","","36.00","1833.33","2019-06-25 20:13:15"),
+("150","","2019-06-24","1906000150","","40.00","4500.00","2019-06-25 20:13:15"),
+("151","","2019-06-24","1906000151","","72.00","875.00","2019-06-25 20:13:15"),
+("152","","2019-06-24","1906000152","","48.00","1375.00","2019-06-25 20:13:15"),
+("153","","2019-06-24","1906000153","","36.00","1000.00","2019-06-25 20:13:15"),
+("154","","2019-06-24","1906000154","","36.00","1000.00","2019-06-25 20:13:15"),
+("155","","2019-06-24","1906000155","","72.00","1250.00","2019-06-25 20:13:15"),
+("156","","2019-06-24","1906000156","","144.00","1000.00","2019-06-25 20:13:15"),
+("157","","2019-06-24","1906000157","","36.00","1000.00","2019-06-25 20:13:15"),
+("158","","2019-06-24","1906000158","","72.00","1250.00","2019-06-25 20:13:15"),
+("159","","2019-06-24","1906000159","","144.00","437.50","2019-06-25 20:13:15"),
+("160","","2019-06-24","1906000160","","24.00","9900.00","2019-06-25 20:13:15"),
+("161","","2019-06-24","1906000161","","24.00","7000.00","2019-06-25 20:13:15"),
+("162","","2019-06-24","1906000162","","12.00","10500.00","2019-06-25 20:13:15"),
+("163","","2019-06-24","1906000163","","24.00","6500.00","2019-06-25 20:13:15"),
+("164","","2019-06-24","1906000164","","6.00","115000.00","2019-06-25 20:13:15"),
+("165","","2019-06-24","1906000165","","30.00","2000.00","2019-06-25 20:13:15"),
+("166","","2019-06-24","1906000166","","18.00","4000.00","2019-06-25 20:13:15"),
+("167","","2019-06-24","1906000167","","18.00","4500.00","2019-06-25 20:13:15"),
+("168","","2019-06-24","1906000168","","36.00","2000.00","2019-06-25 20:13:15"),
+("169","","2019-06-24","1906000169","","36.00","4000.00","2019-06-25 20:13:15"),
+("170","","2019-06-24","1906000170","","24.00","13333.33","2019-06-25 20:13:15"),
+("171","","2019-06-24","1906000171","","24.00","9333.33","2019-06-25 20:13:15"),
+("172","","2019-06-24","1906000172","","40.00","3150.00","2019-06-25 20:13:15"),
+("173","","2019-06-24","1906000173","","40.00","1475.00","2019-06-25 20:13:15"),
+("174","","2019-06-24","1906000174","","6.00","107000.00","2019-06-25 20:13:15"),
+("175","","2019-06-24","1906000175","","6.00","109000.00","2019-06-25 20:13:15"),
+("176","","2019-06-24","1906000176","","6.00","112000.00","2019-06-25 20:13:15"),
+("177","","2019-06-24","1906000177","","6.00","107000.00","2019-06-25 20:13:15"),
+("178","","2019-06-24","1906000178","","6.00","109000.00","2019-06-25 20:13:15"),
+("179","","2019-06-24","1906000179","","6.00","112000.00","2019-06-25 20:13:15"),
+("180","","2019-06-24","1906000180","","6.00","13000.00","2019-06-25 20:13:15"),
+("181","","2019-06-24","1906000181","","6.00","9000.00","2019-06-25 20:13:15"),
+("182","","2019-06-24","1906000182","","6.00","10000.00","2019-06-25 20:13:15"),
+("183","","2019-06-24","1906000183","","6.00","11000.00","2019-06-25 20:13:15"),
+("184","","2019-06-24","1906000184","","6.00","11000.00","2019-06-25 20:13:15"),
+("185","","2019-06-24","1906000185","","6.00","10000.00","2019-06-25 20:13:15"),
+("186","","2019-06-24","1906000186","","10.00","12000.00","2019-06-25 20:13:15"),
+("187","","2019-06-24","1906000187","","20.00","8000.00","2019-06-25 20:13:15"),
+("188","","2019-06-24","1906000188","","5.00","12000.00","2019-06-25 20:13:15"),
+("189","","2019-06-24","1906000189","","10.00","8000.00","2019-06-25 20:13:15"),
+("190","","2019-06-24","1906000190","","12.00","2250.00","2019-06-25 20:13:15"),
+("191","","2019-06-24","1906000191","","12.00","2250.00","2019-06-25 20:13:15"),
+("192","","2019-06-24","1906000192","","12.00","2250.00","2019-06-25 20:13:15"),
+("193","","2019-06-24","1906000193","","12.00","2500.00","2019-06-25 20:13:15"),
+("194","","2019-06-24","1906000194","","12.00","2750.00","2019-06-25 20:13:15"),
+("195","","2019-06-24","1906000195","","12.00","3250.00","2019-06-25 20:13:15"),
+("196","","2019-06-24","1906000196","","6.00","17500.00","2019-06-25 20:13:15"),
+("197","","2019-06-24","1906000197","","6.00","18000.00","2019-06-25 20:13:15"),
+("198","","2019-06-24","1906000198","","12.00","1125.00","2019-06-25 20:13:15"),
+("199","","2019-06-24","1906000199","","12.00","1458.33","2019-06-25 20:13:15"),
+("200","","2019-06-24","1906000200","","36.00","1916.67","2019-06-25 20:13:15"),
+("201","","2019-06-24","1906000201","","6.00","11500.00","2019-06-25 20:13:15"),
+("202","","2019-06-24","1906000202","","48.00","6250.00","2019-06-25 20:13:15"),
+("203","","2019-06-24","1906000203","","24.00","5416.67","2019-06-25 20:13:15"),
+("204","","2019-06-24","1906000204","","12.00","9000.00","2019-06-25 20:13:15"),
+("205","","2019-06-24","1906000205","","12.00","6000.00","2019-06-25 20:13:15"),
+("206","","2019-06-24","1906000206","","20.00","10500.00","2019-06-25 20:13:15"),
+("207","","2019-06-24","1906000207","","20.00","30000.00","2019-06-25 20:13:15"),
+("208","","2019-06-24","1906000208","","30.00","13000.00","2019-06-25 20:13:15"),
+("209","","2019-06-24","1906000209","","40.00","475.00","2019-06-25 20:13:15"),
+("210","","2019-06-24","1906000210","","40.00","475.00","2019-06-25 20:13:15"),
+("211","","2019-06-24","1906000211","","40.00","475.00","2019-06-25 20:13:15"),
+("212","","2019-06-24","1906000212","","4.00","85000.00","2019-06-25 20:13:15"),
+("213","","2019-06-24","1906000213","","1.00","90000.00","2019-06-25 20:13:15"),
+("214","","2019-06-24","1906000214","","10.00","22500.00","2019-06-25 20:13:15"),
+("215","","2019-06-24","1906000215","","1.00","35000.00","2019-06-25 20:13:15"),
+("216","","2019-06-24","1906000216","","3.00","37500.00","2019-06-25 20:13:15"),
+("217","","2019-06-24","1906000217","","6.00","42500.00","2019-06-25 20:13:15"),
+("218","","2019-06-24","1906000218","","1.00","85000.00","2019-06-25 20:13:15"),
+("219","","2019-06-24","1906000219","","2.00","90000.00","2019-06-25 20:13:15"),
+("220","","2019-06-24","1906000220","","3.00","115000.00","2019-06-25 20:13:15"),
+("221","","2019-06-24","1906000221","","3.00","50000.00","2019-06-25 20:13:15"),
+("222","","2019-06-24","1906000222","","3.00","60000.00","2019-06-25 20:13:15"),
+("223","","2019-06-24","1906000223","","12.00","3833.33","2019-06-25 20:13:15"),
+("224","","2019-06-24","1906000224","","12.00","4500.00","2019-06-25 20:13:15"),
+("225","","2019-06-24","1906000225","","12.00","3500.00","2019-06-25 20:13:15"),
+("226","","2019-06-24","1906000226","","12.00","2000.00","2019-06-25 20:13:15"),
+("227","","2019-06-24","1906000227","","20.00","15000.00","2019-06-25 20:13:15");
+
+
+
+DROP TABLE IF EXISTS `stock_kartu`;
+
+CREATE TABLE `stock_kartu` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(20) NOT NULL,
+  `stock` varchar(20) NOT NULL,
+  `tgl` date NOT NULL DEFAULT '0000-00-00',
+  `cabang` varchar(10) NOT NULL,
+  `gudang` varchar(10) NOT NULL,
+  `keterangan` varchar(225) NOT NULL,
+  `debet` double(16,2) NOT NULL DEFAULT '0.00',
+  `kredit` double(16,2) NOT NULL DEFAULT '0.00',
+  `hp` double(16,2) NOT NULL DEFAULT '0.00',
+  `datetime_insert` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `datetime_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `username` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fkt` (`faktur`),
+  KEY `stock` (`stock`) USING BTREE,
+  KEY `tgl` (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=228 DEFAULT CHARSET=latin1;
+
+INSERT INTO `stock_kartu` VALUES("1","PB19062500001","1906000001","2019-06-24","","01","pembelian stock fkt[PB19062500001]","36.00","0.00","11000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("2","PB19062500001","1906000002","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","22500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("3","PB19062500001","1906000003","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","8500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("4","PB19062500001","1906000004","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","11000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("5","PB19062500001","1906000005","2019-06-24","","01","pembelian stock fkt[PB19062500001]","25.00","0.00","12000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("6","PB19062500001","1906000006","2019-06-24","","01","pembelian stock fkt[PB19062500001]","25.00","0.00","11600.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("7","PB19062500001","1906000007","2019-06-24","","01","pembelian stock fkt[PB19062500001]","15.00","0.00","7600.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("8","PB19062500001","1906000008","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","70000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("9","PB19062500001","1906000009","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","72000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("10","PB19062500001","1906000010","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","76000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("11","PB19062500001","1906000011","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","78000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("12","PB19062500001","1906000012","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","81000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("13","PB19062500001","1906000013","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","84000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("14","PB19062500001","1906000014","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","68000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("15","PB19062500001","1906000015","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","71000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("16","PB19062500001","1906000016","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","74000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("17","PB19062500001","1906000017","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","63000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("18","PB19062500001","1906000018","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","64000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("19","PB19062500001","1906000019","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","66000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("20","PB19062500001","1906000020","2019-06-24","","01","pembelian stock fkt[PB19062500001]","50.00","0.00","1800.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("21","PB19062500001","1906000021","2019-06-24","","01","pembelian stock fkt[PB19062500001]","50.00","0.00","2600.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("22","PB19062500001","1906000022","2019-06-24","","01","pembelian stock fkt[PB19062500001]","28.00","0.00","13500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("23","PB19062500001","1906000023","2019-06-24","","01","pembelian stock fkt[PB19062500001]","2.00","0.00","13500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("24","PB19062500001","1906000024","2019-06-24","","01","pembelian stock fkt[PB19062500001]","3.00","0.00","13500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("25","PB19062500001","1906000025","2019-06-24","","01","pembelian stock fkt[PB19062500001]","1.00","0.00","13500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("26","PB19062500001","1906000026","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","1125.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("27","PB19062500001","1906000027","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","2000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("28","PB19062500001","1906000028","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","3750.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("29","PB19062500001","1906000029","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","625.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("30","PB19062500001","1906000030","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("31","PB19062500001","1906000031","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","1350.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("32","PB19062500001","1906000032","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","1350.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("33","PB19062500001","1906000033","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","1350.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("34","PB19062500001","1906000034","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","1350.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("35","PB19062500001","1906000035","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","1350.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("36","PB19062500001","1906000036","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","1350.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("37","PB19062500001","1906000037","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","1458.33","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("38","PB19062500001","1906000038","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","1458.33","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("39","PB19062500001","1906000039","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","1500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("40","PB19062500001","1906000040","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","2250.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("41","PB19062500001","1906000041","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","1350.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("42","PB19062500001","1906000042","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","625.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("43","PB19062500001","1906000043","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","625.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("44","PB19062500001","1906000044","2019-06-24","","01","pembelian stock fkt[PB19062500001]","4.00","0.00","24000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("45","PB19062500001","1906000045","2019-06-24","","01","pembelian stock fkt[PB19062500001]","5.00","0.00","24000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("46","PB19062500001","1906000046","2019-06-24","","01","pembelian stock fkt[PB19062500001]","30.00","0.00","3583.33","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("47","PB19062500001","1906000047","2019-06-24","","01","pembelian stock fkt[PB19062500001]","50.00","0.00","4200.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("48","PB19062500001","1906000048","2019-06-24","","01","pembelian stock fkt[PB19062500001]","60.00","0.00","2300.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("49","PB19062500001","1906000049","2019-06-24","","01","pembelian stock fkt[PB19062500001]","60.00","0.00","2300.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("50","PB19062500001","1906000050","2019-06-24","","01","pembelian stock fkt[PB19062500001]","30.00","0.00","2000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("51","PB19062500001","1906000051","2019-06-24","","01","pembelian stock fkt[PB19062500001]","50.00","0.00","2200.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("52","PB19062500001","1906000052","2019-06-24","","01","pembelian stock fkt[PB19062500001]","50.00","0.00","3300.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("53","PB19062500001","1906000053","2019-06-24","","01","pembelian stock fkt[PB19062500001]","10.00","0.00","4400.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("54","PB19062500001","1906000054","2019-06-24","","01","pembelian stock fkt[PB19062500001]","60.00","0.00","2300.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("55","PB19062500001","1906000055","2019-06-24","","01","pembelian stock fkt[PB19062500001]","100.00","0.00","1175.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("56","PB19062500001","1906000056","2019-06-24","","01","pembelian stock fkt[PB19062500001]","50.00","0.00","1400.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("57","PB19062500001","1906000057","2019-06-24","","01","pembelian stock fkt[PB19062500001]","50.00","0.00","2000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("58","PB19062500001","1906000058","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","117000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("59","PB19062500001","1906000059","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","117000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("60","PB19062500001","1906000060","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","117000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("61","PB19062500001","1906000061","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","117000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("62","PB19062500001","1906000062","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","117000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("63","PB19062500001","1906000063","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","117000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("64","PB19062500001","1906000064","2019-06-24","","01","pembelian stock fkt[PB19062500001]","144.00","0.00","614.58","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("65","PB19062500001","1906000065","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","2800.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("66","PB19062500001","1906000066","2019-06-24","","01","pembelian stock fkt[PB19062500001]","144.00","0.00","833.33","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("67","PB19062500001","1906000067","2019-06-24","","01","pembelian stock fkt[PB19062500001]","144.00","0.00","541.67","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("68","PB19062500001","1906000068","2019-06-24","","01","pembelian stock fkt[PB19062500001]","60.00","0.00","1208.33","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("69","PB19062500001","1906000069","2019-06-24","","01","pembelian stock fkt[PB19062500001]","10.00","0.00","4350.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("70","PB19062500001","1906000070","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","17500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("71","PB19062500001","1906000071","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","16500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("72","PB19062500001","1906000072","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","5500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("73","PB19062500001","1906000073","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","7000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("74","PB19062500001","1906000074","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","14000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("75","PB19062500001","1906000075","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","26500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("76","PB19062500001","1906000076","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","22500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("77","PB19062500001","1906000077","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","11500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("78","PB19062500001","1906000078","2019-06-24","","01","pembelian stock fkt[PB19062500001]","36.00","0.00","4500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("79","PB19062500001","1906000079","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","2500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("80","PB19062500001","1906000080","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","1875.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("81","PB19062500001","1906000081","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","6000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("82","PB19062500001","1906000082","2019-06-24","","01","pembelian stock fkt[PB19062500001]","20.00","0.00","11000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("83","PB19062500001","1906000083","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","6000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("84","PB19062500001","1906000084","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","2500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("85","PB19062500001","1906000085","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","4500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("86","PB19062500001","1906000086","2019-06-24","","01","pembelian stock fkt[PB19062500001]","36.00","0.00","2500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("87","PB19062500001","1906000087","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","4500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("88","PB19062500001","1906000088","2019-06-24","","01","pembelian stock fkt[PB19062500001]","60.00","0.00","1000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("89","PB19062500001","1906000089","2019-06-24","","01","pembelian stock fkt[PB19062500001]","60.00","0.00","650.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("90","PB19062500001","1906000090","2019-06-24","","01","pembelian stock fkt[PB19062500001]","60.00","0.00","1800.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("91","PB19062500001","1906000091","2019-06-24","","01","pembelian stock fkt[PB19062500001]","100.00","0.00","650.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("92","PB19062500001","1906000092","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","5000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("93","PB19062500001","1906000093","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","7500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("94","PB19062500001","1906000094","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","8000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("95","PB19062500001","1906000095","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","3500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("96","PB19062500001","1906000096","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","5000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("97","PB19062500001","1906000097","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","5000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("98","PB19062500001","1906000098","2019-06-24","","01","pembelian stock fkt[PB19062500001]","15.00","0.00","9000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("99","PB19062500001","1906000099","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","5500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("100","PB19062500001","1906000100","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","3500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("101","PB19062500001","1906000101","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","4000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("102","PB19062500001","1906000102","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","4500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("103","PB19062500001","1906000103","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","5500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("104","PB19062500001","1906000104","2019-06-24","","01","pembelian stock fkt[PB19062500001]","11.00","0.00","9000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("105","PB19062500001","1906000105","2019-06-24","","01","pembelian stock fkt[PB19062500001]","20.00","0.00","1600.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("106","PB19062500001","1906000106","2019-06-24","","01","pembelian stock fkt[PB19062500001]","50.00","0.00","1500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("107","PB19062500001","1906000107","2019-06-24","","01","pembelian stock fkt[PB19062500001]","150.00","0.00","640.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("108","PB19062500001","1906000108","2019-06-24","","01","pembelian stock fkt[PB19062500001]","120.00","0.00","2000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("109","PB19062500001","1906000109","2019-06-24","","01","pembelian stock fkt[PB19062500001]","120.00","0.00","2250.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("110","PB19062500001","1906000110","2019-06-24","","01","pembelian stock fkt[PB19062500001]","3.00","0.00","36000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("111","PB19062500001","1906000111","2019-06-24","","01","pembelian stock fkt[PB19062500001]","20.00","0.00","850.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("112","PB19062500001","1906000112","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","27500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("113","PB19062500001","1906000113","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","27500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("114","PB19062500001","1906000114","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","27500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("115","PB19062500001","1906000115","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","9000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("116","PB19062500001","1906000116","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","11000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("117","PB19062500001","1906000117","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","12500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("118","PB19062500001","1906000118","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","13500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("119","PB19062500001","1906000119","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","14000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("120","PB19062500001","1906000120","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","15000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("121","PB19062500001","1906000121","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","16000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("122","PB19062500001","1906000122","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","19000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("123","PB19062500001","1906000123","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","20000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("124","PB19062500001","1906000124","2019-06-24","","01","pembelian stock fkt[PB19062500001]","3.00","0.00","21000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("125","PB19062500001","1906000125","2019-06-24","","01","pembelian stock fkt[PB19062500001]","30.00","0.00","3400.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("126","PB19062500001","1906000126","2019-06-24","","01","pembelian stock fkt[PB19062500001]","30.00","0.00","2800.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("127","PB19062500001","1906000127","2019-06-24","","01","pembelian stock fkt[PB19062500001]","36.00","0.00","7166.67","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("128","PB19062500001","1906000128","2019-06-24","","01","pembelian stock fkt[PB19062500001]","18.00","0.00","8166.67","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("129","PB19062500001","1906000129","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","11500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("130","PB19062500001","1906000130","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","9000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("131","PB19062500001","1906000131","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","5000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("132","PB19062500001","1906000132","2019-06-24","","01","pembelian stock fkt[PB19062500001]","50.00","0.00","3500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("133","PB19062500001","1906000133","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","1166.67","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("134","PB19062500001","1906000134","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","395.83","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("135","PB19062500001","1906000135","2019-06-24","","01","pembelian stock fkt[PB19062500001]","36.00","0.00","1666.67","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("136","PB19062500001","1906000136","2019-06-24","","01","pembelian stock fkt[PB19062500001]","60.00","0.00","1000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("137","PB19062500001","1906000137","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","3166.67","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("138","PB19062500001","1906000138","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","1583.33","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("139","PB19062500001","1906000139","2019-06-24","","01","pembelian stock fkt[PB19062500001]","40.00","0.00","4800.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("140","PB19062500001","1906000140","2019-06-24","","01","pembelian stock fkt[PB19062500001]","600.00","0.00","360.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("141","PB19062500001","1906000141","2019-06-24","","01","pembelian stock fkt[PB19062500001]","144.00","0.00","2250.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("142","PB19062500001","1906000142","2019-06-24","","01","pembelian stock fkt[PB19062500001]","72.00","0.00","2250.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("143","PB19062500001","1906000143","2019-06-24","","01","pembelian stock fkt[PB19062500001]","36.00","0.00","2000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("144","PB19062500001","1906000144","2019-06-24","","01","pembelian stock fkt[PB19062500001]","5.00","0.00","22000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("145","PB19062500001","1906000145","2019-06-24","","01","pembelian stock fkt[PB19062500001]","60.00","0.00","3250.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("146","PB19062500001","1906000146","2019-06-24","","01","pembelian stock fkt[PB19062500001]","300.00","0.00","540.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("147","PB19062500001","1906000147","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","18000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("148","PB19062500001","1906000148","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","2750.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("149","PB19062500001","1906000149","2019-06-24","","01","pembelian stock fkt[PB19062500001]","36.00","0.00","1833.33","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("150","PB19062500001","1906000150","2019-06-24","","01","pembelian stock fkt[PB19062500001]","40.00","0.00","4500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("151","PB19062500001","1906000151","2019-06-24","","01","pembelian stock fkt[PB19062500001]","72.00","0.00","875.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("152","PB19062500001","1906000152","2019-06-24","","01","pembelian stock fkt[PB19062500001]","48.00","0.00","1375.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("153","PB19062500001","1906000153","2019-06-24","","01","pembelian stock fkt[PB19062500001]","36.00","0.00","1000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("154","PB19062500001","1906000154","2019-06-24","","01","pembelian stock fkt[PB19062500001]","36.00","0.00","1000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("155","PB19062500001","1906000155","2019-06-24","","01","pembelian stock fkt[PB19062500001]","72.00","0.00","1250.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("156","PB19062500001","1906000156","2019-06-24","","01","pembelian stock fkt[PB19062500001]","144.00","0.00","1000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("157","PB19062500001","1906000157","2019-06-24","","01","pembelian stock fkt[PB19062500001]","36.00","0.00","1000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("158","PB19062500001","1906000158","2019-06-24","","01","pembelian stock fkt[PB19062500001]","72.00","0.00","1250.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("159","PB19062500001","1906000159","2019-06-24","","01","pembelian stock fkt[PB19062500001]","144.00","0.00","437.50","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("160","PB19062500001","1906000160","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","9900.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("161","PB19062500001","1906000161","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","7000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("162","PB19062500001","1906000162","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","10500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("163","PB19062500001","1906000163","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","6500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("164","PB19062500001","1906000164","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","115000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("165","PB19062500001","1906000165","2019-06-24","","01","pembelian stock fkt[PB19062500001]","30.00","0.00","2000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("166","PB19062500001","1906000166","2019-06-24","","01","pembelian stock fkt[PB19062500001]","18.00","0.00","4000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("167","PB19062500001","1906000167","2019-06-24","","01","pembelian stock fkt[PB19062500001]","18.00","0.00","4500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("168","PB19062500001","1906000168","2019-06-24","","01","pembelian stock fkt[PB19062500001]","36.00","0.00","2000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("169","PB19062500001","1906000169","2019-06-24","","01","pembelian stock fkt[PB19062500001]","36.00","0.00","4000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("170","PB19062500001","1906000170","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","13333.33","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("171","PB19062500001","1906000171","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","9333.33","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("172","PB19062500001","1906000172","2019-06-24","","01","pembelian stock fkt[PB19062500001]","40.00","0.00","3150.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("173","PB19062500001","1906000173","2019-06-24","","01","pembelian stock fkt[PB19062500001]","40.00","0.00","1475.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("174","PB19062500001","1906000174","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","107000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("175","PB19062500001","1906000175","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","109000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("176","PB19062500001","1906000176","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","112000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("177","PB19062500001","1906000177","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","107000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("178","PB19062500001","1906000178","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","109000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("179","PB19062500001","1906000179","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","112000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("180","PB19062500001","1906000180","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","13000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("181","PB19062500001","1906000181","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","9000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("182","PB19062500001","1906000182","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","10000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("183","PB19062500001","1906000183","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","11000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("184","PB19062500001","1906000184","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","11000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("185","PB19062500001","1906000185","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","10000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("186","PB19062500001","1906000186","2019-06-24","","01","pembelian stock fkt[PB19062500001]","10.00","0.00","12000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("187","PB19062500001","1906000187","2019-06-24","","01","pembelian stock fkt[PB19062500001]","20.00","0.00","8000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("188","PB19062500001","1906000188","2019-06-24","","01","pembelian stock fkt[PB19062500001]","5.00","0.00","12000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("189","PB19062500001","1906000189","2019-06-24","","01","pembelian stock fkt[PB19062500001]","10.00","0.00","8000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("190","PB19062500001","1906000190","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","2250.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("191","PB19062500001","1906000191","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","2250.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("192","PB19062500001","1906000192","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","2250.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("193","PB19062500001","1906000193","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","2500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("194","PB19062500001","1906000194","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","2750.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("195","PB19062500001","1906000195","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","3250.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("196","PB19062500001","1906000196","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","17500.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("197","PB19062500001","1906000197","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","18000.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("198","PB19062500001","1906000198","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","1125.00","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("199","PB19062500001","1906000199","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","1458.33","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("200","PB19062500001","1906000200","2019-06-24","","01","pembelian stock fkt[PB19062500001]","36.00","0.00","1916.67","2019-06-25 20:13:15","2019-06-25 20:13:15","iniad"),
+("201","PB19062500001","1906000201","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","11500.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("202","PB19062500001","1906000202","2019-06-24","","01","pembelian stock fkt[PB19062500001]","48.00","0.00","6250.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("203","PB19062500001","1906000203","2019-06-24","","01","pembelian stock fkt[PB19062500001]","24.00","0.00","5416.67","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("204","PB19062500001","1906000204","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","9000.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("205","PB19062500001","1906000205","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","6000.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("206","PB19062500001","1906000206","2019-06-24","","01","pembelian stock fkt[PB19062500001]","20.00","0.00","10500.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("207","PB19062500001","1906000207","2019-06-24","","01","pembelian stock fkt[PB19062500001]","20.00","0.00","30000.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("208","PB19062500001","1906000208","2019-06-24","","01","pembelian stock fkt[PB19062500001]","30.00","0.00","13000.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("209","PB19062500001","1906000209","2019-06-24","","01","pembelian stock fkt[PB19062500001]","40.00","0.00","475.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("210","PB19062500001","1906000210","2019-06-24","","01","pembelian stock fkt[PB19062500001]","40.00","0.00","475.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("211","PB19062500001","1906000211","2019-06-24","","01","pembelian stock fkt[PB19062500001]","40.00","0.00","475.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("212","PB19062500001","1906000212","2019-06-24","","01","pembelian stock fkt[PB19062500001]","4.00","0.00","85000.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("213","PB19062500001","1906000213","2019-06-24","","01","pembelian stock fkt[PB19062500001]","1.00","0.00","90000.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("214","PB19062500001","1906000214","2019-06-24","","01","pembelian stock fkt[PB19062500001]","10.00","0.00","22500.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("215","PB19062500001","1906000215","2019-06-24","","01","pembelian stock fkt[PB19062500001]","1.00","0.00","35000.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("216","PB19062500001","1906000216","2019-06-24","","01","pembelian stock fkt[PB19062500001]","3.00","0.00","37500.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("217","PB19062500001","1906000217","2019-06-24","","01","pembelian stock fkt[PB19062500001]","6.00","0.00","42500.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("218","PB19062500001","1906000218","2019-06-24","","01","pembelian stock fkt[PB19062500001]","1.00","0.00","85000.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("219","PB19062500001","1906000219","2019-06-24","","01","pembelian stock fkt[PB19062500001]","2.00","0.00","90000.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("220","PB19062500001","1906000220","2019-06-24","","01","pembelian stock fkt[PB19062500001]","3.00","0.00","115000.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("221","PB19062500001","1906000221","2019-06-24","","01","pembelian stock fkt[PB19062500001]","3.00","0.00","50000.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("222","PB19062500001","1906000222","2019-06-24","","01","pembelian stock fkt[PB19062500001]","3.00","0.00","60000.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("223","PB19062500001","1906000223","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","3833.33","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("224","PB19062500001","1906000224","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","4500.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("225","PB19062500001","1906000225","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","3500.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("226","PB19062500001","1906000226","2019-06-24","","01","pembelian stock fkt[PB19062500001]","12.00","0.00","2000.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad"),
+("227","PB19062500001","1906000227","2019-06-24","","01","pembelian stock fkt[PB19062500001]","20.00","0.00","15000.00","2019-06-25 20:13:15","2019-06-25 20:13:16","iniad");
+
+
+
+DROP TABLE IF EXISTS `stock_komponen`;
+
+CREATE TABLE `stock_komponen` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `stock` varchar(20) NOT NULL DEFAULT '',
+  `komponen` varchar(20) NOT NULL DEFAULT '',
+  `qty` double(16,2) DEFAULT '0.00',
+  `hp` double(16,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `stock` (`stock`),
+  KEY `koponen` (`komponen`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `stock_opname_detail`;
+
+CREATE TABLE `stock_opname_detail` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(20) NOT NULL DEFAULT '',
+  `stock` varchar(20) NOT NULL DEFAULT '',
+  `qty` double(16,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `stock` (`stock`),
+  KEY `faktur` (`faktur`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `stock_opname_posting_detail`;
+
+CREATE TABLE `stock_opname_posting_detail` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(20) NOT NULL DEFAULT '',
+  `kode` varchar(20) NOT NULL DEFAULT '',
+  `saldosistem` double(16,2) DEFAULT '0.00',
+  `saldoreal` double(16,2) DEFAULT '0.00',
+  `nilaipersdsistem` double(16,2) DEFAULT '0.00',
+  `nilaipersdreal` double(16,2) DEFAULT '0.00',
+  PRIMARY KEY (`id`),
+  KEY `kode` (`kode`),
+  KEY `faktur` (`faktur`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `stock_opname_posting_faktur`;
+
+CREATE TABLE `stock_opname_posting_faktur` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(20) NOT NULL DEFAULT '',
+  `fktopname` varchar(20) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `fktopname` (`fktopname`),
+  KEY `faktur` (`faktur`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `stock_opname_posting_total`;
+
+CREATE TABLE `stock_opname_posting_total` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(20) NOT NULL DEFAULT '',
+  `tgl` varchar(20) NOT NULL DEFAULT '',
+  `cabang` varchar(20) NOT NULL DEFAULT '',
+  `gudang` varchar(20) NOT NULL DEFAULT '',
+  `status` char(1) NOT NULL DEFAULT '',
+  `username` varchar(20) NOT NULL DEFAULT '',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `tglcabangstatus` (`tgl`,`cabang`,`status`),
+  KEY `tglstatus` (`tgl`,`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `stock_opname_tmp`;
+
+CREATE TABLE `stock_opname_tmp` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `stock` varchar(20) NOT NULL DEFAULT '',
+  `tgl` date DEFAULT '0000-00-00',
+  `gudang` varchar(3) NOT NULL DEFAULT '',
+  `cabang` varchar(3) NOT NULL DEFAULT '',
+  `saldosistem` double(16,2) DEFAULT '0.00',
+  `saldoreal` double(16,2) DEFAULT '0.00',
+  `username` varchar(20) NOT NULL DEFAULT '',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `stock` (`stock`),
+  KEY `username` (`username`),
+  KEY `usernamecabang` (`username`,`cabang`),
+  KEY `tgl` (`tgl`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `stock_opname_total`;
+
+CREATE TABLE `stock_opname_total` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(20) NOT NULL DEFAULT '',
+  `cabang` varchar(3) NOT NULL DEFAULT '',
+  `gudang` varchar(3) NOT NULL DEFAULT '',
+  `tgl` date DEFAULT '0000-00-00',
+  `status` char(1) NOT NULL DEFAULT '',
+  `posting` char(1) DEFAULT '0',
+  `username` varchar(20) NOT NULL DEFAULT '',
+  `datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `faktur` (`faktur`),
+  KEY `tglcabangstatus` (`tgl`,`cabang`,`status`),
+  KEY `tglstatus` (`tgl`,`status`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
+DROP TABLE IF EXISTS `supplier`;
+
+CREATE TABLE `supplier` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `kode` char(5) DEFAULT NULL,
+  `nama` varchar(50) NOT NULL DEFAULT '',
+  `notelepon` varchar(30) DEFAULT '',
+  `email` varchar(255) DEFAULT '',
+  `alamat` text,
+  `namabank` varchar(20) DEFAULT '',
+  `rekening` varchar(20) DEFAULT '',
+  `atasnamarekening` varchar(50) DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `kode` (`kode`),
+  KEY `kodeid` (`kode`,`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+INSERT INTO `supplier` VALUES("1","00001","Supplier 1","-","-","-","-","-","-");
+
+
+
+DROP TABLE IF EXISTS `sys_config`;
+
+CREATE TABLE `sys_config` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL,
+  `val` text NOT NULL COMMENT 'jika join for meta value',
+  `type` varchar(20) NOT NULL,
+  `other_string` text NOT NULL,
+  `username` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `Key` (`title`),
+  KEY `type` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=437 DEFAULT CHARSET=utf8;
+
+INSERT INTO `sys_config` VALUES("13","app_title","TRIAL POS - MDT","","",""),
+("14","kota","Kudus","","",""),
+("15","app_logo","./uploads/iniad.png","","",""),
+("16","app_login_image","./uploads/login.jpg","","",""),
+("17","reklrthlalu","3.11","","",""),
+("18","reklrthberjalan","3.12","","",""),
+("19","rekpendoprawal","4","","",""),
+("20","rekpendoprakhir","4.10.013","","",""),
+("21","rekbyoprawal","5","","",""),
+("22","rekbyoprakhir","6.10.020.15","","",""),
+("23","rekpendnonoprawal","7","","",""),
+("24","rekpendnonoprakhir","7.10.013","","",""),
+("25","rekbynonoprawal","8","","",""),
+("26","rekbynonoprakhir","8.10.014","","",""),
+("29","rekpbdisc","6.10.010.30","","",""),
+("30","rekpbppn","2.10.014","","",""),
+("34","pjgudang","01","","",""),
+("45","rekpbhut","2.10.010","","",""),
+("50","rekpjpiutang","1.10.020.01","","",""),
+("61","rekprproduksi","1.10.030.03","","",""),
+("65","rekpajakawal","9","","",""),
+("66","rekpajakakhir","9.10","","",""),
+("90","rekhppbjawal","1.10.030.04","","",""),
+("91","rekhppbjakhir","1.10.030.04","","",""),
+("95","rekselisih","6.10.010.30","","",""),
+("96","rekpbhutdisc","6.10.010.30","","",""),
+("97","rekpbhutpembulatan","6.10.010.30","","",""),
+("98","rekpjpiutangdisc","6.10.010.30","","",""),
+("99","rekpjpiutangpembulatan","6.10.010.30","","",""),
+("100","rekprbdpbbb","1.10.030.03","","",""),
+("101","rekprbdpbtkl","1.10.030.03","","",""),
+("102","rekprbdpbop","1.10.030.03","","",""),
+("103","rekprbtkldibebankan","5.18.013","","",""),
+("104","rekprbopdibebankan","5.19.025","","",""),
+("175","rekhppbbbawal","1.10.030.01","","",""),
+("176","rekhppbbbakhir","1.10.030.01","","",""),
+("177","rekhppbbpawal","1.10.030.02","","",""),
+("178","rekhppbbpakhir","1.10.030.02","","",""),
+("179","rekhppbtklawal","","","",""),
+("180","rekhppbtklakhir","","","",""),
+("181","rekhppbopawal","","","",""),
+("182","rekhppbopakhir","","","",""),
+("183","rekhppbdpawal","","","",""),
+("184","rekhppbdpakhir","","","",""),
+("323","reklrblnberjalan","3.13","","",""),
+("324","rekhppawal","","","",""),
+("325","rekhppakhir","","","",""),
+("326","rekselisihopname","1.10.010","","",""),
+("327","rekpbuangmuka","","","",""),
+("328","rekpjuangmuka","","","",""),
+("340","rekarkpjawal","4.10.001","","",""),
+("341","rekarkpjakhir","4.10.013","","",""),
+("342","rekarkkbawal","1.10.010.01","","",""),
+("343","rekarkkbakhir","1.10.010.09","","",""),
+("344","rekarkpiutangawal","1.10.020.01","","",""),
+("345","rekarkpiutangakhir","1.10.020.99","","",""),
+("346","rekarkpsdawal","1.10.030.01","","",""),
+("347","rekarkpsdakhir","1.10.030.08","","",""),
+("348","rekarkpsktawal","1.10.040.01","","",""),
+("349","rekarkpsktakhir","1.10.040.11","","",""),
+("350","rekarkatawal","1.20.010.01","","",""),
+("351","rekarkatakhir","1.20.020.07","","",""),
+("352","rekarkatwawal","1.20.030.01","","",""),
+("353","rekarkatwakhir","1.20.030.03","","",""),
+("354","rekarkallawal","1.30.010","","",""),
+("355","rekarkallakhir","1.30.060","","",""),
+("356","rekarkhdawal","2.10.010","","",""),
+("357","rekarkhdakhir","2.10.999","","",""),
+("358","rekarkhbawal","2.20.020","","",""),
+("359","rekarkhbakhir","2.20.029","","",""),
+("402","rekpjppn","","","",""),
+("413","cfgkasirprinth1","TOKO 69","","",""),
+("414","cfgkasirprinth3","Telp: 6951 696969696","","",""),
+("415","cfgkasirprinth4","Toko ATK dan Retail","","",""),
+("416","cfgkasirprinth5","","","",""),
+("417","cfgkasirprinth6","","","",""),
+("418","cfgkasirprintf1","TERIMAKASIH ATAS KUNJUNGANNYA","","",""),
+("419","cfgkasirprintf3","DIKEMBALIKAN / DITUKAR","","",""),
+("420","cfgkasirprintf4","","","",""),
+("421","cfgkasirprintf5","","","",""),
+("422","cfgkasirprintf6","","","",""),
+("423","cfgkasirprinth2","Jln. in aja dulu 69","","",""),
+("424","cfgkasirprintf2","BARANG YANG SUDAH DIBELI TIDAK DAPAT","","",""),
+("425","inc_supplier","1","","",""),
+("434","inc_PB190625","1","","",""),
+("435","inc_stockkode1906","227","","",""),
+("436","cfgipconnectionprinter","smb://User:Guest@192.168.0.11/POS-80C","","","");
+
+
+
+DROP TABLE IF EXISTS `sys_config_hpp`;
+
+CREATE TABLE `sys_config_hpp` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `tgl` date NOT NULL DEFAULT '0000-00-00',
+  `caraperhitungan` varchar(10) NOT NULL,
+  `periode` varchar(10) NOT NULL,
+  `bdp` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tgl` (`tgl`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+INSERT INTO `sys_config_hpp` VALUES("1","2018-01-01","F","Hari","SC"),
+("2","2019-05-26","A","Hari","");
+
+
+
+DROP TABLE IF EXISTS `sys_import`;
+
+CREATE TABLE `sys_import` (
+  `id` bigint(11) NOT NULL,
+  `tablename` varchar(20) NOT NULL,
+  `tableid` bigint(11) NOT NULL,
+  `importkey` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `itablename` (`tablename`,`tableid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+DROP TABLE IF EXISTS `sys_module`;
+
+CREATE TABLE `sys_module` (
+  `name` varchar(20) NOT NULL,
+  `path` varchar(10) NOT NULL,
+  `description` text NOT NULL,
+  `id` int(10) NOT NULL,
+  `datetime_insert` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `datetime_update` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `sys_module` VALUES("Administrator","admin","","1","2017-03-15 17:00:00","2017-03-15 17:00:00");
+
+
+
+DROP TABLE IF EXISTS `sys_username`;
+
+CREATE TABLE `sys_username` (
+  `username` varchar(20) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `fullname` varchar(50) NOT NULL,
+  `lastlogin` datetime NOT NULL,
+  `data_var` longtext,
+  `lastchangepass` datetime DEFAULT NULL,
+  `cabang` char(3) NOT NULL,
+  `rekkas` varchar(20) NOT NULL,
+  `gudang` varchar(20) DEFAULT '',
+  PRIMARY KEY (`username`),
+  KEY `UserPass` (`username`,`password`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `sys_username` VALUES("Fany","2d691e505dc2f9de43a198a4f1d6770c2424a8ec0000","Fany","0000-00-00 00:00:00","{\"ava\":\".\\/uploads\\/users\\/Fany.png\"}","0000-00-00 00:00:00","001","1.10.010.01","01"),
+("Finda","de55c3eecb28fefd4e135909743f3902667e48920005","Refinda Berliana","0000-00-00 00:00:00","{\"ava\":\"\"}","0000-00-00 00:00:00","001","1.10.010.01","01"),
+("iniad","d154c23962918b23239809a675ef3b8ad860bff50000","Administrator","2017-03-14 00:00:00","{\"ava\":\".\\/uploads\\/users\\/iniad.png\"}","2017-03-14 00:00:00","001","1.10.010.01","01"),
+("Otin","ca73811a0f06db41258c68a040cc92598fbf346d0004","Otin","0000-00-00 00:00:00","{\"ava\":\".\\/uploads\\/users\\/Otin.png\"}","0000-00-00 00:00:00","001","1.10.010.01","01");
+
+
+
+DROP TABLE IF EXISTS `sys_username_level`;
+
+CREATE TABLE `sys_username_level` (
+  `code` char(4) NOT NULL DEFAULT '',
+  `name` varchar(30) NOT NULL,
+  `value` longtext NOT NULL,
+  `dashboard` varchar(100) NOT NULL,
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `sys_username_level` VALUES("0000","Super User","",""),
+("0001","Admin","a88ad3a75f88bbe93b64a7c55ade7a5d,3280e54b9f55e4eabd6980d2dd2cd30a,77861cb7adb9cca48ff27ebbda5a9cc6,76d056d61b13d81eb1f17fe08bc47070,0fc941b72ee0405eddd7bf56aef25bcc,8fecbbdbad0bbb6b8e99d458b8627e24,20a0f2c64923f9a0e40926c8bc53b4bd,c50e309e5743d3ab9fbd06acb6109506,6f06d3adaa23e69fcaf6f346014073ce,749161f0021599851bd0e9a22cff7baf,361121339fe10efba4f21ab3a1cdf35e,17758b061935a007d7618bd1c27eb2e5,be6f3584b94ada7959cc0560565cbcf1,e7d707a26e7f7b6ff52c489c60e429b1,50243ec941690b233c71f156c698fc2a,dfa4d20f71010039c17396e4596fe496,1397c0adcf1a14baae8882ff12003824,87435b69a401a154853763d91c62af01,a7bd4586799ca05e992e9b998cdc4691,d5f2fbdb1e1d53ff71e07abaaaf24838,b61a6c6eacae94d4b732117142a28747,4a10ffb4fb27db3f356cd40b595f7e3b,01e811df47086a4855c4afca7ce45b1d,76e4273f6431751688c10b3593690e70,07fbbc9c620137178057da67987f9d2c,6790febd5ea3042ffbdf8b20eb862fa3,80633302f7014a61e917fc5da0bc7760,2dc6932fda56e9500878e4b52e4f9b2a,aab32ceb3dc8c9626864af8b5b7dc697,dcaaf5237b6c18f979b4383fb42d3be3,7140ba9098537397a880c1bef9e2adde,f54832b14054450823c186a6692c4b09,831cbfb7f0f19e694f976b33878da527,3ee756c8f1fcbcd94001ffc04ce93811,b46632c62363d75ee2f5343cab8864e8,449f1185c1c26cd5f2eaa071e154c4eb,e3c74077970c6a3effc8ae63f1ac59d7,b2d7f32c4fa793aca2b3ae9157cfa54a,a38bc4b1aa3c88b96de75d22ab6b69cc,985454ea1be7a22218259691886a1209,9f14591a76f0506ae5961899d94110ec,7028340d6fafa9df3426fbc2440715e2,f9106e99699f94f040cfe5447d6d8428,1a67ed69c1aa7a1216b7c3eacc13c563,c1cda1aff68bfc72cbbcba259d548774,ec0590f87e6519db84f5a88b38a739ff,e3bebb63443b66f4e8ee071203aea106,c5fc39cfa1c828831a10d1be37c3969f,7d42948bdc43bbdbc44658b177a3f681,ca0b0321e833ebd7419934fa74bfb2df,1d42860acfc2709b1d1bbebc0481d63d,e09968c06989388fa7d68f8a085cc051,496f9b5718d2dd4c7c387c5709c7acd0,af8ba16472d2f2ae8498063ebc9549db,5740fa26067e36fb6a3b53cc293581db,f9ac4bae63d55b4f98269e04a4bf0a02,fc5397c126724661a4ab1bbe81c8c922,5850c6024f87e46d9df25be3b9850169,011134986548f3458aa3e7e2a7fceb8d,1f7ebaed3cf55060c933283fd79ec0fd,30abca520c2b83a6d38c0481e4f964fd,935bc28ec6db10284bb3c9ab0c547720",""),
+("0002","Staff 1 (Accountant)","",""),
+("0003","Staff 2 (Transc)","",""),
+("0004","Trial","a88ad3a75f88bbe93b64a7c55ade7a5d,3280e54b9f55e4eabd6980d2dd2cd30a,77861cb7adb9cca48ff27ebbda5a9cc6,94b30ec272f1ceb2ee2ce913472832c6,76d056d61b13d81eb1f17fe08bc47070,0fc941b72ee0405eddd7bf56aef25bcc,8fecbbdbad0bbb6b8e99d458b8627e24,20a0f2c64923f9a0e40926c8bc53b4bd,c50e309e5743d3ab9fbd06acb6109506,7a57f8d3656651cb98f8e74713f4a616,6f06d3adaa23e69fcaf6f346014073ce,749161f0021599851bd0e9a22cff7baf,361121339fe10efba4f21ab3a1cdf35e,17758b061935a007d7618bd1c27eb2e5,be6f3584b94ada7959cc0560565cbcf1,cc00b899a5b323cbde0409c669decfa0,e7d707a26e7f7b6ff52c489c60e429b1,50243ec941690b233c71f156c698fc2a,dfa4d20f71010039c17396e4596fe496,1397c0adcf1a14baae8882ff12003824,87435b69a401a154853763d91c62af01,a7bd4586799ca05e992e9b998cdc4691,d5f2fbdb1e1d53ff71e07abaaaf24838,b61a6c6eacae94d4b732117142a28747,4a10ffb4fb27db3f356cd40b595f7e3b,3df7bd4e5764d6fcd89c6e21739872c4,01e811df47086a4855c4afca7ce45b1d,76e4273f6431751688c10b3593690e70,07fbbc9c620137178057da67987f9d2c,ff1886c2533135dc44dd4b87c566b7bd,6790febd5ea3042ffbdf8b20eb862fa3,80633302f7014a61e917fc5da0bc7760,ca687a13ae3f52ea17fd04ec2dfba25e,630a8d0b7c37bb5a1367a751adcb5cae,6ae810f6022f282d3df91251ca050921,361191ecab6b2af39791e83ab72fb840,5ffabcae98e7b85c165c978f57728f94,b8befa452d3efe2e1d8c33361afa1e94,dcaaf5237b6c18f979b4383fb42d3be3,7140ba9098537397a880c1bef9e2adde,f54832b14054450823c186a6692c4b09,831cbfb7f0f19e694f976b33878da527,3ee756c8f1fcbcd94001ffc04ce93811,b46632c62363d75ee2f5343cab8864e8,449f1185c1c26cd5f2eaa071e154c4eb,e3c74077970c6a3effc8ae63f1ac59d7,1fc03ca99e9813c3423649dbe3e13fb3,b868c7b1748c7de7a6d464f0cdcc1dae,b2d7f32c4fa793aca2b3ae9157cfa54a,3f9a0c5eb721cd22074f77c8e995cd65,a38bc4b1aa3c88b96de75d22ab6b69cc,985454ea1be7a22218259691886a1209,9f14591a76f0506ae5961899d94110ec,78a9b47f81a6fff8e96b9c0de3cb5c39,7028340d6fafa9df3426fbc2440715e2,f9106e99699f94f040cfe5447d6d8428,1a67ed69c1aa7a1216b7c3eacc13c563,c9c25a10a38c2c1bdb51426548e0eb9e,d1e038a55cde66eb0a6c697dad5e221c,c1cda1aff68bfc72cbbcba259d548774,ec0590f87e6519db84f5a88b38a739ff,e3bebb63443b66f4e8ee071203aea106,c5fc39cfa1c828831a10d1be37c3969f,7d42948bdc43bbdbc44658b177a3f681,1d42860acfc2709b1d1bbebc0481d63d,e09968c06989388fa7d68f8a085cc051,496f9b5718d2dd4c7c387c5709c7acd0,af8ba16472d2f2ae8498063ebc9549db,943119bba5817ffbe9b73b1370bb4c4c,5740fa26067e36fb6a3b53cc293581db,f9ac4bae63d55b4f98269e04a4bf0a02,fc5397c126724661a4ab1bbe81c8c922,e45a42fe644ceb41e002e6fdb230be4a,5850c6024f87e46d9df25be3b9850169,011134986548f3458aa3e7e2a7fceb8d,1f7ebaed3cf55060c933283fd79ec0fd",""),
+("0005","Admin Produksi","a88ad3a75f88bbe93b64a7c55ade7a5d,3280e54b9f55e4eabd6980d2dd2cd30a,77861cb7adb9cca48ff27ebbda5a9cc6,76d056d61b13d81eb1f17fe08bc47070,20a0f2c64923f9a0e40926c8bc53b4bd,c50e309e5743d3ab9fbd06acb6109506,7a57f8d3656651cb98f8e74713f4a616,6f06d3adaa23e69fcaf6f346014073ce,749161f0021599851bd0e9a22cff7baf,361121339fe10efba4f21ab3a1cdf35e,17758b061935a007d7618bd1c27eb2e5,be6f3584b94ada7959cc0560565cbcf1,cc00b899a5b323cbde0409c669decfa0,e7d707a26e7f7b6ff52c489c60e429b1,d5f2fbdb1e1d53ff71e07abaaaf24838,b61a6c6eacae94d4b732117142a28747,4a10ffb4fb27db3f356cd40b595f7e3b,3df7bd4e5764d6fcd89c6e21739872c4,dcaaf5237b6c18f979b4383fb42d3be3,b2d7f32c4fa793aca2b3ae9157cfa54a,3f9a0c5eb721cd22074f77c8e995cd65,ec0590f87e6519db84f5a88b38a739ff,e3bebb63443b66f4e8ee071203aea106,f9ac4bae63d55b4f98269e04a4bf0a02,fc5397c126724661a4ab1bbe81c8c922,5850c6024f87e46d9df25be3b9850169,011134986548f3458aa3e7e2a7fceb8d,1f7ebaed3cf55060c933283fd79ec0fd,30abca520c2b83a6d38c0481e4f964fd,935bc28ec6db10284bb3c9ab0c547720","");
+
+
+
+DROP TABLE IF EXISTS `uang_pecahan`;
+
+CREATE TABLE `uang_pecahan` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `kode` varchar(5) NOT NULL DEFAULT '',
+  `pecahan` double(16,2) NOT NULL DEFAULT '0.00',
+  `jenis` char(1) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `kode` (`kode`),
+  KEY `jenis` (`jenis`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+
