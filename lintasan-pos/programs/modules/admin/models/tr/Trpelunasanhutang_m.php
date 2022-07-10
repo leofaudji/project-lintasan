@@ -49,7 +49,7 @@ class Trpelunasanhutang_m extends Bismillah_Model{
                               "fkt"=>$val->faktur,
                               "jumlah"=>string_2n($val->pelunasan),
                               "jenis"=>$val->jenis);
-                $this->insert("hutang_pelunasan_detail",$vadetail);
+                $this->insert("hutang_pelunasan_detail",$vadetail); 
             }
         }
         //update transaksi
