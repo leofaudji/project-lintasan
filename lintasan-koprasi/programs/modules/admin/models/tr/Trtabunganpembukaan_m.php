@@ -15,7 +15,7 @@ class Trtabunganpembukaan_m extends Bismillah_Model{
       $row++ ; 
       return str_pad($row, 2, "0", STR_PAD_LEFT); ; 
    }
-  
+   
    public function loadgrid($va){ 
       $limit    = $va['offset'].",".$va['limit'] ;
       $search	 = isset($va['search'][0]['value']) ? $va['search'][0]['value'] : "" ;

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="36px" viewBox="0 0 32 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>99.04</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-40.9%" y="-19.2%" width="181.8%" height="169.2%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="4" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.12 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <path d="M11,26 C18.3333333,20.1979248 22,15.2455439 22,11.1428571 C22,4.98882707 17.0751322,0 11,0 C4.92486775,0 0,4.98882707 0,11.1428571 C0,15.2455439 3.66666667,20.1979248 11,26 Z" id="path-2"></path>
+    </defs>
+    <g id="Icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-384.000000, -688.000000)">
+        <g id="99.04" filter="url(#filter-1)" transform="translate(389.000000, 689.000000)">
+            <mask id="mask-3" fill="white">
+                <use xlink:href="#path-2"></use>
+            </mask>
+            <use id="Combined-Shape" stroke="#008ECC" fill="#008ECC" stroke-linecap="round" stroke-linejoin="round" xlink:href="#path-2"></use>
+            <circle id="Oval-2" fill="#FFFFFF" mask="url(#mask-3)" cx="11" cy="11" r="7"></circle>
+            <path d="M11,4 C7.13400675,4 4,7.13400675 4,11 C4,14.8659932 7.13400675,18 11,18" id="Oval-2" fill="#EEEEEE" mask="url(#mask-3)"></path>
+            <path d="M17.7170241,9.02334336 C16.8639743,6.11986624 14.1795478,4 11,4 C7.82699363,4 5.14707338,6.11115263 4.28826416,9.00543298" id="Oval-2" stroke="#393939" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" mask="url(#mask-3)"></path>
+        </g>
+    </g>
+</svg>

@@ -12,7 +12,7 @@ class Trtabunganpembukaan extends Bismillah_Controller{
 	public function index(){
 		$this->load->view("tr/trtabunganpembukaan") ; 
 
-	}   
+	}    
 
 	public function loadgrid(){
 		$va     = json_decode($this->input->post('request'), true) ;

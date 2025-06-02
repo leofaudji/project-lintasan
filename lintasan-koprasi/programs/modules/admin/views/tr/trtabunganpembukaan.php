@@ -17,7 +17,7 @@
               <div class="btn-circle btn-close transition" onclick="bos.trtabunganpembukaan.close()">
                 <img src="./uploads/titlebar/close.png">
               </div>
-            </td>
+            </td> 
           </tr>
         </table>
       </td>

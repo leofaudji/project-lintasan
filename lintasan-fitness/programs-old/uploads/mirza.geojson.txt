@@ -1,0 +1,15 @@
+{
+"type":"FeatureCollection",
+"features":[
+{"type":"Feature","geometry":{"type":"Point","coordinates":[-8.144,112.64264]},"properties":{"nama":"Nama Aset01"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[-8.17036,112.59111]},"properties":{"nama":"Nama Aset02"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[-8.16273,112.69523]},"properties":{"nama":"Nama Aset03"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[-8.21975,112.62173]},"properties":{"nama":"Nama Aset04"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[-8.25791,112.67706]},"properties":{"nama":"Nama Aset05"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[-8.19079,112.71142]},"properties":{"nama":"Nama Aset06"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[-8.18813,112.54862]},"properties":{"nama":"Nama Aset07"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[-8.18807,112.61017]},"properties":{"nama":"Nama Aset08"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[-8.23204,112.67823]},"properties":{"nama":"Nama Aset09"}},
+{"type":"Feature","geometry":{"type":"Point","coordinates":[-8.23787,112.59607]},"properties":{"nama":"Nama Aset10"}}
+]
+}

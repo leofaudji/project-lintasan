@@ -1,0 +1,55 @@
+button.btn-grid{
+	padding: 2px 5px !important;
+	width: 100% !important;
+	display: block;
+	font-size: 11px ;
+}
+.number{ text-align: right; }
+.loading-text{
+	text-align: center;
+	font-size: 10px;
+}
+.full-height{height: 100% ;}
+.date{text-align: center;}
+/*notification*/
+.ui-pnotify.bnotif .ui-pnotify-container {
+	background-color: rgba(112,87,101,0.8); !important;
+	background-image: none !important;
+	border: 1px solid transparent;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	box-shadow: none;
+	cursor: pointer;
+	padding: 20px 10px 10px ;
+}
+.ui-pnotify.bnotif .ui-pnotify-title, .ui-pnotify.bnotif .ui-pnotify-text {
+	font-weight: normal ;
+	text-shadow: 0px ;
+	font-size: 13px !important;
+	color: #FFF !important;
+	padding-left: 50px !important;
+	line-height: 1.5em ;
+	letter-spacing: .3px; 
+	text-rendering: geometricPrecision !important;
+}
+.ui-pnotify.bnotif .ui-pnotify-title{
+	font-weight: 600 ;
+	font-size: 14px !important;
+	line-height: .3em;
+}
+.ui-pnotify.bnotif .ui-pnotify-icon {
+	margin-top: -5px;
+	float: left;
+	color: #FFF ;
+	text-align: center;
+}
+	.ui-pnotify.bnotif .ui-pnotify-icon > span{
+		width: 40px ;
+		height: 50px ;
+		font-size: 40px ;
+	}
+	.ui-pnotify.bnotif .ui-pnotify-icon > span.padding5{
+		height: 40 ;
+		padding: 0px ;
+	}

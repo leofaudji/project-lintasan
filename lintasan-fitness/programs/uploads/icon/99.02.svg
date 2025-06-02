@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="36px" viewBox="0 0 32 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>99.02</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-40.9%" y="-19.2%" width="181.8%" height="169.2%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="4" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.12 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <path d="M11,26 C18.3333333,20.1979248 22,15.2455439 22,11.1428571 C22,4.98882707 17.0751322,0 11,0 C4.92486775,0 0,4.98882707 0,11.1428571 C0,15.2455439 3.66666667,20.1979248 11,26 Z" id="path-2"></path>
+    </defs>
+    <g id="Icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-384.000000, -596.000000)">
+        <g id="99.02" filter="url(#filter-1)" transform="translate(389.000000, 597.000000)">
+            <mask id="mask-3" fill="white">
+                <use xlink:href="#path-2"></use>
+            </mask>
+            <use id="Combined-Shape" stroke="#008ECC" fill="#008ECC" stroke-linecap="round" stroke-linejoin="round" xlink:href="#path-2"></use>
+            <g id="halte" mask="url(#mask-3)">
+                <g transform="translate(4.000000, 6.000000)">
+                    <path d="M3.07692308,0 L10.9230769,-3.99680289e-15 C12.6224146,-2.79965109e-15 14,1.37758539 14,3.07692308 L0,3.07692308 L0,3.07692308 C-2.08108846e-16,1.37758539 1.37758539,3.1216327e-16 3.07692308,0 Z" id="Rectangle-4" stroke="none" fill="#FFFFFF" fill-rule="evenodd"></path>
+                    <path d="M12.0555556,4.23076923 L12.0555556,9.61538462" id="Line" stroke="#FFFFFF" stroke-width="1.2" fill="none" stroke-linecap="square"></path>
+                    <path d="M1.94444444,4.23076923 L1.94444444,9.61538462" id="Line" stroke="#FFFFFF" stroke-width="1.2" fill="none" stroke-linecap="square"></path>
+                    <path d="M5.05555556,8.07692308 L8.94444444,8.07692308" id="Line-2" stroke="#FFFFFF" stroke-width="0.8" fill="none" stroke-linecap="square"></path>
+                    <path d="M5.05555556,8.84615385 L5.05555556,9.61538462" id="Line-3" stroke="#FFFFFF" stroke-width="0.8" fill="none" stroke-linecap="square"></path>
+                    <path d="M8.94444444,8.84615385 L8.94444444,9.61538462" id="Line-3" stroke="#FFFFFF" stroke-width="0.8" fill="none" stroke-linecap="square"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
