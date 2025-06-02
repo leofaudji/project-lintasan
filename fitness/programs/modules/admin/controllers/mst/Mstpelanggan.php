@@ -152,13 +152,41 @@ class Mstpelanggan extends Bismillah_Controller{
 
 	 public function cetakqr(){
 			extract($_GET) ;	
-			$font = 8 ;
 			$vaData = $this->bdb->getpelanggan($id) ;
 
 			// isi qrcode yang ingin dibuat. akan muncul saat di scan
 			$isi = $id ;   
-			QRcode::png($isi, "./tmp/qrcode.png",QR_ECLEVEL_H, 8);     
-			//QRcode::png($isi) ; 
+			ob_start("callback");
+      $debugLog = ob_get_contents();
+      ob_end_clean();
+
+			$filepath = "./tmp/qrcode.png" ;
+			$logopath = "./uploads/logo.png" ; 
+			
+			QRcode::png($isi,$filepath,QR_ECLEVEL_H, 8,2,true);     
+			
+			$QR = imagecreatefrompng($filepath);
+
+			// START TO DRAW THE IMAGE ON THE QR CODE
+			$logo = imagecreatefromstring(file_get_contents($logopath));
+			$QR_width = imagesx($QR);
+			$QR_height = imagesy($QR);
+
+			$logo_width = imagesx($logo);
+			$logo_height = imagesy($logo);
+
+			// Scale logo to fit in the QR Code
+			$logo_qr_width = $QR_width/3;
+			$scale = $logo_width/$logo_qr_width;
+			$logo_qr_height = $logo_height/$scale;
+
+			imagecopyresampled($QR, $logo, $QR_width/3, $QR_height/3, 0, 0, $logo_qr_width, $logo_qr_height, $logo_width, $logo_height);
+
+			// Save QR code again, but with logo on it
+			imagepng($QR,$filepath);
+			// outputs image directly into browser, as PNG stream
+			//readfile($filepath);
+
 			$this->kartumember($vaData); 
    }
 
