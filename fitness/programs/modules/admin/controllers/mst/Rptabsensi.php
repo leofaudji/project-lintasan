@@ -1,7 +1,7 @@
 <?php
 class Rptabsensi extends Bismillah_Controller{
   protected $bdb ; 
-  public function __construct(){
+  public function __construct(){ 
     parent::__construct() ;
     $this->load->helper("bdate") ;
     $this->load->helper("toko") ; 
@@ -11,7 +11,7 @@ class Rptabsensi extends Bismillah_Controller{
 
   public function index(){
     $this->load->view("mst/rptabsensi") ;
-  
+   
   }  
 
   public function loadgrid(){

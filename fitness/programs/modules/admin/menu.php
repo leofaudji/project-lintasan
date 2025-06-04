@@ -14,6 +14,7 @@
   ["Kas Masuk dan Keluar", "trkas", "admin/mst/trkas", "ion-cash", 600, 250]
   ["Jurnal Umum", "trjurnal", "admin/mst/trjurnal", "ion-cash", 850, 600]
 ["Laporan", "rpt", "", "ion-ios-paper"] 
+  ["Dashboard Pelanggan", "rptdashpelanggan", "admin/mst/rptdashpelanggan", "ion-filing", 800,800]
   ["Kunjungan Pelanggan", "rptkunjungan", "admin/mst/rptkunjungan", "ion-filing", 1000,600]
   ["Absensi Member", "rptabsensi", "admin/mst/rptabsensi", "ion-filing", 1050,600] 
   ["Rekap Jadwal Bayar", "trjadwalbayar", "admin/mst/trjadwalbayar", "ion-filing", 1000,600]

@@ -55,8 +55,8 @@ class Rptabsensi_m extends Bismillah_Model{
       $tglawal = date_2s($tglawal) ;          
       $tglakhir = date_2s($tglakhir) ;
             
-      $dTgl     = "";
-      $nIuran   = 0;  
+      $dTgl     = ""; 
+      $nIuran   = 0;    
       $ww       = 0 ;
       $cKeterangan = "<font style='color:red;font-weight:bold;'>Non Aktif / Bonus</font>";
       //$cKeterangan = "Tidak Aktif";   

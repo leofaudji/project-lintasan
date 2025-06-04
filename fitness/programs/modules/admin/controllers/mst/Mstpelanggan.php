@@ -155,7 +155,7 @@ class Mstpelanggan extends Bismillah_Controller{
 			$vaData = $this->bdb->getpelanggan($id) ;
 
 			// isi qrcode yang ingin dibuat. akan muncul saat di scan
-			$isi = $id ;   
+			$isi = $vaData['kode'] ;        
 			ob_start("callback");
       $debugLog = ob_get_contents();
       ob_end_clean();
@@ -165,7 +165,7 @@ class Mstpelanggan extends Bismillah_Controller{
 			
 			QRcode::png($isi,$filepath,QR_ECLEVEL_H, 8,2,true);     
 			
-			$QR = imagecreatefrompng($filepath);
+			/*$QR = imagecreatefrompng($filepath);
 
 			// START TO DRAW THE IMAGE ON THE QR CODE
 			$logo = imagecreatefromstring(file_get_contents($logopath));
@@ -185,7 +185,7 @@ class Mstpelanggan extends Bismillah_Controller{
 			// Save QR code again, but with logo on it
 			imagepng($QR,$filepath);
 			// outputs image directly into browser, as PNG stream
-			//readfile($filepath);
+			//readfile($filepath);*/
 
 			$this->kartumember($vaData); 
    }
@@ -200,7 +200,41 @@ class Mstpelanggan extends Bismillah_Controller{
 				<head>
 				<meta charset="UTF-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<title>Member Card with QR Code</title>
+				<title>Member Card with QR Code</title>  
+				<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+				<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.esm.js"></script>
+				<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.js"></script>
+				<script>
+					function cetakimg(id){
+						idcard = "idcard_" + id + ".png" ;
+						html2canvas(document.getElementById("photo")).then(function(canvas){
+									downloadImage(canvas.toDataURL(),idcard);
+						});
+   				}
+
+					function downloadImage(uri, filename){
+						var link = document.createElement("a");
+						if(typeof link.download !== "string"){
+									window.open(uri);
+						}
+						else{
+							link.href = uri;
+							link.download = filename;
+							accountForFirefox(clickLink, link);
+						}
+						}
+
+						function clickLink(link){
+							link.click();
+						}
+
+						function accountForFirefox(click){
+							var link = arguments[1];
+							document.body.appendChild(link);
+							click(link);
+							document.body.removeChild(link);
+						}
+				</script>
 				<style>
 					@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
 					body {
@@ -218,7 +252,7 @@ class Mstpelanggan extends Bismillah_Controller{
 						background: white;
 						color: #2c2c2c;
 						width: 350px;
-						border-radius: 16px;
+						border-radius: 10px;
 						box-shadow: 0 12px 30px rgba(0,0,0,0.3);
 						overflow: hidden;
 						display: flex;
@@ -270,30 +304,72 @@ class Mstpelanggan extends Bismillah_Controller{
 						box-shadow: 0 2px 6px rgba(102,126,234,0.5);
 					}
 
+					.btn-block {
+							display: block;
+							width: 100%;
+					}
+					.btn-primary {
+							color: #fff;
+							background-color: #337ab7;
+							border-color: #2e6da4;
+					}
+					.btn {
+							display: inline-block;
+							padding: 6px 12px;
+							margin-bottom: 0;
+							font-size: 14px;
+							font-weight: 400;
+							line-height: 1.42857143;
+							text-align: center;
+							white-space: nowrap;
+							vertical-align: middle;
+							-ms-touch-action: manipulation;
+							touch-action: manipulation;
+							cursor: pointer;
+							-webkit-user-select: none;
+							-moz-user-select: none;
+							-ms-user-select: none;
+							user-select: none;
+							background-image: none;
+							border: 1px solid transparent;
+							border-radius: 4px;
+					}
+							
 					/* QR Code container */
 					#qrcode {
 						margin-top: 2px;
-						width: 160px;
-						height: 160px;
+						width: 200px;
+						height: 200px;
 					}
 				</style>
 				</head>
 				<body>
-					<div class="card" aria-label="Member Card">
-						<div class="avatar" aria-label="Member Avatar">
+					
+					<div id="photo" class="card" aria-label="Member Card">
+						<div>
+							<b><u>ID Card Syanjaya Fitnes & Gym</u></b>
+						</div>
+						<div style="margin-top:14px" class="avatar" aria-label="Member Avatar">
 							<img src="../../.'.$va['data_var'].'" alt="Member photo" />
 						</div>
 						<div class="member-info">
 							<div class="member-name" id="memberName">'.strtoupper($va['nama']).'</div>
-							<div class="member-id" id="memberId">ID: '.$va['id'].'</div>
+							<div class="member-id" id="memberId">ID: '.$va['kode'].'</div>
 							<div class="membership-type" id="membershipType">'.statuspelanggan($va['statuspelanggan']).'</div>
 						</div>
 						<div aria-label="Member QR Code">
 							<img  id="qrcode" src="../../../tmp/qrcode.png" alt="QRCode"> 
-						</div>
+						</div>					
+
 					</div>
 
-				</body>
+					<div>
+						<button class="cta-button" onclick="cetakimg('.$va['kode'].')">Cetak</button>
+					</div>
+  			</body>
+
+
+
 				</html>
 
 

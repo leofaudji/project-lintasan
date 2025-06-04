@@ -3,17 +3,17 @@
   <div class="bodyfix scrollme" style="height:100%">
     <table class="osxtable form" border="0">
       <tr>
-        <td width="100px"><label for="tgl">Tgl</label> </td>
+        <td width="50px"><label for="tgl">Tgl</label> </td>
         <td width="20px">:</td>
-        <td>
+        <td style="width:80px" >
         <input style="width:80px" type="text" class="form-control date" id="tglawal" name="tglawal" required value=<?=date("d-m-Y")?> <?=date_set()?>>
           
         </td>   
-        <td>&nbsp;s/d&nbsp;</td>
-        <td>  
+        <td style="width:40px">&nbsp;s/d&nbsp;</td> 
+        <td style="width:80px" >  
           <input style="width:80px" type="text" class="form-control date" id="tglakhir" name="tglakhir" required value=<?=date("d-m-Y")?> <?=date_set()?>>
         </td>  
-        <td width="200px">
+        <td>
           <select name="pelanggan" id="pelanggan" class="form-control select" style="width:100%" data-sf="load_pelanggan" data-placeholder="Pelanggan" required></select>
         </td>
         <td width="100px"> 
@@ -25,7 +25,7 @@
         <td width="100px">  
           <button type="button" class="btn btn-primary pull-right" id="cmdview">Preview</button>
         </td>
-      </tr>           
+      </tr>             
     </table> 
     <div class="row" style="height: calc(100% - 50px);"> 
       <div class="col-sm-12 full-height">
@@ -36,7 +36,7 @@
   <div class="footer fix hidden" style="height:32px">
     <button class="btn btn-primary pull-right" id="cmdsave">Simpan</button>
   </div>
-  </form>
+  </form> 
 </div>
 <script type="text/javascript">
   <?=cekbosjs();?>
