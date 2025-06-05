@@ -163,7 +163,7 @@ class Mstpelanggan extends Bismillah_Controller{
 			$filepath = "./tmp/qrcode.png" ;
 			$logopath = "./uploads/logo.png" ; 
 			
-			QRcode::png($isi,$filepath,QR_ECLEVEL_H, 8,2,true);     
+			QRcode::png($isi,$filepath,QR_ECLEVEL_H, 10,2,true);       
 			
 			/*$QR = imagecreatefrompng($filepath);
 
@@ -266,9 +266,10 @@ class Mstpelanggan extends Bismillah_Controller{
 					}
 
 					.avatar {
-						width: 140px;
-						height: 140px;
-						border-radius: 50%;
+						width: 200px;
+						height: 200px;
+						border-radius:  30px 0px;
+						border:8px solid #fff;
 						overflow: hidden;
 						margin-bottom: 16px;
 						box-shadow: 0 6px 15px rgba(102,126,234,.5);
@@ -282,7 +283,7 @@ class Mstpelanggan extends Bismillah_Controller{
 
 					.member-info {
 						text-align: center;
-						margin-bottom: 24px;
+						margin-bottom: 12px;
 					}
 
 					.member-name {
@@ -292,17 +293,17 @@ class Mstpelanggan extends Bismillah_Controller{
 					}
 
 					.member-id {
-						font-size: 1rem;
+						font-size: 1.4rem;
 						color: #666;
-						margin-bottom: 8px;
+						margin-bottom: 2px;
 					}
 
 					.membership-type {
 						font-size: 1rem;
-						font-weight: 600;
-						color: #444;
+						font-weight: 570;
+						color: #fff;
 						padding: 6px 12px;
-						border-radius: 12px;
+						border-radius: 6px;
 						background: #667eea;
 						display: inline-block;
 						box-shadow: 0 2px 6px rgba(102,126,234,0.5);
@@ -349,11 +350,14 @@ class Mstpelanggan extends Bismillah_Controller{
 				</head>
 				<body>
 					
-					<div id="photo" class="card" aria-label="Member Card">
+					<div id="photo" class="card" aria-label="Member Card" style="background:rgb(238, 219, 133)">
 						<div>
+							<img src="../../../uploads/logo-syanjaya.png" height="80px"></img>
+						</div>
+						<div style="font-size:26px">
 							<b>MEMBER CARD</b>
 						</div>
-						<div>
+						<div style="font-size:26px">
 							<b>SYANJAYA FITNESS</b>
 						</div>
 						
