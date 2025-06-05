@@ -130,7 +130,8 @@
 <body>
   <div class="bodya">
     <div class="container" role="main" aria-label="Welcome Member card">
-        <h3>Syanjaya Fitnes & Gym</h3>
+        <h3>Syanjaya Fitnes</h3>
+        <img src="./uploads/logo-syanjaya.png" height="500px"></img>
         <h1>Selamat Datang!</h1>
         <p class="subtitle">We're excited to have you here. <br>Explore, connect, and grow with us!</p>
 

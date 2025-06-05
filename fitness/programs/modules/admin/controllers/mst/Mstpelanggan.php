@@ -248,6 +248,10 @@ class Mstpelanggan extends Bismillah_Controller{
 						color: #fff;
 					}
 
+					#photo{
+						background: #fff
+	 				}
+
 					.card {
 						background: white;
 						color: #2c2c2c;
@@ -337,7 +341,7 @@ class Mstpelanggan extends Bismillah_Controller{
 							
 					/* QR Code container */
 					#qrcode {
-						margin-top: 2px;
+						margin-top: 2px; 
 						width: 200px;
 						height: 200px;
 					}
@@ -347,16 +351,24 @@ class Mstpelanggan extends Bismillah_Controller{
 					
 					<div id="photo" class="card" aria-label="Member Card">
 						<div>
-							<b><u>ID Card Syanjaya Fitnes & Gym</u></b>
+							<b>MEMBER CARD</b>
 						</div>
+						<div>
+							<b>SYANJAYA FITNESS</b>
+						</div>
+						
 						<div style="margin-top:14px" class="avatar" aria-label="Member Avatar">
 							<img src="../../.'.$va['data_var'].'" alt="Member photo" />
 						</div>
 						<div class="member-info">
 							<div class="member-name" id="memberName">'.strtoupper($va['nama']).'</div>
-							<div class="member-id" id="memberId">ID: '.$va['kode'].'</div>
 							<div class="membership-type" id="membershipType">'.statuspelanggan($va['statuspelanggan']).'</div>
 						</div>
+
+						<div>
+							<div class="member-id" id="memberId"><b>ID: '.$va['kode'].'</b></div>
+						</div>
+
 						<div aria-label="Member QR Code">
 							<img  id="qrcode" src="../../../tmp/qrcode.png" alt="QRCode"> 
 						</div>					
