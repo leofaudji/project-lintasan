@@ -9,7 +9,7 @@ class Rptabsensi extends Bismillah_Controller{
     $this->bdb   = $this->rptabsensi_m ;
   }
 
-  public function index(){
+  public function index(){ 
     $this->load->view("mst/rptabsensi") ;
    
   }  
@@ -59,12 +59,29 @@ class Rptabsensi extends Bismillah_Controller{
     $kode   = $this->bdb->getkode(false) ; 
   }
 
+  public function validate(){
+    $va   = $this->input->post() ;
+    $id   = getsession($this, "ssrptabsensi_id") ;
+    $dbsearching = $this->bdb->searching($va) ;
+    if($dbsearching == "1"){
+      $this->saving() ;
+    }else if(empty($va['scankode'])){
+      return 0 ;
+    }else{
+      echo('
+        alert("No Member Tidak Ditemukan!") ;
+        document.getElementById("scankode").focus() ;
+      ') ;
+    } 
+  }
+
   public function saving(){
     $va   = $this->input->post() ;
     $id   = getsession($this, "ssrptabsensi_id") ;
     $this->bdb->saving($va, $id) ;   
     echo('
       bos.rptabsensi.grid1_reloaddata() ; 
+      bos.rptabsensi.obj.find("#scankode").val("") ;
     ');
   }
   

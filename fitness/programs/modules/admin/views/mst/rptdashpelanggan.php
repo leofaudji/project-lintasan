@@ -270,6 +270,6 @@
     
     setInterval(function(){
       bjs.ajax(bos.rptdashpelanggan.url + '/loaddata') ;
-		}, 30000) ; 
+		}, 15000) ; 
   }) ;
 </script>

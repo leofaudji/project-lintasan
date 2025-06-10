@@ -40,7 +40,7 @@ class Rptabsensi_m extends Bismillah_Model{
       //$tglawal = date("d-m-Y",date_nextmonth(strtotime($tglawal),-1)) ;
       //$tglakhir = date("d-m-Y",strtotime($tglakhir)) ;
       
-      $w = 0 ;
+      $w = 0 ; 
       $nbatass = time() ; //"26-12-2019" ;
       for($i=date_nextmonth(strtotime($tglbuka),0);$i<=$nbatass;$i=date_nextmonth($i,1)){
         $w++ ;
@@ -81,13 +81,30 @@ class Rptabsensi_m extends Bismillah_Model{
       $d    = $this->getval("*", $w, "pelanggan") ;
       return !empty($d) ? $d : false ;
    }
+
+   public function searching($va){ 
+      $where    = "kode = '".$va['scankode']."'" ;
+      $dba      = $this->select("pelanggan", "id", $where) ;
+      $lvalid   = "0" ;
+      if($dbra  = $this->getrow($dba)){
+         $lvalid= "1" ;
+      }
+      return $lvalid ;  
+   }
    
    public function saving($va, $id){
       $f    = $va ; 
       $cTgl = date("Y-m-d") ;
       $cJam = date("H:i:s") ;
-      $keterangan = "Absensi Manual " . $f['pelanggan'] ; 
-      $datetime = date("Y-m-d H:i:s") ;
+      
+      
+      if(!empty($f['scan'])){
+         $f['pelanggan'] = $f['scankode'] ;
+         $keterangan = "Absensi QRCode " . $f['pelanggan'] ;  
+      }else{
+         $keterangan = "Absensi Manual " . $f['pelanggan'] ;   
+      }
+      $datetime = date("Y-m-d H:i:s") ;  
       $vabsensi = array("pelanggan"=>$f['pelanggan'],"tgl"=>$cTgl,"jam"=>$cJam,"tglabsen"=>$cTgl,
                      "status"=>"0001","keterangan"=>$keterangan,"mode"=>"0","pin"=>"manual",
                      "cabang"=>"00","datetime"=>$datetime) ; 

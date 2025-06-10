@@ -9,15 +9,28 @@
         <input style="width:80px" type="text" class="form-control date" id="tglawal" name="tglawal" required value=<?=date("d-m-Y")?> <?=date_set()?>>
           
         </td>   
-        <td style="width:40px">&nbsp;s/d&nbsp;</td> 
+        <td style="width:40px">&nbsp;s/d&nbsp;</td>  
         <td style="width:80px" >  
           <input style="width:80px" type="text" class="form-control date" id="tglakhir" name="tglakhir" required value=<?=date("d-m-Y")?> <?=date_set()?>>
         </td>  
+        <!--
         <td>
           <select name="pelanggan" id="pelanggan" class="form-control select" style="width:100%" data-sf="load_pelanggan" data-placeholder="Pelanggan" required></select>
         </td>
+
+        -->
+
+        <td>
+          <input style="width:200px" type="text" class="form-control" id="scankode" name="scankode" required value="">
+        </td>
+        <td  style="width:400px">
+          <label class="switch">
+            <input type="checkbox" checked name="cekqr" id="cekqr" onchange="toggleTextInput()">  
+            <span class="slider round">QR Code</span>
+          </label>
+        </td>
         <td width="100px"> 
-          <button type="submit" class="btn btn-success pull-right" id="cmdabsen">Absen</button>
+          <button type="button" class="btn btn-success pull-right" id="cmdabsen">Absen</button>
         </td>
         <td width="100px"> 
           <button type="button" class="btn btn-primary pull-right" id="cmdrefresh">Refresh</button>
@@ -40,6 +53,21 @@
 </div>
 <script type="text/javascript">
   <?=cekbosjs();?>
+
+
+  function toggleTextInput() {
+    const checkbox = document.getElementById('cekqr');
+    const input = document.getElementById('scankode');
+
+    if (checkbox.checked) {
+      input.disabled = false;     
+      document.getElementById('scankode').focus() ;
+      document.getElementById('scankode').innerHTML = "" ;
+    } else {
+      input.disabled = true;  
+      document.getElementById('scankode').innerHTML = "" ;
+    }
+  }
 
   bos.rptabsensi.grid1_data    = null ;
   bos.rptabsensi.grid1_loaddata= function(){
@@ -137,7 +165,17 @@
   bos.rptabsensi.obj.find("#cmdview").on("click", function(){
     bjs_os.form_report(bos.rptabsensi.url+ '/showreport' ) ;
   }) ;
-  
+
+  bos.rptabsensi.obj.find("#scankode").on("change", function(){ 
+    bjs.ajax( bos.rptabsensi.url + '/validate', bjs.getdataform(this) + "&scan=1" , bos.rptabsensi.objs) ;
+  }) ; 
+
+  bos.rptabsensi.obj.find("#cmdabsen").on("click", function(){ 
+    if(confirm("Apakah Anda yakin ?")){ 
+      bjs.ajax( bos.rptabsensi.url + '/saving', bjs.getdataform(this) , bos.rptabsensi.objs) ;
+    }
+  }) ;
+
   bos.rptabsensi.objs = bos.rptabsensi.obj.find("#cmdsave") ;
   bos.rptabsensi.initfunc     = function(){
     this.init() ;
@@ -147,9 +185,9 @@
     this.obj.find("form").on("submit", function(e){
          e.preventDefault() ;
          if(bjs.isvalidform(this)){
-            if(confirm("Apakah Anda yakin ?")){ 
+            /*if(confirm("Apakah Anda yakin ?")){ 
               bjs.ajax( bos.rptabsensi.url + '/saving', bjs.getdataform(this) , bos.rptabsensi.objs) ;
-            }
+            }*/
          }
       });
   }
