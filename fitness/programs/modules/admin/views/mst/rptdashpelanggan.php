@@ -266,7 +266,8 @@
   $(function(){
     bos.rptdashpelanggan.initcomp() ;
     bos.rptdashpelanggan.initcallback() ;
-    bos.rptdashpelanggan.initfunc() ;
+    bos.rptdashpelanggan.initfunc() ; 
+    bjs.ajax(bos.rptdashpelanggan.url + '/loaddata') ; 
     
     setInterval(function(){
       bjs.ajax(bos.rptdashpelanggan.url + '/loaddata') ;
